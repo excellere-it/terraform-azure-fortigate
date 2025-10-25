@@ -35,8 +35,8 @@ locals {
     port3_mask      = var.port3mask
     port4_ip        = var.port4
     port4_mask      = var.port4mask
-    active_peerip   = var.active_peerip
-    passive_peerip  = var.passive_peerip
+    active_peerip   = var.active_peerip != null ? var.active_peerip : "169.254.0.1"
+    passive_peerip  = var.passive_peerip != null ? var.passive_peerip : "169.254.0.2"
     mgmt_gateway_ip = var.port1gateway
     defaultgwy      = var.port2gateway
     tenant          = data.azurerm_client_config.current.tenant_id

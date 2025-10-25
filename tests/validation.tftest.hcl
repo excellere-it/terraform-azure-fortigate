@@ -4,6 +4,11 @@
 # Tests input validation rules for variables
 # =============================================================================
 
+provider "azurerm" {
+  features {}
+  skip_provider_registration = true
+}
+
 variables {
   name                              = "fgt-test-validation"
   computer_name                     = "fgt-validation"
