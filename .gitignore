@@ -134,6 +134,9 @@ checkov-results.json
 .vscode/
 *.code-workspace
 
+# Claude Code
+.claude/
+
 # JetBrains IDEs (IntelliJ, PyCharm, etc.)
 .idea/
 *.iml
