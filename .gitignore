@@ -1,0 +1,291 @@
+# =============================================================================
+# TERRAFORM FILES
+# =============================================================================
+
+# Local .terraform directories
+**/.terraform/*
+
+# Terraform lock file (consider committing this in production modules)
+# Uncomment to ignore: .terraform.lock.hcl
+
+# .tfstate files - NEVER commit these
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+
+# Crash log files
+crash.log
+crash.*.log
+
+# Terraform plan output files
+*tfplan*
+*.tfplan
+
+# Terraform variable files with sensitive data
+*.auto.tfvars
+*-local.tfvars
+secrets.tfvars
+terraform.tfvars.json
+
+# Ignore override files as they are usually used to override resources locally
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Terraform CLI configuration files
+.terraformrc
+terraform.rc
+
+# =============================================================================
+# FORTIGATE-SPECIFIC FILES
+# =============================================================================
+
+# Ignore FortiGate license files (BYOL)
+*.lic
+license.txt
+license.lic
+fortinet*.lic
+
+# Ignore local bootstrap configuration files with sensitive data
+*-local.conf
+*.local.conf
+config-local*.conf
+
+# Ignore generated bootstrap files
+*.rendered.conf
+
+# =============================================================================
+# SECURITY & CREDENTIALS
+# =============================================================================
+
+# Azure credentials and secrets
+*.env
+.env
+.env.*
+.envrc
+
+# Credential files
+credentials.json
+credentials.tfvars
+service-principal.json
+client-secret.txt
+
+# SSH keys
+*.pem
+*.ppk
+id_rsa
+id_rsa.pub
+*.key
+
+# Certificate files
+*.pfx
+*.p12
+*.crt
+*.cer
+
+# Password files
+passwords.txt
+*.password
+
+# =============================================================================
+# TESTING
+# =============================================================================
+
+# Test cache and temporary files
+test/.test-data/
+test/go.sum.backup
+.test/
+*.test
+test-results/
+test-output/
+
+# Terraform test state
+.terraform.test.tfstate
+terraform-test.log
+
+# Coverage reports
+coverage/
+*.coverage
+
+# =============================================================================
+# CI/CD
+# =============================================================================
+
+# GitHub Actions artifacts
+.github/.secrets
+
+# Terraform Cloud/Enterprise
+.tfc/
+.terraform.d/
+
+# Checkov results
+results.sarif
+checkov-results.json
+
+# TFLint cache
+.tflint.d/
+
+# =============================================================================
+# IDE & EDITOR FILES
+# =============================================================================
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# JetBrains IDEs (IntelliJ, PyCharm, etc.)
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Vim
+*.swp
+*.swo
+*~
+.*.sw?
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Atom
+.atom/
+
+# =============================================================================
+# OPERATING SYSTEM FILES
+# =============================================================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+.directory
+.Trash-*
+
+# =============================================================================
+# DOCUMENTATION BUILD
+# =============================================================================
+
+# Terraform docs temporary files
+.terraform-docs.yml.bak
+
+# Generated documentation (if auto-generated)
+# docs/terraform.md
+
+# =============================================================================
+# LOGS & TEMPORARY FILES
+# =============================================================================
+
+# Log files
+*.log
+logs/
+*.log.*
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+*.old
+
+# Archive files
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+
+# =============================================================================
+# LANGUAGE-SPECIFIC
+# =============================================================================
+
+# Python (for tests/scripts)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Go (for tests)
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work
+
+# Node.js (for documentation tools)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# =============================================================================
+# CUSTOM PATTERNS
+# =============================================================================
+
+# Custom local scripts
+scripts/local/
+*.local.sh
+
+# Local development files
+dev/
+local/
+scratch/
+
+# Notes and documentation drafts
+notes.txt
+notes.md
+TODO.local.md
+
+# =============================================================================
+# NEGATIONS - Files to INCLUDE in version control
+# =============================================================================
+
+# Include example files
+!example.tfvars
+!examples/**/*.tfvars
+
+# Include test fixtures
+!tests/fixtures/
+
+# Include documentation
+!docs/
+
+# Include CI/CD configuration
+!.github/
+
+# Include license files (module license, not FortiGate license)
+!LICENSE
+!LICENSE.md
