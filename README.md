@@ -172,10 +172,8 @@ module "fortigate" {
 |------|-------------|------|---------|
 | `port5subnet_id` | Subnet ID for optional port5 | `string` | `null` |
 | `port5` | Port5 private IP | `string` | `null` |
-| `port5mask` | Port5 subnet mask | `string` | `"255.255.255.0"` |
 | `port6subnet_id` | Subnet ID for optional port6 | `string` | `null` |
 | `port6` | Port6 private IP | `string` | `null` |
-| `port6mask` | Port6 subnet mask | `string` | `"255.255.255.0"` |
 
 #### Authentication & Secrets
 
@@ -196,7 +194,6 @@ module "fortigate" {
 | `enable_management_access_restriction` | Restrict management access to specific CIDRs | `bool` | `true` |
 | `management_access_cidrs` | CIDR blocks allowed for management access | `list(string)` | `[]` |
 | `management_ports` | TCP ports for management access | `list(number)` | `[443, 8443, 22]` |
-| `allow_ha_sync_from_anywhere` | Allow HA sync from any source | `bool` | `true` |
 
 #### Storage & Disk Configuration
 
@@ -393,12 +390,10 @@ module "fortigate" {
   # Optional port5 (e.g., DMZ)
   port5subnet_id = azurerm_subnet.dmz.id
   port5          = "10.0.5.10"
-  port5mask      = "255.255.255.0"
 
   # Optional port6 (e.g., second WAN)
   port6subnet_id = azurerm_subnet.wan2.id
   port6          = "10.0.6.10"
-  port6mask      = "255.255.255.0"
 }
 ```
 

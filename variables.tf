@@ -419,17 +419,6 @@ variable "port5" {
   }
 }
 
-variable "port5mask" {
-  description = "Subnet mask for optional port5 interface. Only used when port5 is configured"
-  type        = string
-  default     = "255.255.255.0"
-
-  validation {
-    condition     = can(regex("^(255\\.){3}(255|254|252|248|240|224|192|128|0)$|^(255\\.){2}(255|254|252|248|240|224|192|128|0)\\.0$|^255\\.(255|254|252|248|240|224|192|128|0)(\\.0){2}$|^(255|254|252|248|240|224|192|128)(\\.0){3}$", var.port5mask))
-    error_message = "Port5 mask must be a valid subnet mask (e.g., 255.255.255.0)."
-  }
-}
-
 # Port6 (Optional - Additional Interface) IP Configuration
 # Used for DMZ zones, additional WANs, dedicated monitoring, etc.
 variable "port6" {
@@ -440,17 +429,6 @@ variable "port6" {
   validation {
     condition     = var.port6 == null || can(regex("^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$", var.port6))
     error_message = "Port6 IP must be null or a valid IPv4 address (e.g., 10.0.6.10)."
-  }
-}
-
-variable "port6mask" {
-  description = "Subnet mask for optional port6 interface. Only used when port6 is configured"
-  type        = string
-  default     = "255.255.255.0"
-
-  validation {
-    condition     = can(regex("^(255\\.){3}(255|254|252|248|240|224|192|128|0)$|^(255\\.){2}(255|254|252|248|240|224|192|128|0)\\.0$|^255\\.(255|254|252|248|240|224|192|128|0)(\\.0){2}$|^(255|254|252|248|240|224|192|128)(\\.0){3}$", var.port6mask))
-    error_message = "Port6 mask must be a valid subnet mask (e.g., 255.255.255.0)."
   }
 }
 
@@ -516,12 +494,6 @@ variable "management_ports" {
     ])
     error_message = "Management ports must be between 1 and 65535."
   }
-}
-
-variable "allow_ha_sync_from_anywhere" {
-  description = "Allow HA sync traffic from anywhere. Set to false to restrict to specific subnets (recommended for production)"
-  type        = bool
-  default     = true
 }
 
 # =============================================================================

@@ -105,7 +105,4 @@ locals {
       }
     ]
   ]) : []
-
-  # Determine source prefix for management when unrestricted
-  management_source_prefix = var.enable_management_access_restriction && length(var.management_access_cidrs) > 0 ? null : "*"
 }

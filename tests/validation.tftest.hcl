@@ -254,7 +254,6 @@ run "validate_optional_port5_port6" {
   variables {
     port5subnet_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-test/providers/Microsoft.Network/virtualNetworks/vnet-test/subnets/snet-dmz"
     port5          = "10.0.5.10"
-    port5mask      = "255.255.255.0"
   }
 
   # Should succeed with valid port5 configuration

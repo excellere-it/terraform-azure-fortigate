@@ -36,10 +36,8 @@ run "verify_additional_nics" {
   variables {
     port5subnet_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-test/providers/Microsoft.Network/virtualNetworks/vnet-test/subnets/snet-dmz"
     port5          = "10.0.5.10"
-    port5mask      = "255.255.255.0"
     port6subnet_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-test/providers/Microsoft.Network/virtualNetworks/vnet-test/subnets/snet-wan2"
     port6          = "10.0.6.10"
-    port6mask      = "255.255.255.0"
   }
 
   # Verify port5 NIC is created

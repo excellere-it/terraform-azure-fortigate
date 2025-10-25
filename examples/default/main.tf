@@ -118,11 +118,9 @@ module "fortigate" {
   # Ensure VM size supports 6 NICs (e.g., Standard_F8s_v2 supports 8 NICs)
   # port5subnet_id = data.azurerm_subnet.dmz.id
   # port5          = "10.0.5.10"
-  # port5mask      = "255.255.255.0"
   #
   # port6subnet_id = data.azurerm_subnet.wan2.id
   # port6          = "10.0.6.10"
-  # port6mask      = "255.255.255.0"
 
   # Authentication (CHANGE THESE IN PRODUCTION!)
   adminusername = "azureadmin"
