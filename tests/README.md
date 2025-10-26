@@ -211,15 +211,41 @@ jobs:
         run: terraform test -verbose
 ```
 
-**Note**: Set up `AZURE_CREDENTIALS` secret in your repository with service principal credentials in this format:
+**Setting up Azure Credentials Secret**:
+
+1. Create a service principal with contributor access:
+   ```bash
+   az ad sp create-for-rbac --name "github-actions-terraform-test" \
+     --role contributor \
+     --scopes /subscriptions/<subscription-id> \
+     --sdk-auth
+   ```
+
+2. Copy the JSON output from the command above
+
+3. In your GitHub repository:
+   - Go to **Settings** → **Secrets and variables** → **Actions**
+   - Click **New repository secret**
+   - Name: `AZURE_CREDENTIALS`
+   - Value: Paste the JSON output from step 1
+
+The JSON format should look like:
 ```json
 {
   "clientId": "<app-id>",
   "clientSecret": "<password>",
   "subscriptionId": "<subscription-id>",
-  "tenantId": "<tenant-id>"
+  "tenantId": "<tenant-id>",
+  "activeDirectoryEndpointUrl": "https://login.microsoftonline.com",
+  "resourceManagerEndpointUrl": "https://management.azure.com/",
+  "activeDirectoryGraphResourceId": "https://graph.windows.net/",
+  "sqlManagementEndpointUrl": "https://management.core.windows.net:8443/",
+  "galleryEndpointUrl": "https://gallery.azure.com/",
+  "managementEndpointUrl": "https://management.core.windows.net/"
 }
 ```
+
+> **Note**: If the `AZURE_CREDENTIALS` secret is not configured, the unit tests will be skipped in GitHub Actions. Format and validation checks will still run.
 
 ### Azure DevOps Example
 
