@@ -47,9 +47,33 @@ Tests input validation rules:
 
 - **Terraform** >= 1.6.0 (native testing support)
 - **Azure Provider** >= 3.0.0
-- Azure credentials configured (tests use plan mode, no actual resources created)
+- **Azure CLI** authenticated (`az login`)
+  - While tests use `command = plan` and don't create actual resources, the Azure provider requires authentication to validate subscriptions and permissions during plan phase
 
 ## Running Tests
+
+All tests use `command = plan` which means:
+- No actual Azure resources are created
+- Tests validate configuration correctness
+- Execution is fast (no API calls to create resources)
+- No costs incurred
+
+### Authenticate with Azure
+
+Before running tests, authenticate with Azure CLI:
+
+```bash
+az login
+```
+
+Alternatively, you can use service principal authentication:
+
+```bash
+az login --service-principal \
+  --username <app-id> \
+  --password <password-or-cert> \
+  --tenant <tenant-id>
+```
 
 ### Run All Tests
 
@@ -170,6 +194,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
@@ -180,6 +209,16 @@ jobs:
 
       - name: Terraform Test
         run: terraform test -verbose
+```
+
+**Note**: Set up `AZURE_CREDENTIALS` secret in your repository with service principal credentials in this format:
+```json
+{
+  "clientId": "<app-id>",
+  "clientSecret": "<password>",
+  "subscriptionId": "<subscription-id>",
+  "tenantId": "<tenant-id>"
+}
 ```
 
 ### Azure DevOps Example
@@ -198,15 +237,14 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: TerraformInstaller@0
+- task: AzureCLI@2
   inputs:
-    terraformVersion: '1.6.0'
-
-- script: terraform init
-  displayName: 'Terraform Init'
-
-- script: terraform test -verbose
-  displayName: 'Terraform Test'
+    azureSubscription: '<your-service-connection>'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      terraform init
+      terraform test -verbose
 ```
 
 ## Adding New Tests
