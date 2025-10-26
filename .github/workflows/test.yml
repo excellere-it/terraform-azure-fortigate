@@ -61,7 +61,7 @@ jobs:
     name: Terraform Unit Tests
     runs-on: ubuntu-latest
     needs: [terraform-format, terraform-validate]
-    if: ${{ secrets.AZURE_CREDENTIALS != '' }}
+    if: secrets.AZURE_CREDENTIALS != ''
     strategy:
       fail-fast: false
       matrix:
@@ -108,7 +108,7 @@ jobs:
     name: Run All Tests
     runs-on: ubuntu-latest
     needs: [terraform-format, terraform-validate]
-    if: ${{ secrets.AZURE_CREDENTIALS != '' }}
+    if: secrets.AZURE_CREDENTIALS != ''
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
