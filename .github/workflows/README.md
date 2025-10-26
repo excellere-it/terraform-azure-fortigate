@@ -135,8 +135,8 @@ tflint --recursive
 Add these badges to your main README.md:
 
 ```markdown
-[![Terraform Tests](https://github.com/YOUR_ORG/terraform-azure-fortigate/actions/workflows/test.yml/badge.svg)](https://github.com/YOUR_ORG/terraform-azure-fortigate/actions/workflows/test.yml)
-[![Release](https://github.com/YOUR_ORG/terraform-azure-fortigate/actions/workflows/release-module.yml/badge.svg)](https://github.com/YOUR_ORG/terraform-azure-fortigate/actions/workflows/release-module.yml)
+[![Terraform Tests](https://github.com/YOUR_ORG/terraform-azurerm-fortigate/actions/workflows/test.yml/badge.svg)](https://github.com/YOUR_ORG/terraform-azurerm-fortigate/actions/workflows/test.yml)
+[![Release](https://github.com/YOUR_ORG/terraform-azurerm-fortigate/actions/workflows/release-module.yml/badge.svg)](https://github.com/YOUR_ORG/terraform-azurerm-fortigate/actions/workflows/release-module.yml)
 ```
 
 ## Workflow Diagram

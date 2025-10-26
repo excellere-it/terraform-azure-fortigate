@@ -43,7 +43,7 @@ This document outlines a detailed implementation plan for enhancing the Terrafor
 ```bash
 # Clone repository
 git clone <repository-url>
-cd terraform-azure-fortigate
+cd terraform-azurerm-fortigate
 
 # Create feature branch
 git checkout -b feature/module-enhancements
@@ -364,7 +364,7 @@ variable "default_tags" {
   type        = map(string)
   default = {
     ManagedBy   = "Terraform"
-    Module      = "terraform-azure-fortigate"
+    Module      = "terraform-azurerm-fortigate"
     Environment = "production"
   }
 }

@@ -5,7 +5,7 @@ This document provides a detailed overview of the module's architecture, file or
 ## Module File Structure
 
 ```
-terraform-azure-fortigate/
+terraform-azurerm-fortigate/
 ├── main.tf                    # Module overview and custom image resource
 ├── data.tf                    # Data sources (Azure client config)
 ├── locals.tf                  # Computed local values

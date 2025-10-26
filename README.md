@@ -75,7 +75,7 @@ This module deploys FortiGate with a flexible network interface architecture:
 
 ```hcl
 module "fortigate" {
-  source = "path/to/terraform-azure-fortigate"
+  source = "path/to/terraform-azurerm-fortigate"
 
   # VM Configuration
   name                = "fortigate-primary"
@@ -297,7 +297,7 @@ resource "azurerm_key_vault_secret" "client_secret" {
 
 # Use Key Vault in module
 module "fortigate" {
-  source = "path/to/terraform-azure-fortigate"
+  source = "path/to/terraform-azurerm-fortigate"
 
   # ... other configuration ...
 
@@ -327,7 +327,7 @@ Restrict FortiGate management access to specific IP ranges:
 
 ```hcl
 module "fortigate" {
-  source = "path/to/terraform-azure-fortigate"
+  source = "path/to/terraform-azurerm-fortigate"
 
   # ... other configuration ...
 
@@ -357,7 +357,7 @@ Deploy FortiGate accessible only via VPN/ExpressRoute:
 
 ```hcl
 module "fortigate" {
-  source = "path/to/terraform-azure-fortigate"
+  source = "path/to/terraform-azurerm-fortigate"
 
   # ... other configuration ...
 
@@ -383,7 +383,7 @@ Add port5 and port6 for DMZ zones, multiple WANs, or dedicated monitoring:
 
 ```hcl
 module "fortigate" {
-  source = "path/to/terraform-azure-fortigate"
+  source = "path/to/terraform-azurerm-fortigate"
 
   # ... standard configuration (port1-port4) ...
 
@@ -434,7 +434,7 @@ resource "azurerm_storage_account" "flow_logs" {
 
 # Configure monitoring
 module "fortigate" {
-  source = "path/to/terraform-azure-fortigate"
+  source = "path/to/terraform-azurerm-fortigate"
 
   # ... other configuration ...
 
@@ -491,7 +491,7 @@ Deploy a complete HA pair with active-passive failover:
 
 ```hcl
 module "fortigate_active" {
-  source = "path/to/terraform-azure-fortigate"
+  source = "path/to/terraform-azurerm-fortigate"
 
   name          = "fortigate-active"
   computer_name = "fgt-active"
@@ -517,7 +517,7 @@ module "fortigate_active" {
 
 ```hcl
 module "fortigate_passive" {
-  source = "path/to/terraform-azure-fortigate"
+  source = "path/to/terraform-azurerm-fortigate"
 
   name          = "fortigate-passive"
   computer_name = "fgt-passive"
@@ -551,7 +551,7 @@ Customize data disk for logs and configuration:
 
 ```hcl
 module "fortigate" {
-  source = "path/to/terraform-azure-fortigate"
+  source = "path/to/terraform-azurerm-fortigate"
 
   # ... other configuration ...
 
@@ -582,7 +582,7 @@ The module provides three layers of tagging:
 ```hcl
 {
   ManagedBy         = "Terraform"
-  Module            = "terraform-azure-fortigate"
+  Module            = "terraform-azurerm-fortigate"
   FortiGateInstance = var.computer_name
 }
 ```
@@ -590,7 +590,7 @@ The module provides three layers of tagging:
 **2. Structured Tags** (optional, validated):
 ```hcl
 module "fortigate" {
-  source = "path/to/terraform-azure-fortigate"
+  source = "path/to/terraform-azurerm-fortigate"
 
   # ... other configuration ...
 
@@ -604,7 +604,7 @@ module "fortigate" {
 **3. Custom Tags** (optional, merged with above):
 ```hcl
 module "fortigate" {
-  source = "path/to/terraform-azure-fortigate"
+  source = "path/to/terraform-azurerm-fortigate"
 
   # ... other configuration ...
 
@@ -628,7 +628,7 @@ module "fortigate" {
 
 ```hcl
 module "fortigate" {
-  source = "path/to/terraform-azure-fortigate"
+  source = "path/to/terraform-azurerm-fortigate"
 
   name                = "fgt-single"
   computer_name       = "fgt01"
@@ -663,7 +663,7 @@ module "fortigate" {
 
 ```hcl
 module "fortigate" {
-  source = "path/to/terraform-azure-fortigate"
+  source = "path/to/terraform-azurerm-fortigate"
 
   name                = "fgt-prod"
   computer_name       = "fgt-prod-01"
@@ -727,7 +727,7 @@ module "fortigate" {
 
 ```hcl
 module "fortigate" {
-  source = "path/to/terraform-azure-fortigate"
+  source = "path/to/terraform-azurerm-fortigate"
 
   name                = "fgt-dmz"
   computer_name       = "fgt-dmz-01"

@@ -66,7 +66,7 @@ locals {
   # These provide consistent metadata for resource management
   default_tags = {
     ManagedBy         = "Terraform"
-    Module            = "terraform-azure-fortigate"
+    Module            = "terraform-azurerm-fortigate"
     FortiGateInstance = var.computer_name
   }
 

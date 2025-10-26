@@ -33,12 +33,12 @@ Before you begin, ensure you have the following installed:
 1. Fork the repository on GitHub
 2. Clone your fork locally:
    ```bash
-   git clone https://github.com/YOUR-USERNAME/terraform-azure-fortigate.git
-   cd terraform-azure-fortigate
+   git clone https://github.com/YOUR-USERNAME/terraform-azurerm-fortigate.git
+   cd terraform-azurerm-fortigate
    ```
 3. Add the upstream repository:
    ```bash
-   git remote add upstream https://github.com/ORIGINAL-OWNER/terraform-azure-fortigate.git
+   git remote add upstream https://github.com/ORIGINAL-OWNER/terraform-azurerm-fortigate.git
    ```
 
 ## Development Workflow
