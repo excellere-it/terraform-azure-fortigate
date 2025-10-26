@@ -887,3 +887,415 @@ This module is provided as-is. FortiGate licensing (BYOL or PAYG) is subject to 
 **Last Updated**: 2025-01-25
 **Terraform**: >= 1.3.4
 **Azure Provider**: >= 3.0.0
+
+<!-- BEGIN_TF_DOCS -->
+
+
+## Requirements
+
+## Requirements
+
+| Name | Version |
+|------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.4 |
+| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 3.0 |
+
+## Providers
+
+## Providers
+
+| Name | Version |
+|------|---------|
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.117.1 |
+
+## Resources
+
+The following resources are created by this module:
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [azurerm_image.custom](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/image) | resource |
+| [azurerm_linux_virtual_machine.customfgtvm](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine) | resource |
+| [azurerm_linux_virtual_machine.fgtvm](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine) | resource |
+| [azurerm_managed_disk.fgt_data_drive](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/managed_disk) | resource |
+| [azurerm_marketplace_agreement.fortinet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/marketplace_agreement) | resource |
+| [azurerm_monitor_diagnostic_setting.port1](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
+| [azurerm_monitor_diagnostic_setting.port2](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
+| [azurerm_monitor_diagnostic_setting.port3](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
+| [azurerm_monitor_diagnostic_setting.port4](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
+| [azurerm_monitor_diagnostic_setting.private_nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
+| [azurerm_monitor_diagnostic_setting.public_nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
+| [azurerm_monitor_diagnostic_setting.vm](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
+| [azurerm_network_interface.port1](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) | resource |
+| [azurerm_network_interface.port2](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) | resource |
+| [azurerm_network_interface.port3](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) | resource |
+| [azurerm_network_interface.port4](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) | resource |
+| [azurerm_network_interface.port5](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) | resource |
+| [azurerm_network_interface.port6](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) | resource |
+| [azurerm_network_interface_security_group_association.port1nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface_security_group_association) | resource |
+| [azurerm_network_interface_security_group_association.port2nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface_security_group_association) | resource |
+| [azurerm_network_interface_security_group_association.port3nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface_security_group_association) | resource |
+| [azurerm_network_interface_security_group_association.port4nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface_security_group_association) | resource |
+| [azurerm_network_security_group.privatenetworknsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group) | resource |
+| [azurerm_network_security_group.publicnetworknsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group) | resource |
+| [azurerm_network_security_rule.incoming_private](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) | resource |
+| [azurerm_network_security_rule.management_access](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) | resource |
+| [azurerm_network_security_rule.management_access_unrestricted](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) | resource |
+| [azurerm_network_security_rule.outgoing_private](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) | resource |
+| [azurerm_network_security_rule.outgoing_public](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) | resource |
+| [azurerm_network_watcher_flow_log.private_nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_watcher_flow_log) | resource |
+| [azurerm_network_watcher_flow_log.public_nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_watcher_flow_log) | resource |
+| [azurerm_public_ip.mgmt_ip](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip) | resource |
+| [azurerm_virtual_machine_data_disk_attachment.fgt_log_drive_attachment](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_data_disk_attachment) | resource |
+| [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) | data source |
+| [azurerm_key_vault_secret.admin_password](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
+| [azurerm_key_vault_secret.client_secret](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
+
+## Inputs
+
+## Inputs
+
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_accept"></a> [accept](#input\_accept) | Accept Azure Marketplace agreement for FortiGate. Set to 'true' to accept terms on first deployment | `string` | `"false"` | no |
+| <a name="input_active_peerip"></a> [active\_peerip](#input\_active\_peerip) | IP address of the active FortiGate peer in HA cluster. Used for HA synchronization. Set to null for standalone deployment | `string` | `null` | no |
+| <a name="input_admin_password_secret_name"></a> [admin\_password\_secret\_name](#input\_admin\_password\_secret\_name) | Name of the Key Vault secret containing FortiGate admin password. Only used when key\_vault\_id is provided | `string` | `"fortigate-admin-password"` | no |
+| <a name="input_adminpassword"></a> [adminpassword](#input\_adminpassword) | Administrator password for FortiGate VM. Leave null to use Azure Key Vault secret | `string` | `null` | no |
+| <a name="input_adminsport"></a> [adminsport](#input\_adminsport) | HTTPS port for FortiGate web administration interface | `string` | `"8443"` | no |
+| <a name="input_adminusername"></a> [adminusername](#input\_adminusername) | Administrator username for FortiGate VM | `string` | `"azureadmin"` | no |
+| <a name="input_arch"></a> [arch](#input\_arch) | FortiGate VM architecture: 'x86' or 'arm' | `string` | `"x86"` | no |
+| <a name="input_boot_diagnostics_storage_endpoint"></a> [boot\_diagnostics\_storage\_endpoint](#input\_boot\_diagnostics\_storage\_endpoint) | Storage account endpoint URI for boot diagnostics logs | `string` | n/a | yes |
+| <a name="input_bootstrap"></a> [bootstrap](#input\_bootstrap) | Path to FortiGate bootstrap configuration file. Contains initial FortiGate config including network, HA, and policy settings | `string` | `"config-active.conf"` | no |
+| <a name="input_client_secret"></a> [client\_secret](#input\_client\_secret) | Azure service principal client secret for Azure SDN connector. Leave null to use Azure Key Vault secret | `string` | `null` | no |
+| <a name="input_client_secret_secret_name"></a> [client\_secret\_secret\_name](#input\_client\_secret\_secret\_name) | Name of the Key Vault secret containing Azure service principal client secret. Only used when key\_vault\_id is provided | `string` | `"fortigate-client-secret"` | no |
+| <a name="input_computer_name"></a> [computer\_name](#input\_computer\_name) | Computer/hostname for the FortiGate VM. Used as prefix for related resources (NICs, NSGs, etc.) | `string` | n/a | yes |
+| <a name="input_cost_center"></a> [cost\_center](#input\_cost\_center) | Cost center or billing code for resource tracking | `string` | `""` | no |
+| <a name="input_create_management_public_ip"></a> [create\_management\_public\_ip](#input\_create\_management\_public\_ip) | Create a public IP address for FortiGate management interface (port1). Set to false for private-only access via VPN/ExpressRoute | `bool` | `true` | no |
+| <a name="input_custom"></a> [custom](#input\_custom) | Use custom FortiGate image instead of Azure Marketplace image. Set to true to deploy from VHD blob | `bool` | `false` | no |
+| <a name="input_custom_image_name"></a> [custom\_image\_name](#input\_custom\_image\_name) | Name for the custom FortiGate image resource. Only used when var.custom = true | `string` | `"<custom image name>"` | no |
+| <a name="input_custom_image_resource_group_name"></a> [custom\_image\_resource\_group\_name](#input\_custom\_image\_resource\_group\_name) | Resource group name where custom image will be created. Only used when var.custom = true | `string` | `"<custom image resource group>"` | no |
+| <a name="input_customuri"></a> [customuri](#input\_customuri) | Azure blob URI for custom FortiGate VHD image. Only used when var.custom = true | `string` | `"<custom image blob uri>"` | no |
+| <a name="input_data_disk_caching"></a> [data\_disk\_caching](#input\_data\_disk\_caching) | Disk caching mode for data disk. Options: None, ReadOnly, ReadWrite | `string` | `"ReadWrite"` | no |
+| <a name="input_data_disk_size_gb"></a> [data\_disk\_size\_gb](#input\_data\_disk\_size\_gb) | Size of the FortiGate data disk in GB for logs and configuration storage | `number` | `30` | no |
+| <a name="input_data_disk_storage_type"></a> [data\_disk\_storage\_type](#input\_data\_disk\_storage\_type) | Storage account type for data disk. Options: Standard\_LRS, StandardSSD\_LRS, Premium\_LRS, StandardSSD\_ZRS, Premium\_ZRS | `string` | `"Standard_LRS"` | no |
+| <a name="input_diagnostic_retention_days"></a> [diagnostic\_retention\_days](#input\_diagnostic\_retention\_days) | Number of days to retain diagnostic logs. Set to 0 for indefinite retention | `number` | `30` | no |
+| <a name="input_enable_diagnostics"></a> [enable\_diagnostics](#input\_enable\_diagnostics) | Enable Azure Monitor diagnostic settings for FortiGate VM and network resources | `bool` | `false` | no |
+| <a name="input_enable_management_access_restriction"></a> [enable\_management\_access\_restriction](#input\_enable\_management\_access\_restriction) | Enable restricted management access. If true, only specified CIDRs can access management interface | `bool` | `true` | no |
+| <a name="input_enable_nsg_flow_logs"></a> [enable\_nsg\_flow\_logs](#input\_enable\_nsg\_flow\_logs) | Enable NSG flow logs for network traffic analysis. Requires enable\_diagnostics = true | `bool` | `false` | no |
+| <a name="input_environment"></a> [environment](#input\_environment) | Environment name for resource tagging (e.g., Production, Staging, Development, Testing) | `string` | `""` | no |
+| <a name="input_fgtoffer"></a> [fgtoffer](#input\_fgtoffer) | Azure Marketplace offer for FortiGate VM | `string` | `"fortinet_fortigate-vm_v5"` | no |
+| <a name="input_fgtsku"></a> [fgtsku](#input\_fgtsku) | FortiGate SKU mapping by architecture (x86/arm) and license type (byol/payg) | `map(any)` | <pre>{<br/>  "arm": {<br/>    "byol": "fortinet_fg-vm_arm64",<br/>    "payg": "fortinet_fg-vm_payg_2023_arm64"<br/>  },<br/>  "x86": {<br/>    "byol": "fortinet_fg-vm_g2",<br/>    "payg": "fortinet_fg-vm_payg_2023_g2"<br/>  }<br/>}</pre> | no |
+| <a name="input_fgtversion"></a> [fgtversion](#input\_fgtversion) | FortiOS version to deploy from Azure Marketplace | `string` | `"7.6.3"` | no |
+| <a name="input_hamgmtsubnet_id"></a> [hamgmtsubnet\_id](#input\_hamgmtsubnet\_id) | Azure subnet ID for port1 (HA Management interface). Used for FortiGate administrative access | `string` | n/a | yes |
+| <a name="input_hasyncsubnet_id"></a> [hasyncsubnet\_id](#input\_hasyncsubnet\_id) | Azure subnet ID for port4 (HA Sync interface). Used for HA heartbeat and session synchronization | `string` | n/a | yes |
+| <a name="input_key_vault_id"></a> [key\_vault\_id](#input\_key\_vault\_id) | Azure Key Vault resource ID for retrieving secrets. If provided, secrets will be read from Key Vault | `string` | `null` | no |
+| <a name="input_license"></a> [license](#input\_license) | Path to FortiGate BYOL license file (e.g., 'license.lic'). Only required when license\_type = 'byol' | `string` | `"license.txt"` | no |
+| <a name="input_license_format"></a> [license\_format](#input\_license\_format) | BYOL license format: 'file' (license file) or 'token' (FortiFlex token). Only applicable when license\_type = 'byol' | `string` | `"file"` | no |
+| <a name="input_license_type"></a> [license\_type](#input\_license\_type) | FortiGate license type: 'byol' (Bring Your Own License) or 'payg' (Pay As You Go) | `string` | `"payg"` | no |
+| <a name="input_location"></a> [location](#input\_location) | Azure region where FortiGate will be deployed | `string` | `"westus2"` | no |
+| <a name="input_log_analytics_workspace_id"></a> [log\_analytics\_workspace\_id](#input\_log\_analytics\_workspace\_id) | Azure Log Analytics workspace resource ID for diagnostic logs and metrics. Required when enable\_diagnostics = true | `string` | `null` | no |
+| <a name="input_management_access_cidrs"></a> [management\_access\_cidrs](#input\_management\_access\_cidrs) | List of CIDR blocks allowed to access FortiGate management interface (port1). Empty list allows from anywhere (not recommended) | `list(string)` | `[]` | no |
+| <a name="input_management_ports"></a> [management\_ports](#input\_management\_ports) | List of TCP ports for FortiGate management access | `list(number)` | <pre>[<br/>  443,<br/>  8443,<br/>  22<br/>]</pre> | no |
+| <a name="input_name"></a> [name](#input\_name) | Name of the FortiGate virtual machine | `string` | n/a | yes |
+| <a name="input_nsg_flow_logs_retention_days"></a> [nsg\_flow\_logs\_retention\_days](#input\_nsg\_flow\_logs\_retention\_days) | Number of days to retain NSG flow logs | `number` | `7` | no |
+| <a name="input_nsg_flow_logs_storage_account_id"></a> [nsg\_flow\_logs\_storage\_account\_id](#input\_nsg\_flow\_logs\_storage\_account\_id) | Storage account resource ID for NSG flow logs. Required when enable\_nsg\_flow\_logs = true | `string` | `null` | no |
+| <a name="input_owner"></a> [owner](#input\_owner) | Owner or team responsible for the FortiGate deployment | `string` | `""` | no |
+| <a name="input_passive_peerip"></a> [passive\_peerip](#input\_passive\_peerip) | IP address of the passive FortiGate peer in HA cluster. Used for HA synchronization. Set to null for standalone deployment | `string` | `null` | no |
+| <a name="input_port1"></a> [port1](#input\_port1) | Static private IP address for port1 (HA Management interface) | `string` | `"172.1.3.10"` | no |
+| <a name="input_port1gateway"></a> [port1gateway](#input\_port1gateway) | Default gateway IP for port1 (HA Management interface) | `string` | `"172.1.3.1"` | no |
+| <a name="input_port1mask"></a> [port1mask](#input\_port1mask) | Subnet mask for port1 (HA Management interface) | `string` | `"255.255.255.0"` | no |
+| <a name="input_port2"></a> [port2](#input\_port2) | Static private IP address for port2 (WAN/Public interface) | `string` | `"172.1.0.10"` | no |
+| <a name="input_port2gateway"></a> [port2gateway](#input\_port2gateway) | Default gateway IP for port2 (WAN/Public interface). Used as default route for internet traffic | `string` | `"172.1.0.1"` | no |
+| <a name="input_port2mask"></a> [port2mask](#input\_port2mask) | Subnet mask for port2 (WAN/Public interface) | `string` | `"255.255.255.0"` | no |
+| <a name="input_port3"></a> [port3](#input\_port3) | Static private IP address for port3 (LAN/Private interface) | `string` | `"172.1.1.10"` | no |
+| <a name="input_port3mask"></a> [port3mask](#input\_port3mask) | Subnet mask for port3 (LAN/Private interface) | `string` | `"255.255.255.0"` | no |
+| <a name="input_port4"></a> [port4](#input\_port4) | Static private IP address for port4 (HA Sync interface) | `string` | `"172.1.2.10"` | no |
+| <a name="input_port4mask"></a> [port4mask](#input\_port4mask) | Subnet mask for port4 (HA Sync interface) | `string` | `"255.255.255.0"` | no |
+| <a name="input_port5"></a> [port5](#input\_port5) | Static private IP address for optional port5 interface. Set to null to disable port5 | `string` | `null` | no |
+| <a name="input_port5subnet_id"></a> [port5subnet\_id](#input\_port5subnet\_id) | Azure subnet ID for optional port5 interface. Set to null to disable port5 | `string` | `null` | no |
+| <a name="input_port6"></a> [port6](#input\_port6) | Static private IP address for optional port6 interface. Set to null to disable port6 | `string` | `null` | no |
+| <a name="input_port6subnet_id"></a> [port6subnet\_id](#input\_port6subnet\_id) | Azure subnet ID for optional port6 interface. Set to null to disable port6 | `string` | `null` | no |
+| <a name="input_privatesubnet_id"></a> [privatesubnet\_id](#input\_privatesubnet\_id) | Azure subnet ID for port3 (LAN/Private interface). Used for internal network traffic | `string` | n/a | yes |
+| <a name="input_project"></a> [project](#input\_project) | Project name associated with this FortiGate deployment | `string` | `""` | no |
+| <a name="input_public_ip_id"></a> [public\_ip\_id](#input\_public\_ip\_id) | Azure public IP resource ID to associate with port2 for external connectivity. Managed by HA failover | `string` | n/a | yes |
+| <a name="input_public_ip_name"></a> [public\_ip\_name](#input\_public\_ip\_name) | Name of the Azure public IP used for HA cluster VIP. Used in FortiGate SDN connector configuration | `string` | n/a | yes |
+| <a name="input_publicsubnet_id"></a> [publicsubnet\_id](#input\_publicsubnet\_id) | Azure subnet ID for port2 (WAN/Public interface). Used for external/internet-facing traffic | `string` | n/a | yes |
+| <a name="input_publisher"></a> [publisher](#input\_publisher) | Azure Marketplace publisher for FortiGate images | `string` | `"fortinet"` | no |
+| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | Name of the Azure resource group where FortiGate will be deployed | `string` | n/a | yes |
+| <a name="input_size"></a> [size](#input\_size) | Azure VM size for FortiGate. Must support at least 4 network interfaces for HA deployment | `string` | `"Standard_F8s_v2"` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | Additional custom tags to apply to all resources. These will be merged with automatic tags | `map(string)` | `{}` | no |
+| <a name="input_zone"></a> [zone](#input\_zone) | Azure availability zone for FortiGate deployment (1, 2, or 3) | `string` | `"1"` | no |
+
+## Outputs
+
+## Outputs
+
+| Name | Description |
+|------|-------------|
+| <a name="output_all_private_ips"></a> [all\_private\_ips](#output\_all\_private\_ips) | Map of all FortiGate private IP addresses by port (includes optional port5/port6) |
+| <a name="output_data_disk_id"></a> [data\_disk\_id](#output\_data\_disk\_id) | Azure resource ID of the FortiGate data disk (used for logs) |
+| <a name="output_data_disk_name"></a> [data\_disk\_name](#output\_data\_disk\_name) | Name of the FortiGate data disk |
+| <a name="output_diagnostics_enabled"></a> [diagnostics\_enabled](#output\_diagnostics\_enabled) | Indicates if Azure Monitor diagnostics are enabled |
+| <a name="output_fortigate_admin_username"></a> [fortigate\_admin\_username](#output\_fortigate\_admin\_username) | Administrator username for FortiGate login |
+| <a name="output_fortigate_computer_name"></a> [fortigate\_computer\_name](#output\_fortigate\_computer\_name) | Computer name (hostname) of the FortiGate VM |
+| <a name="output_fortigate_management_url"></a> [fortigate\_management\_url](#output\_fortigate\_management\_url) | HTTPS URL for FortiGate management interface (GUI access). Null if create\_management\_public\_ip = false |
+| <a name="output_fortigate_vm_id"></a> [fortigate\_vm\_id](#output\_fortigate\_vm\_id) | Azure resource ID of the FortiGate virtual machine |
+| <a name="output_fortigate_vm_name"></a> [fortigate\_vm\_name](#output\_fortigate\_vm\_name) | Name of the FortiGate virtual machine |
+| <a name="output_log_analytics_workspace_id"></a> [log\_analytics\_workspace\_id](#output\_log\_analytics\_workspace\_id) | Log Analytics workspace ID used for diagnostics (if configured) |
+| <a name="output_management_public_ip"></a> [management\_public\_ip](#output\_management\_public\_ip) | Public IP address for FortiGate management interface (port1). Null if create\_management\_public\_ip = false (private-only deployment) |
+| <a name="output_management_public_ip_id"></a> [management\_public\_ip\_id](#output\_management\_public\_ip\_id) | Azure resource ID of the management public IP. Null if create\_management\_public\_ip = false |
+| <a name="output_nsg_flow_logs_enabled"></a> [nsg\_flow\_logs\_enabled](#output\_nsg\_flow\_logs\_enabled) | Indicates if NSG flow logs are enabled |
+| <a name="output_port1_id"></a> [port1\_id](#output\_port1\_id) | Azure resource ID of port1 network interface (HA Management) |
+| <a name="output_port1_private_ip"></a> [port1\_private\_ip](#output\_port1\_private\_ip) | Private IP address of port1 (HA Management interface) |
+| <a name="output_port2_id"></a> [port2\_id](#output\_port2\_id) | Azure resource ID of port2 network interface (WAN/Public) |
+| <a name="output_port2_private_ip"></a> [port2\_private\_ip](#output\_port2\_private\_ip) | Private IP address of port2 (WAN/Public interface) |
+| <a name="output_port3_id"></a> [port3\_id](#output\_port3\_id) | Azure resource ID of port3 network interface (LAN/Private) |
+| <a name="output_port3_private_ip"></a> [port3\_private\_ip](#output\_port3\_private\_ip) | Private IP address of port3 (LAN/Private interface) |
+| <a name="output_port4_id"></a> [port4\_id](#output\_port4\_id) | Azure resource ID of port4 network interface (HA Sync) |
+| <a name="output_port4_private_ip"></a> [port4\_private\_ip](#output\_port4\_private\_ip) | Private IP address of port4 (HA Sync interface) |
+| <a name="output_port5_id"></a> [port5\_id](#output\_port5\_id) | Azure resource ID of port5 network interface (optional additional interface). Null if port5 not configured |
+| <a name="output_port5_private_ip"></a> [port5\_private\_ip](#output\_port5\_private\_ip) | Private IP address of port5 (optional additional interface). Null if port5 not configured |
+| <a name="output_port6_id"></a> [port6\_id](#output\_port6\_id) | Azure resource ID of port6 network interface (optional additional interface). Null if port6 not configured |
+| <a name="output_port6_private_ip"></a> [port6\_private\_ip](#output\_port6\_private\_ip) | Private IP address of port6 (optional additional interface). Null if port6 not configured |
+| <a name="output_private_nsg_id"></a> [private\_nsg\_id](#output\_private\_nsg\_id) | Azure resource ID of the private network security group (port2, port3) |
+| <a name="output_private_nsg_name"></a> [private\_nsg\_name](#output\_private\_nsg\_name) | Name of the private network security group |
+| <a name="output_public_nsg_id"></a> [public\_nsg\_id](#output\_public\_nsg\_id) | Azure resource ID of the public network security group (port1, port4) |
+| <a name="output_public_nsg_name"></a> [public\_nsg\_name](#output\_public\_nsg\_name) | Name of the public network security group |
+
+## Example Usage
+
+```hcl
+# =============================================================================
+# FORTIGATE DEPLOYMENT EXAMPLE - SINGLE INSTANCE
+# =============================================================================
+# This example demonstrates deploying a single FortiGate VM in Azure with
+# Pay-As-You-Go (PAYG) licensing. Suitable for development, testing, or
+# small office deployments.
+#
+# Prerequisites:
+# - Existing Resource Group
+# - Virtual Network with 4 subnets (management, sync, public, private)
+# - Public IP for cluster VIP
+# - Storage account for boot diagnostics
+# - Service principal for Azure SDN connector
+# =============================================================================
+
+# =============================================================================
+# DATA SOURCES
+# =============================================================================
+
+# Get information about existing resource group
+data "azurerm_resource_group" "example" {
+  name = "rg-network-example"
+}
+
+# Get information about existing virtual network
+data "azurerm_virtual_network" "example" {
+  name                = "vnet-example"
+  resource_group_name = data.azurerm_resource_group.example.name
+}
+
+# Get subnet information
+data "azurerm_subnet" "mgmt" {
+  name                 = "snet-mgmt"
+  virtual_network_name = data.azurerm_virtual_network.example.name
+  resource_group_name  = data.azurerm_resource_group.example.name
+}
+
+data "azurerm_subnet" "sync" {
+  name                 = "snet-sync"
+  virtual_network_name = data.azurerm_virtual_network.example.name
+  resource_group_name  = data.azurerm_resource_group.example.name
+}
+
+data "azurerm_subnet" "public" {
+  name                 = "snet-public"
+  virtual_network_name = data.azurerm_virtual_network.example.name
+  resource_group_name  = data.azurerm_resource_group.example.name
+}
+
+data "azurerm_subnet" "private" {
+  name                 = "snet-private"
+  virtual_network_name = data.azurerm_virtual_network.example.name
+  resource_group_name  = data.azurerm_resource_group.example.name
+}
+
+# Get existing public IP for cluster VIP
+data "azurerm_public_ip" "cluster_vip" {
+  name                = "pip-fortigate-cluster"
+  resource_group_name = data.azurerm_resource_group.example.name
+}
+
+# Get storage account for boot diagnostics
+data "azurerm_storage_account" "diag" {
+  name                = "stdiagexample"
+  resource_group_name = data.azurerm_resource_group.example.name
+}
+
+# =============================================================================
+# FORTIGATE MODULE
+# =============================================================================
+
+module "fortigate" {
+  source = "../.."
+
+  # VM Configuration
+  name          = "fortigate-example"
+  computer_name = "fgt-example"
+  location      = data.azurerm_resource_group.example.location
+  size          = "Standard_F8s_v2" # Must support 4 NICs
+  zone          = "1"               # Availability zone
+
+  # Resource Group
+  resource_group_name = data.azurerm_resource_group.example.name
+
+  # Network Configuration - 4 Subnets Required
+  hamgmtsubnet_id  = data.azurerm_subnet.mgmt.id    # port1 - Management
+  hasyncsubnet_id  = data.azurerm_subnet.sync.id    # port4 - HA Sync
+  publicsubnet_id  = data.azurerm_subnet.public.id  # port2 - WAN/Public
+  privatesubnet_id = data.azurerm_subnet.private.id # port3 - LAN/Private
+
+  # Public IP for port2 (cluster VIP)
+  public_ip_id   = data.azurerm_public_ip.cluster_vip.id
+  public_ip_name = data.azurerm_public_ip.cluster_vip.name
+
+  # Management Public IP (port1)
+  # Set to false for private-only deployments (VPN/ExpressRoute access)
+  # When false, access FortiGate via port1 private IP (10.0.1.10)
+  create_management_public_ip = true # Set to false for production with VPN access
+
+  # Static IP Addresses (must be within subnet ranges)
+  port1 = "10.0.1.10" # Management subnet
+  port2 = "10.0.2.10" # Public subnet
+  port3 = "10.0.3.10" # Private subnet
+  port4 = "10.0.4.10" # Sync subnet
+
+  # Subnet Masks
+  port1mask = "255.255.255.0"
+  port2mask = "255.255.255.0"
+  port3mask = "255.255.255.0"
+  port4mask = "255.255.255.0"
+
+  # Gateway IPs
+  port1gateway = "10.0.1.1" # Management gateway
+  port2gateway = "10.0.2.1" # Default route gateway
+
+  # Optional Additional Network Interfaces (port5, port6)
+  # Uncomment to enable additional interfaces for DMZ, additional WANs, etc.
+  # Ensure VM size supports 6 NICs (e.g., Standard_F8s_v2 supports 8 NICs)
+  # port5subnet_id = data.azurerm_subnet.dmz.id
+  # port5          = "10.0.5.10"
+  #
+  # port6subnet_id = data.azurerm_subnet.wan2.id
+  # port6          = "10.0.6.10"
+
+  # Authentication (CHANGE THESE IN PRODUCTION!)
+  adminusername = "azureadmin"
+  adminsport    = "8443" # HTTPS management port
+
+  # Method 1: Azure Key Vault (Recommended for Production)
+  # Uncomment these lines and comment out Method 2 to use Key Vault
+  # key_vault_id                 = data.azurerm_key_vault.main.id
+  # admin_password_secret_name   = "fortigate-admin-password"
+  # client_secret_secret_name    = "fortigate-client-secret"
+
+  # Method 2: Direct Variables (Development Only)
+  # For production, use Key Vault integration above
+  adminpassword = "ChangeMe123!" # WARNING: Change this!
+  client_secret = var.service_principal_secret
+
+  # Bootstrap Configuration
+  bootstrap = "config-active.conf"
+
+  # Boot Diagnostics
+  boot_diagnostics_storage_endpoint = data.azurerm_storage_account.diag.primary_blob_endpoint
+
+  # Licensing
+  license_type = "payg" # Pay-As-You-Go
+  arch         = "x86"  # x86 or arm
+
+  # FortiOS Version
+  fgtversion = "7.6.3"
+
+  # HA Configuration (null for standalone)
+  active_peerip  = null # Set for HA pair
+  passive_peerip = null # Set for HA pair
+
+  # Disk Configuration (optional)
+  data_disk_size_gb      = 30             # 30 GB data disk
+  data_disk_storage_type = "Standard_LRS" # Standard HDD
+  data_disk_caching      = "ReadWrite"    # ReadWrite caching
+
+  # Network Security Configuration
+  # For production, restrict management access to specific CIDRs
+  enable_management_access_restriction = false # Set to true for production
+  management_access_cidrs              = []    # Add your admin IPs/networks here
+  management_ports                     = [443, 8443, 22]
+
+  # Monitoring & Diagnostics (optional)
+  # Uncomment to enable Azure Monitor integration for VM and network metrics
+  # enable_diagnostics            = true
+  # log_analytics_workspace_id    = data.azurerm_log_analytics_workspace.main.id
+  # diagnostic_retention_days     = 30
+  #
+  # # NSG Flow Logs (optional - requires enable_diagnostics)
+  # enable_nsg_flow_logs              = true
+  # nsg_flow_logs_storage_account_id  = data.azurerm_storage_account.flow_logs.id
+  # nsg_flow_logs_retention_days      = 7
+
+  # Structured Tagging (optional)
+  environment = "Development"
+  cost_center = "IT-Network"
+  owner       = "network-team@example.com"
+  project     = "Network-Security"
+
+  # Additional Custom Tags
+  tags = {
+    Purpose     = "Testing"
+    Backup      = "Daily"
+    Application = "Firewall"
+  }
+}
+
+# =============================================================================
+# OUTPUTS
+# =============================================================================
+
+output "fortigate_vm_id" {
+  description = "Azure resource ID of the FortiGate VM"
+  value       = module.fortigate.fortigate_vm_id
+}
+
+output "fortigate_management_url" {
+  description = "HTTPS URL for FortiGate management interface"
+  value       = module.fortigate.fortigate_management_url
+}
+
+output "management_public_ip" {
+  description = "Public IP address for FortiGate management"
+  value       = module.fortigate.management_public_ip
+}
+
+output "port1_private_ip" {
+  description = "Port1 (Management) private IP address"
+  value       = module.fortigate.port1_private_ip
+}
+
+output "port2_private_ip" {
+  description = "Port2 (WAN/Public) private IP address"
+  value       = module.fortigate.port2_private_ip
+}
+
+output "port3_private_ip" {
+  description = "Port3 (LAN/Private) private IP address"
+  value       = module.fortigate.port3_private_ip
+}
+
+output "port4_private_ip" {
+  description = "Port4 (HA Sync) private IP address"
+  value       = module.fortigate.port4_private_ip
+}
+```
+<!-- END_TF_DOCS -->
