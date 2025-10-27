@@ -57,7 +57,7 @@ This module deploys FortiGate with a flexible network interface architecture:
 
 ## Prerequisites
 
-- **Terraform** >= 1.3.4
+- **Terraform** >= 1.13.4
 - **Azure Subscription** with appropriate permissions
 - **Azure CLI** for authentication
 - **Pre-existing Azure Infrastructure**:
@@ -885,7 +885,7 @@ This module is provided as-is. FortiGate licensing (BYOL or PAYG) is subject to 
 
 **Version**: 2.0.0
 **Last Updated**: 2025-01-25
-**Terraform**: >= 1.3.4
+**Terraform**: >= 1.13.4
 **Azure Provider**: >= 3.0.0
 
 <!-- BEGIN_TF_DOCS -->
@@ -897,7 +897,7 @@ This module is provided as-is. FortiGate licensing (BYOL or PAYG) is subject to 
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.4 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.13.4 |
 | <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 3.0 |
 
 ## Providers

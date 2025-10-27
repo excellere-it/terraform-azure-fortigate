@@ -8,8 +8,8 @@
 
 terraform {
   # Minimum Terraform version required for this module
-  # Version 1.3.4+ is required for the features used in this module
-  required_version = ">= 1.3.4"
+  # Version 1.13.4+ is required for the features used in this module
+  required_version = ">= 1.13.4"
 
   # Required providers and their version constraints
   required_providers {

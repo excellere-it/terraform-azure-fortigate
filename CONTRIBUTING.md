@@ -22,7 +22,7 @@ This project adheres to a code of conduct. By participating, you are expected to
 
 Before you begin, ensure you have the following installed:
 
-- **Terraform** >= 1.3.4
+- **Terraform** >= 1.13.4
 - **Go** >= 1.19 (for testing)
 - **Azure CLI** (for authentication)
 - **terraform-docs** (for documentation generation)

@@ -1488,7 +1488,7 @@ terraform plan -var="use_key_vault_for_secrets=true"
 # 3. Terraform has read access to Key Vault
 
 terraform {
-  required_version = ">= 1.3.4"
+  required_version = ">= 1.13.4"
 
   required_providers {
     azurerm = {
@@ -3360,7 +3360,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: 1.3.4
+          terraform_version: 1.13.4
 
       - name: Terraform Format Check
         run: terraform fmt -check -recursive
