@@ -8,10 +8,8 @@
 locals {
   # Secret resolution logic
   # Prioritizes Key Vault secrets over direct variables
-  # Falls back to direct variables if Key Vault not configured
-  resolved_admin_password = var.key_vault_id != null ? data.azurerm_key_vault_secret.admin_password[0].value : (
-    var.adminpassword != null ? var.adminpassword : "ChangeMe123!"
-  )
+  # SECURITY: No default password - users MUST provide password or Key Vault
+  resolved_admin_password = var.key_vault_id != null ? data.azurerm_key_vault_secret.admin_password[0].value : var.adminpassword
 
   resolved_client_secret = var.key_vault_id != null ? data.azurerm_key_vault_secret.client_secret[0].value : (
     var.client_secret != null ? var.client_secret : ""

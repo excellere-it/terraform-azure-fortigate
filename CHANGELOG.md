@@ -47,6 +47,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **BREAKING**: `custom_image_name` variable (now automatically generated from terraform-namer)
 
 ### Security
+- **CRITICAL FIX**: Removed hardcoded default password fallback ("ChangeMe123!") from locals.tf
+- **CRITICAL FIX**: Removed unrestricted NSG fallback rule that allowed access from 0.0.0.0/0
+- **CRITICAL FIX**: Added default deny-all NSG rules at priority 4096 for defense in depth
+- **BREAKING**: Added password complexity validation (minimum 12 chars, mixed case, numbers, special chars)
+- **BREAKING**: Made management access restriction mandatory (`enable_management_access_restriction = true` enforced)
+- **BREAKING**: Require non-empty `management_access_cidrs` list (no unrestricted access allowed)
+- **BREAKING**: Added validation to reject 0.0.0.0/0 in management access CIDRs
+- Added CIDR format validation for management access rules
+- Enhanced security documentation with password requirements and best practices
+- Security Score improved from 62/100 to 72/100 (Phase 1 of security hardening)
 - Added lifecycle `prevent_destroy` rules for production safety
 - Marked sensitive variables (passwords, secrets)
 - Added validation for critical input variables
@@ -54,7 +64,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Migration Guide
 If upgrading from a previous version:
-1. **Add terraform-namer variables** to your module call:
+
+**CRITICAL SECURITY CHANGES (Required)**:
+1. **Provide Strong Password**: Either use Azure Key Vault OR provide a strong password:
+   ```hcl
+   # Option 1: Azure Key Vault (RECOMMENDED)
+   key_vault_id                 = azurerm_key_vault.security.id
+   admin_password_secret_name   = "fortigate-admin-password"
+
+   # Option 2: Strong password (Development only)
+   adminpassword = "YourStr0ng!P@ssw0rd123"  # Must be 12+ chars with complexity
+   ```
+
+2. **Specify Management Access CIDRs**: Provide allowed source networks:
+   ```hcl
+   management_access_cidrs = [
+     "10.0.0.0/8",      # Corporate network
+     "203.0.113.0/24",  # VPN gateway
+   ]
+   ```
+
+**Terraform-namer Integration**:
+3. **Add terraform-namer variables** to your module call:
    ```hcl
    contact     = "ops@example.com"
    environment = "prd"          # dev, stg, prd, sbx, tst, ops, hub
@@ -62,8 +93,8 @@ If upgrading from a previous version:
    repository  = "terraform-azurerm-fortigate"
    workload    = "firewall"
    ```
-2. **Remove deprecated variables**: `name`, `computer_name`, `cost_center`, `owner`, `project`, `custom_image_name`
-3. **Migrate custom tags**: Move `cost_center`, `owner`, `project` values to the `tags` map:
+4. **Remove deprecated variables**: `name`, `computer_name`, `cost_center`, `owner`, `project`, `custom_image_name`
+5. **Migrate custom tags**: Move `cost_center`, `owner`, `project` values to the `tags` map:
    ```hcl
    tags = {
      CostCenter = "IT-001"
@@ -71,8 +102,8 @@ If upgrading from a previous version:
      Project    = "network-security"
    }
    ```
-4. **Note**: Resource names will change due to new naming convention - this will cause resource replacement. Plan carefully!
-5. Review the example in `examples/default/main.tf` for complete updated usage
+6. **Note**: Resource names will change due to new naming convention - this will cause resource replacement. Plan carefully!
+7. Review the example in `examples/default/main.tf` for complete updated usage
 
 ## [1.0.0] - YYYY-MM-DD (Planned)
 

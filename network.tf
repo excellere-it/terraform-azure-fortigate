@@ -75,22 +75,27 @@ resource "azurerm_network_security_rule" "management_access" {
   network_security_group_name = azurerm_network_security_group.publicnetworknsg.name
 }
 
-# Fallback rule when management access restriction is disabled or no CIDRs specified
-# WARNING: This allows management access from anywhere - only for development/testing
-resource "azurerm_network_security_rule" "management_access_unrestricted" {
-  count = !var.enable_management_access_restriction || length(var.management_access_cidrs) == 0 ? 1 : 0
+# =============================================================================
+# Default Deny-All Rules (Lowest Priority)
+# =============================================================================
+# SECURITY: These deny-all rules serve as a security baseline, ensuring that only
+# explicitly allowed traffic (defined above) can reach the FortiGate.
+# Priority 4096 is the lowest allowed, so these only apply if no other rules match.
 
-  name                        = "Allow-Management-Unrestricted"
-  priority                    = 1001
+resource "azurerm_network_security_rule" "deny_all_inbound_public" {
+  name                        = "DenyAllInbound"
+  priority                    = 4096 # Lowest priority (last to evaluate)
   direction                   = "Inbound"
-  access                      = "Allow"
-  protocol                    = "Tcp"
+  access                      = "Deny"
+  protocol                    = "*"
   source_port_range           = "*"
   destination_port_range      = "*"
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
   resource_group_name         = var.resource_group_name
   network_security_group_name = azurerm_network_security_group.publicnetworknsg.name
+
+  description = "Default deny all inbound traffic. Only explicitly allowed traffic (management CIDRs) can reach FortiGate management interface."
 }
 
 # Outbound rule for public NSG
@@ -140,6 +145,23 @@ resource "azurerm_network_security_rule" "outgoing_private" {
   destination_address_prefix  = "*"
   resource_group_name         = var.resource_group_name
   network_security_group_name = azurerm_network_security_group.privatenetworknsg.name
+}
+
+# Default deny-all rule for private NSG
+resource "azurerm_network_security_rule" "deny_all_inbound_private" {
+  name                        = "DenyAllInbound"
+  priority                    = 4096 # Lowest priority (last to evaluate)
+  direction                   = "Inbound"
+  access                      = "Deny"
+  protocol                    = "*"
+  source_port_range           = "*"
+  destination_port_range      = "*"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = var.resource_group_name
+  network_security_group_name = azurerm_network_security_group.privatenetworknsg.name
+
+  description = "Default deny all inbound traffic to private interfaces."
 }
 
 # =============================================================================

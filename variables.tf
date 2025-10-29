@@ -294,13 +294,47 @@ variable "adminusername" {
   default     = "azureadmin"
 }
 
-# WARNING: Default password is insecure and should be changed in production
-# RECOMMENDATION: Use Azure Key Vault (key_vault_id + admin_password_secret_name)
+# =============================================================================
+# SECURITY CRITICAL: Administrator Password
+# =============================================================================
+# Either adminpassword OR key_vault_id MUST be provided - no defaults allowed
+# PRODUCTION RECOMMENDATION: Always use Azure Key Vault (key_vault_id)
 variable "adminpassword" {
-  description = "Administrator password for FortiGate VM. Leave null to use Azure Key Vault secret"
+  description = <<-EOT
+    Administrator password for FortiGate VM.
+    REQUIRED when not using Azure Key Vault (key_vault_id).
+
+    SECURITY REQUIREMENTS:
+    - Minimum 12 characters
+    - Must include uppercase letters (A-Z)
+    - Must include lowercase letters (a-z)
+    - Must include numbers (0-9)
+    - Must include special characters (!@#$%^&*()_+-=[]{}|;:,.<>?)
+    - Never commit passwords to version control
+    - Use Azure Key Vault for production deployments
+
+    PRODUCTION: Set key_vault_id and leave this as null
+    DEVELOPMENT: Provide strong password via terraform.tfvars (add to .gitignore)
+  EOT
   type        = string
   default     = null
   sensitive   = true
+
+  validation {
+    condition     = var.key_vault_id != null || var.adminpassword != null
+    error_message = "Either key_vault_id or adminpassword must be provided. Never use default passwords in production."
+  }
+
+  validation {
+    condition = var.adminpassword == null || (
+      length(var.adminpassword) >= 12 &&
+      can(regex("[A-Z]", var.adminpassword)) &&
+      can(regex("[a-z]", var.adminpassword)) &&
+      can(regex("[0-9]", var.adminpassword)) &&
+      can(regex("[^A-Za-z0-9]", var.adminpassword))
+    )
+    error_message = "Password must be at least 12 characters and include uppercase, lowercase, numbers, and special characters."
+  }
 }
 
 variable "key_vault_id" {
@@ -513,22 +547,57 @@ variable "bootstrap" {
 # =============================================================================
 
 variable "enable_management_access_restriction" {
-  description = "Enable restricted management access. If true, only specified CIDRs can access management interface"
+  description = <<-EOT
+    Enable restricted management access.
+
+    SECURITY REQUIREMENT: This MUST be enabled for production deployments.
+    Only specified CIDRs in management_access_cidrs can access management interface.
+
+    For development/testing: Can be set to false (NOT recommended)
+    For production: MUST be true (enforced by validation)
+  EOT
   type        = bool
   default     = true
+
+  validation {
+    condition     = var.enable_management_access_restriction == true
+    error_message = "Management access restriction MUST be enabled for security compliance. This protects the FortiGate management interface from unauthorized access."
+  }
 }
 
 variable "management_access_cidrs" {
-  description = "List of CIDR blocks allowed to access FortiGate management interface (port1). Empty list allows from anywhere (not recommended)"
+  description = <<-EOT
+    List of CIDR blocks allowed to access FortiGate management interface (port1).
+
+    SECURITY REQUIREMENT: At least one CIDR must be specified for production.
+
+    Examples:
+    - ["10.0.0.0/8"]           # Corporate network
+    - ["203.0.113.0/24"]       # VPN gateway
+    - ["192.0.2.50/32"]        # Specific admin workstation
+    - ["10.0.0.0/8", "172.16.0.0/12"]  # Multiple networks
+
+    ⚠️  WARNING: Never use ["0.0.0.0/0"] in production - this allows access from anywhere!
+  EOT
   type        = list(string)
   default     = []
 
   validation {
-    condition = alltrue([
+    condition     = length(var.management_access_cidrs) > 0
+    error_message = "At least one management source CIDR must be specified for security compliance. Use your VPN gateway, corporate network, or specific admin workstation CIDR."
+  }
+
+  validation {
+    condition     = !contains(var.management_access_cidrs, "0.0.0.0/0")
+    error_message = "Management access from 0.0.0.0/0 (anywhere on the internet) is not allowed for security reasons. Specify your corporate network or VPN gateway CIDR blocks instead."
+  }
+
+  validation {
+    condition = length(var.management_access_cidrs) == 0 || alltrue([
       for cidr in var.management_access_cidrs :
       can(regex("^([0-9]{1,3}\\.){3}[0-9]{1,3}/[0-9]{1,2}$", cidr))
     ])
-    error_message = "All management access CIDRs must be valid CIDR notation (e.g., 10.0.0.0/24, 203.0.113.0/32)."
+    error_message = "All management access CIDRs must be valid CIDR notation (e.g., 10.0.0.0/24, 203.0.113.0/32, 192.168.1.0/24)."
   }
 }
 

@@ -649,9 +649,9 @@ module "fortigate" {
   port3 = "10.0.3.10"
   port4 = "10.0.4.10"
 
-  # Auth
+  # Auth (Use strong password or Key Vault - see examples)
   adminusername = "azureadmin"
-  adminpassword = "ChangeMe123!"
+  adminpassword = "YourStr0ng!P@ssw0rd123"  # 12+ chars, mixed case, numbers, special chars
   client_secret = var.sp_secret
 
   # Boot diagnostics
@@ -1207,9 +1207,10 @@ module "fortigate" {
   # admin_password_secret_name   = "fortigate-admin-password"
   # client_secret_secret_name    = "fortigate-client-secret"
 
-  # Method 2: Direct Variables (Development Only)
+  # Method 2: Direct Variables (Development Only - NOT for production!)
   # For production, use Key Vault integration above
-  adminpassword = "ChangeMe123!" # WARNING: Change this!
+  # Password MUST be 12+ chars with uppercase, lowercase, numbers, and special characters
+  adminpassword = "DevP@ssw0rd123!SecureExample"  # ⚠️  REPLACE with your own strong password!
   client_secret = var.service_principal_secret
 
   # Bootstrap Configuration
