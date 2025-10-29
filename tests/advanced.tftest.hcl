@@ -245,6 +245,34 @@ run "verify_ha_configuration" {
   }
 }
 
+run "verify_active_fortigate_has_public_ip" {
+  command = plan
+
+  variables {
+    is_passive = false
+  }
+
+  # Verify active FortiGate has public IP on port2
+  assert {
+    condition     = azurerm_network_interface.port2.ip_configuration[0].public_ip_address_id != null
+    error_message = "Active FortiGate (is_passive=false) should have public IP on port2"
+  }
+}
+
+run "verify_passive_fortigate_no_public_ip" {
+  command = plan
+
+  variables {
+    is_passive = true
+  }
+
+  # Verify passive FortiGate does NOT have public IP on port2
+  assert {
+    condition     = azurerm_network_interface.port2.ip_configuration[0].public_ip_address_id == null
+    error_message = "Passive FortiGate (is_passive=true) should NOT have public IP on port2"
+  }
+}
+
 run "verify_disk_configuration" {
   command = plan
 

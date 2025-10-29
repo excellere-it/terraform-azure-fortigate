@@ -207,6 +207,7 @@ resource "azurerm_network_interface" "port1" {
 # Used for external/internet-facing traffic
 # IP forwarding enabled to allow routing through FortiGate
 # Public IP association managed by HA failover (ignore_changes for public_ip_address_id)
+# For HA passive instances, public IP is null until failover
 resource "azurerm_network_interface" "port2" {
   name                           = local.nic_port2_name
   location                       = var.location
@@ -219,7 +220,8 @@ resource "azurerm_network_interface" "port2" {
     subnet_id                     = var.publicsubnet_id
     private_ip_address_allocation = "Static"
     private_ip_address            = var.port2
-    public_ip_address_id          = var.public_ip_id
+    # Only associate public IP on active FortiGate; passive gets it during failover
+    public_ip_address_id = var.is_passive ? null : var.public_ip_id
   }
 
   lifecycle {

@@ -895,18 +895,19 @@ This module is provided as-is. FortiGate licensing (BYOL or PAYG) is subject to 
 
 ## Requirements
 
-| Name | Version |
-|------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.13.4 |
-| <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) | ~> 3.0 |
+The following requirements are needed by this module:
+
+- <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) (>= 1.13.4)
+
+- <a name="requirement_azurerm"></a> [azurerm](#requirement\_azurerm) (~> 3.0)
 
 ## Providers
 
 ## Providers
 
-| Name | Version |
-|------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.117.1 |
+The following providers are used by this module:
+
+- <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) (3.117.1)
 
 ## Resources
 
@@ -914,160 +915,943 @@ The following resources are created by this module:
 
 ## Resources
 
-| Name | Type |
-|------|------|
-| [azurerm_image.custom](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/image) | resource |
-| [azurerm_linux_virtual_machine.customfgtvm](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine) | resource |
-| [azurerm_linux_virtual_machine.fgtvm](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine) | resource |
-| [azurerm_managed_disk.fgt_data_drive](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/managed_disk) | resource |
-| [azurerm_marketplace_agreement.fortinet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/marketplace_agreement) | resource |
-| [azurerm_monitor_diagnostic_setting.port1](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
-| [azurerm_monitor_diagnostic_setting.port2](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
-| [azurerm_monitor_diagnostic_setting.port3](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
-| [azurerm_monitor_diagnostic_setting.port4](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
-| [azurerm_monitor_diagnostic_setting.private_nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
-| [azurerm_monitor_diagnostic_setting.public_nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
-| [azurerm_monitor_diagnostic_setting.vm](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) | resource |
-| [azurerm_network_interface.port1](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) | resource |
-| [azurerm_network_interface.port2](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) | resource |
-| [azurerm_network_interface.port3](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) | resource |
-| [azurerm_network_interface.port4](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) | resource |
-| [azurerm_network_interface.port5](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) | resource |
-| [azurerm_network_interface.port6](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) | resource |
-| [azurerm_network_interface_security_group_association.port1nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface_security_group_association) | resource |
-| [azurerm_network_interface_security_group_association.port2nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface_security_group_association) | resource |
-| [azurerm_network_interface_security_group_association.port3nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface_security_group_association) | resource |
-| [azurerm_network_interface_security_group_association.port4nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface_security_group_association) | resource |
-| [azurerm_network_security_group.privatenetworknsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group) | resource |
-| [azurerm_network_security_group.publicnetworknsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group) | resource |
-| [azurerm_network_security_rule.deny_all_inbound_private](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) | resource |
-| [azurerm_network_security_rule.deny_all_inbound_public](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) | resource |
-| [azurerm_network_security_rule.incoming_private](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) | resource |
-| [azurerm_network_security_rule.management_access](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) | resource |
-| [azurerm_network_security_rule.outgoing_private](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) | resource |
-| [azurerm_network_security_rule.outgoing_public](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) | resource |
-| [azurerm_network_watcher_flow_log.private_nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_watcher_flow_log) | resource |
-| [azurerm_network_watcher_flow_log.public_nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_watcher_flow_log) | resource |
-| [azurerm_public_ip.mgmt_ip](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip) | resource |
-| [azurerm_virtual_machine_data_disk_attachment.fgt_log_drive_attachment](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_data_disk_attachment) | resource |
-| [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) | data source |
-| [azurerm_key_vault_secret.admin_password](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
+The following resources are used by this module:
+
+- [azurerm_image.custom](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/image) (resource)
+- [azurerm_linux_virtual_machine.customfgtvm](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine) (resource)
+- [azurerm_linux_virtual_machine.fgtvm](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine) (resource)
+- [azurerm_managed_disk.fgt_data_drive](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/managed_disk) (resource)
+- [azurerm_marketplace_agreement.fortinet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/marketplace_agreement) (resource)
+- [azurerm_monitor_diagnostic_setting.port1](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) (resource)
+- [azurerm_monitor_diagnostic_setting.port2](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) (resource)
+- [azurerm_monitor_diagnostic_setting.port3](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) (resource)
+- [azurerm_monitor_diagnostic_setting.port4](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) (resource)
+- [azurerm_monitor_diagnostic_setting.private_nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) (resource)
+- [azurerm_monitor_diagnostic_setting.public_nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) (resource)
+- [azurerm_monitor_diagnostic_setting.vm](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/monitor_diagnostic_setting) (resource)
+- [azurerm_network_interface.port1](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) (resource)
+- [azurerm_network_interface.port2](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) (resource)
+- [azurerm_network_interface.port3](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) (resource)
+- [azurerm_network_interface.port4](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) (resource)
+- [azurerm_network_interface.port5](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) (resource)
+- [azurerm_network_interface.port6](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface) (resource)
+- [azurerm_network_interface_security_group_association.port1nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface_security_group_association) (resource)
+- [azurerm_network_interface_security_group_association.port2nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface_security_group_association) (resource)
+- [azurerm_network_interface_security_group_association.port3nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface_security_group_association) (resource)
+- [azurerm_network_interface_security_group_association.port4nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface_security_group_association) (resource)
+- [azurerm_network_security_group.privatenetworknsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group) (resource)
+- [azurerm_network_security_group.publicnetworknsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group) (resource)
+- [azurerm_network_security_rule.deny_all_inbound_private](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) (resource)
+- [azurerm_network_security_rule.deny_all_inbound_public](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) (resource)
+- [azurerm_network_security_rule.incoming_private](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) (resource)
+- [azurerm_network_security_rule.management_access](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) (resource)
+- [azurerm_network_security_rule.outgoing_private](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) (resource)
+- [azurerm_network_security_rule.outgoing_public](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_rule) (resource)
+- [azurerm_network_watcher_flow_log.private_nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_watcher_flow_log) (resource)
+- [azurerm_network_watcher_flow_log.public_nsg](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_watcher_flow_log) (resource)
+- [azurerm_public_ip.mgmt_ip](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip) (resource)
+- [azurerm_virtual_machine_data_disk_attachment.fgt_log_drive_attachment](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_data_disk_attachment) (resource)
+- [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) (data source)
+- [azurerm_key_vault_secret.admin_password](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) (data source)
 
 ## Inputs
 
-## Inputs
+## Required Inputs
 
-| Name | Description | Type | Default | Required |
-|------|-------------|------|---------|:--------:|
-| <a name="input_accept"></a> [accept](#input\_accept) | Accept Azure Marketplace agreement for FortiGate. Set to 'true' to accept terms on first deployment | `string` | `"false"` | no |
-| <a name="input_active_peerip"></a> [active\_peerip](#input\_active\_peerip) | IP address of the active FortiGate peer in HA cluster. Used for HA synchronization. Set to null for standalone deployment | `string` | `null` | no |
-| <a name="input_admin_password_secret_name"></a> [admin\_password\_secret\_name](#input\_admin\_password\_secret\_name) | Name of the Key Vault secret containing FortiGate admin password. Only used when key\_vault\_id is provided | `string` | `"fortigate-admin-password"` | no |
-| <a name="input_adminpassword"></a> [adminpassword](#input\_adminpassword) | Administrator password for FortiGate VM.<br/>REQUIRED when not using Azure Key Vault (key\_vault\_id).<br/><br/>SECURITY REQUIREMENTS:<br/>- Minimum 12 characters<br/>- Must include uppercase letters (A-Z)<br/>- Must include lowercase letters (a-z)<br/>- Must include numbers (0-9)<br/>- Must include special characters (!@#$%^&*()\_+-=[]{}\|;:,.<>?)<br/>- Never commit passwords to version control<br/>- Use Azure Key Vault for production deployments<br/><br/>PRODUCTION: Set key\_vault\_id and leave this as null<br/>DEVELOPMENT: Provide strong password via terraform.tfvars (add to .gitignore) | `string` | `null` | no |
-| <a name="input_adminsport"></a> [adminsport](#input\_adminsport) | HTTPS port for FortiGate web administration interface | `string` | `"8443"` | no |
-| <a name="input_adminusername"></a> [adminusername](#input\_adminusername) | Administrator username for FortiGate VM | `string` | `"azureadmin"` | no |
-| <a name="input_arch"></a> [arch](#input\_arch) | FortiGate VM architecture: 'x86' or 'arm' | `string` | `"x86"` | no |
-| <a name="input_boot_diagnostics_storage_endpoint"></a> [boot\_diagnostics\_storage\_endpoint](#input\_boot\_diagnostics\_storage\_endpoint) | Storage account endpoint URI for boot diagnostics logs.<br/>Format: https://<storage-account-name>.blob.core.windows.net/<br/><br/>SECURITY REQUIREMENTS (Module validates HTTPS):<br/>- Storage account MUST have https\_traffic\_only\_enabled = true (enforced by validation)<br/>- Storage account MUST have min\_tls\_version = "TLS1\_2"<br/>- Storage account SHOULD have infrastructure\_encryption\_enabled = true<br/>- Storage account SHOULD have public\_network\_access\_enabled = false<br/>- Storage account SHOULD use private endpoint for enhanced security<br/><br/>The module enforces HTTPS-only endpoints. HTTP endpoints will be rejected. | `string` | n/a | yes |
-| <a name="input_bootstrap"></a> [bootstrap](#input\_bootstrap) | Path to FortiGate bootstrap configuration file. Contains initial FortiGate config including network, HA, and policy settings | `string` | `"config-active.conf"` | no |
-| <a name="input_contact"></a> [contact](#input\_contact) | Contact email for resource ownership and notifications. Used for tagging and operational communication. | `string` | n/a | yes |
-| <a name="input_create_management_public_ip"></a> [create\_management\_public\_ip](#input\_create\_management\_public\_ip) | Create a public IP address for FortiGate management interface (port1).<br/><br/>SECURITY RECOMMENDATION: false (default)<br/><br/>Options:<br/>- false: Private-only access via VPN/ExpressRoute/Bastion (secure default)<br/>- true: Public IP for management (development/testing only)<br/><br/>For production deployments, keep this false and access via:<br/>- Azure Bastion<br/>- Site-to-site VPN<br/>- ExpressRoute<br/>- Jump host/bastion VM | `bool` | `false` | no |
-| <a name="input_custom"></a> [custom](#input\_custom) | Use custom FortiGate image instead of Azure Marketplace image. Set to true to deploy from VHD blob | `bool` | `false` | no |
-| <a name="input_custom_image_resource_group_name"></a> [custom\_image\_resource\_group\_name](#input\_custom\_image\_resource\_group\_name) | Resource group name where custom image will be created. If null, uses var.resource\_group\_name. Only used when var.custom = true | `string` | `null` | no |
-| <a name="input_customuri"></a> [customuri](#input\_customuri) | Azure blob URI for custom FortiGate VHD image. Only used when var.custom = true | `string` | `null` | no |
-| <a name="input_data_disk_caching"></a> [data\_disk\_caching](#input\_data\_disk\_caching) | Disk caching mode for data disk. Options: None, ReadOnly, ReadWrite | `string` | `"ReadWrite"` | no |
-| <a name="input_data_disk_size_gb"></a> [data\_disk\_size\_gb](#input\_data\_disk\_size\_gb) | Size of the FortiGate data disk in GB for logs and configuration storage | `number` | `30` | no |
-| <a name="input_data_disk_storage_type"></a> [data\_disk\_storage\_type](#input\_data\_disk\_storage\_type) | Storage account type for data disk. Options: Standard\_LRS, StandardSSD\_LRS, Premium\_LRS, StandardSSD\_ZRS, Premium\_ZRS | `string` | `"Standard_LRS"` | no |
-| <a name="input_ddos_protection_plan_id"></a> [ddos\_protection\_plan\_id](#input\_ddos\_protection\_plan\_id) | Azure DDoS Protection Plan resource ID for public IP protection.<br/><br/>SECURITY RECOMMENDATION: Enable for production internet-facing deployments<br/><br/>DDoS Protection provides:<br/>- Layer 3-4 DDoS attack mitigation (network/transport layer)<br/>- Always-on traffic monitoring<br/>- Adaptive tuning based on traffic patterns<br/>- Cost protection (refund for scale-out costs during attacks)<br/>- Real-time attack metrics and alerts<br/><br/>Options:<br/>- null: Basic DDoS protection (default, included with Standard SKU Public IP)<br/>- Resource ID: DDoS Protection Standard (enhanced protection, separate cost)<br/><br/>Format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}<br/><br/>When to use DDoS Protection Standard:<br/>- Production internet-facing deployments<br/>- High-value applications requiring SLA<br/>- Compliance requirements (PCI-DSS, FedRAMP)<br/>- Applications requiring Layer 7 protection (use with WAF)<br/><br/>Note: DDoS Protection Standard costs $2,944/month + per-protected-resource fees.<br/>Basic protection is included with Standard SKU Public IP at no extra cost.<br/><br/>Reference: https://learn.microsoft.com/en-us/azure/ddos-protection/ddos-protection-overview | `string` | `null` | no |
-| <a name="input_diagnostic_retention_days"></a> [diagnostic\_retention\_days](#input\_diagnostic\_retention\_days) | Number of days to retain diagnostic logs. Set to 0 for indefinite retention | `number` | `30` | no |
-| <a name="input_disk_encryption_set_id"></a> [disk\_encryption\_set\_id](#input\_disk\_encryption\_set\_id) | Azure Disk Encryption Set ID for customer-managed key (CMK) encryption.<br/><br/>Format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}<br/><br/>When provided:<br/>- OS disk encrypted with your Key Vault key<br/>- Data disk encrypted with your Key Vault key<br/>- You control key rotation and access policies<br/>- Enhanced audit trail (who accessed keys)<br/><br/>When null (default):<br/>- Platform-managed keys used (still encrypted)<br/>- Azure manages encryption keys<br/><br/>Production recommendation: Provide CMK for compliance (PCI-DSS Level 1, HIPAA)<br/>Development: Can use platform-managed keys (null)<br/><br/>See examples/disk-encryption/ for complete setup guide. | `string` | `null` | no |
-| <a name="input_enable_diagnostics"></a> [enable\_diagnostics](#input\_enable\_diagnostics) | Enable Azure Monitor diagnostic settings for FortiGate VM and network resources | `bool` | `false` | no |
-| <a name="input_enable_encryption_at_host"></a> [enable\_encryption\_at\_host](#input\_enable\_encryption\_at\_host) | Enable encryption at host for double encryption (platform-managed + host-managed).<br/><br/>Provides an additional encryption layer for data at rest beyond Azure Storage Service Encryption.<br/>Requires VM size that supports encryption at host (most modern VM sizes do).<br/><br/>Benefits:<br/>- Double encryption: Platform-managed + Host-managed<br/>- No performance impact on modern VM sizes<br/>- Compliance: PCI-DSS, HIPAA, SOC 2<br/><br/>Production recommendation: true | `bool` | `true` | no |
-| <a name="input_enable_management_access_restriction"></a> [enable\_management\_access\_restriction](#input\_enable\_management\_access\_restriction) | Enable restricted management access.<br/><br/>SECURITY REQUIREMENT: This MUST be enabled for production deployments.<br/>Only specified CIDRs in management\_access\_cidrs can access management interface.<br/><br/>For development/testing: Can be set to false (NOT recommended)<br/>For production: MUST be true (enforced by validation) | `bool` | `true` | no |
-| <a name="input_enable_nsg_flow_logs"></a> [enable\_nsg\_flow\_logs](#input\_enable\_nsg\_flow\_logs) | Enable NSG flow logs for network traffic analysis. Requires enable\_diagnostics = true | `bool` | `false` | no |
-| <a name="input_enable_system_assigned_identity"></a> [enable\_system\_assigned\_identity](#input\_enable\_system\_assigned\_identity) | Enable system-assigned managed identity for the FortiGate VM.<br/><br/>When true: FortiGate VM gets an automatically created system-assigned identity<br/>When false: Use user-assigned identity or service principal<br/><br/>Note: Can be used alongside user-assigned identity (both enabled)<br/><br/>System-assigned identities are tied to the VM lifecycle and deleted with the VM.<br/>User-assigned identities are independent resources that can be shared across VMs.<br/><br/>Recommendation: Use user-assigned identity for production (more flexible) | `bool` | `false` | no |
-| <a name="input_environment"></a> [environment](#input\_environment) | Environment name for the FortiGate deployment. Used for naming, tagging, and environment-specific configuration. | `string` | n/a | yes |
-| <a name="input_fgtoffer"></a> [fgtoffer](#input\_fgtoffer) | Azure Marketplace offer for FortiGate VM | `string` | `"fortinet_fortigate-vm_v5"` | no |
-| <a name="input_fgtsku"></a> [fgtsku](#input\_fgtsku) | FortiGate SKU mapping by architecture (x86/arm) and license type (byol/payg) | `map(any)` | <pre>{<br/>  "arm": {<br/>    "byol": "fortinet_fg-vm_arm64",<br/>    "payg": "fortinet_fg-vm_payg_2023_arm64"<br/>  },<br/>  "x86": {<br/>    "byol": "fortinet_fg-vm_g2",<br/>    "payg": "fortinet_fg-vm_payg_2023_g2"<br/>  }<br/>}</pre> | no |
-| <a name="input_fgtversion"></a> [fgtversion](#input\_fgtversion) | FortiOS version to deploy from Azure Marketplace | `string` | `"7.6.3"` | no |
-| <a name="input_hamgmtsubnet_id"></a> [hamgmtsubnet\_id](#input\_hamgmtsubnet\_id) | Azure subnet ID for port1 (HA Management interface). Used for FortiGate administrative access | `string` | n/a | yes |
-| <a name="input_hasyncsubnet_id"></a> [hasyncsubnet\_id](#input\_hasyncsubnet\_id) | Azure subnet ID for port4 (HA Sync interface). Used for HA heartbeat and session synchronization | `string` | n/a | yes |
-| <a name="input_key_vault_id"></a> [key\_vault\_id](#input\_key\_vault\_id) | Azure Key Vault resource ID for retrieving secrets. If provided, secrets will be read from Key Vault | `string` | `null` | no |
-| <a name="input_license"></a> [license](#input\_license) | Path to FortiGate BYOL license file (e.g., 'license.lic'). Only required when license\_type = 'byol' | `string` | `"license.txt"` | no |
-| <a name="input_license_format"></a> [license\_format](#input\_license\_format) | BYOL license format: 'file' (license file) or 'token' (FortiFlex token). Only applicable when license\_type = 'byol' | `string` | `"file"` | no |
-| <a name="input_license_type"></a> [license\_type](#input\_license\_type) | FortiGate license type: 'byol' (Bring Your Own License) or 'payg' (Pay As You Go) | `string` | `"payg"` | no |
-| <a name="input_location"></a> [location](#input\_location) | Azure region where FortiGate resources will be deployed (e.g., centralus, eastus2). Used for naming and resource placement. | `string` | n/a | yes |
-| <a name="input_log_analytics_workspace_id"></a> [log\_analytics\_workspace\_id](#input\_log\_analytics\_workspace\_id) | Azure Log Analytics workspace resource ID for diagnostic logs and metrics. Required when enable\_diagnostics = true | `string` | `null` | no |
-| <a name="input_management_access_cidrs"></a> [management\_access\_cidrs](#input\_management\_access\_cidrs) | List of CIDR blocks allowed to access FortiGate management interface (port1).<br/><br/>SECURITY REQUIREMENT: At least one CIDR must be specified for production.<br/><br/>Examples:<br/>- ["10.0.0.0/8"]           # Corporate network<br/>- ["203.0.113.0/24"]       # VPN gateway<br/>- ["192.0.2.50/32"]        # Specific admin workstation<br/>- ["10.0.0.0/8", "172.16.0.0/12"]  # Multiple networks<br/><br/>⚠️  WARNING: Never use ["0.0.0.0/0"] in production - this allows access from anywhere! | `list(string)` | `[]` | no |
-| <a name="input_management_ports"></a> [management\_ports](#input\_management\_ports) | List of TCP ports for FortiGate management access | `list(number)` | <pre>[<br/>  443,<br/>  8443,<br/>  22<br/>]</pre> | no |
-| <a name="input_nsg_flow_logs_retention_days"></a> [nsg\_flow\_logs\_retention\_days](#input\_nsg\_flow\_logs\_retention\_days) | Number of days to retain NSG flow logs.<br/><br/>COMPLIANCE REQUIREMENTS:<br/>- Minimum: 7 days (security best practice)<br/>- Recommended: 30-90 days for most organizations<br/>- Maximum: 365 days (Azure limit)<br/><br/>Common retention policies:<br/>- 7 days: Development/testing environments<br/>- 30 days: Standard production environments<br/>- 90 days: Compliance requirements (PCI-DSS, HIPAA)<br/>- 180+ days: Enhanced security monitoring<br/><br/>Note: Longer retention periods increase storage costs but provide better<br/>forensic capabilities for security incident investigations. | `number` | `7` | no |
-| <a name="input_nsg_flow_logs_storage_account_id"></a> [nsg\_flow\_logs\_storage\_account\_id](#input\_nsg\_flow\_logs\_storage\_account\_id) | Storage account resource ID for NSG flow logs. Required when enable\_nsg\_flow\_logs = true | `string` | `null` | no |
-| <a name="input_os_disk_storage_type"></a> [os\_disk\_storage\_type](#input\_os\_disk\_storage\_type) | Storage account type for OS disk.<br/><br/>Options:<br/>- Premium\_LRS: Premium SSD (best performance, supports encryption)<br/>- Premium\_ZRS: Premium SSD with zone redundancy<br/>- StandardSSD\_LRS: Standard SSD (balanced performance/cost)<br/>- StandardSSD\_ZRS: Standard SSD with zone redundancy<br/>- Standard\_LRS: Standard HDD (legacy, not recommended)<br/><br/>Production recommendation: Premium\_LRS or Premium\_ZRS<br/>Development: StandardSSD\_LRS acceptable<br/><br/>Note: Premium SSD required for best encryption performance with CMK. | `string` | `"Premium_LRS"` | no |
-| <a name="input_passive_peerip"></a> [passive\_peerip](#input\_passive\_peerip) | IP address of the passive FortiGate peer in HA cluster. Used for HA synchronization. Set to null for standalone deployment | `string` | `null` | no |
-| <a name="input_port1"></a> [port1](#input\_port1) | Static private IP address for port1 (HA Management interface) | `string` | `"172.1.3.10"` | no |
-| <a name="input_port1gateway"></a> [port1gateway](#input\_port1gateway) | Default gateway IP for port1 (HA Management interface) | `string` | `"172.1.3.1"` | no |
-| <a name="input_port1mask"></a> [port1mask](#input\_port1mask) | Subnet mask for port1 (HA Management interface) | `string` | `"255.255.255.0"` | no |
-| <a name="input_port2"></a> [port2](#input\_port2) | Static private IP address for port2 (WAN/Public interface) | `string` | `"172.1.0.10"` | no |
-| <a name="input_port2gateway"></a> [port2gateway](#input\_port2gateway) | Default gateway IP for port2 (WAN/Public interface). Used as default route for internet traffic | `string` | `"172.1.0.1"` | no |
-| <a name="input_port2mask"></a> [port2mask](#input\_port2mask) | Subnet mask for port2 (WAN/Public interface) | `string` | `"255.255.255.0"` | no |
-| <a name="input_port3"></a> [port3](#input\_port3) | Static private IP address for port3 (LAN/Private interface) | `string` | `"172.1.1.10"` | no |
-| <a name="input_port3mask"></a> [port3mask](#input\_port3mask) | Subnet mask for port3 (LAN/Private interface) | `string` | `"255.255.255.0"` | no |
-| <a name="input_port4"></a> [port4](#input\_port4) | Static private IP address for port4 (HA Sync interface) | `string` | `"172.1.2.10"` | no |
-| <a name="input_port4mask"></a> [port4mask](#input\_port4mask) | Subnet mask for port4 (HA Sync interface) | `string` | `"255.255.255.0"` | no |
-| <a name="input_port5"></a> [port5](#input\_port5) | Static private IP address for optional port5 interface. Set to null to disable port5 | `string` | `null` | no |
-| <a name="input_port5subnet_id"></a> [port5subnet\_id](#input\_port5subnet\_id) | Azure subnet ID for optional port5 interface. Set to null to disable port5 | `string` | `null` | no |
-| <a name="input_port6"></a> [port6](#input\_port6) | Static private IP address for optional port6 interface. Set to null to disable port6 | `string` | `null` | no |
-| <a name="input_port6subnet_id"></a> [port6subnet\_id](#input\_port6subnet\_id) | Azure subnet ID for optional port6 interface. Set to null to disable port6 | `string` | `null` | no |
-| <a name="input_privatesubnet_id"></a> [privatesubnet\_id](#input\_privatesubnet\_id) | Azure subnet ID for port3 (LAN/Private interface). Used for internal network traffic | `string` | n/a | yes |
-| <a name="input_public_ip_id"></a> [public\_ip\_id](#input\_public\_ip\_id) | Azure public IP resource ID to associate with port2 for external connectivity. Managed by HA failover | `string` | n/a | yes |
-| <a name="input_public_ip_name"></a> [public\_ip\_name](#input\_public\_ip\_name) | Name of the Azure public IP used for HA cluster VIP. Used in FortiGate SDN connector configuration | `string` | n/a | yes |
-| <a name="input_publicsubnet_id"></a> [publicsubnet\_id](#input\_publicsubnet\_id) | Azure subnet ID for port2 (WAN/Public interface). Used for external/internet-facing traffic | `string` | n/a | yes |
-| <a name="input_publisher"></a> [publisher](#input\_publisher) | Azure Marketplace publisher for FortiGate images | `string` | `"fortinet"` | no |
-| <a name="input_repository"></a> [repository](#input\_repository) | Source repository name for tracking and documentation. Used for tagging to trace infrastructure source. | `string` | n/a | yes |
-| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | Name of the Azure resource group where FortiGate will be deployed | `string` | n/a | yes |
-| <a name="input_size"></a> [size](#input\_size) | Azure VM size for FortiGate deployment.<br/><br/>REQUIREMENTS:<br/>- Must support at least 4 network interfaces for base HA deployment (6 for port5/port6)<br/>- Must support accelerated networking (enabled by default on all interfaces)<br/><br/>ACCELERATED NETWORKING SUPPORT:<br/>This module enables accelerated networking on all interfaces for optimal performance.<br/><br/>✅ Supported VM sizes (recommended):<br/>- F-series: Standard\_F2s\_v2, F4s\_v2, F8s\_v2, F16s\_v2, F32s\_v2+ (Compute optimized)<br/>- D-series: Standard\_D2s\_v3+, D4s\_v3+, D8s\_v3+ (General purpose)<br/>- E-series: Standard\_E2s\_v3+, E4s\_v3+, E8s\_v3+ (Memory optimized)<br/><br/>❌ Unsupported VM sizes:<br/>- Basic tier: Basic\_A0, Basic\_A1, etc.<br/>- A-series: Standard\_A0-A7<br/>- Very small sizes: Typically 1 vCPU sizes<br/><br/>COMMON FORTIGATE SIZES:<br/>- Standard\_F2s\_v2: 2 vCPU, 4GB RAM (minimum, dev/test only)<br/>- Standard\_F4s\_v2: 4 vCPU, 8GB RAM (small deployments)<br/>- Standard\_F8s\_v2: 8 vCPU, 16GB RAM (recommended, medium traffic)<br/>- Standard\_F16s\_v2: 16 vCPU, 32GB RAM (high traffic)<br/>- Standard\_F32s\_v2: 32 vCPU, 64GB RAM (very high traffic)<br/><br/>Reference: https://learn.microsoft.com/en-us/azure/virtual-network/accelerated-networking-overview | `string` | `"Standard_F8s_v2"` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | Additional custom tags to apply to all resources. Merged with terraform-namer tags. Example: { CostCenter = "IT-001", Owner = "security-team", Project = "firewall-migration" } | `map(string)` | `{}` | no |
-| <a name="input_user_assigned_identity_id"></a> [user\_assigned\_identity\_id](#input\_user\_assigned\_identity\_id) | User-assigned managed identity resource ID for Azure SDN connector.<br/><br/>REQUIRED: Managed identity authentication for Azure SDN connector.<br/><br/>Benefits:<br/>- No secrets to manage or rotate<br/>- Automatic credential rotation by Azure<br/>- Better audit trail in Azure AD<br/>- Simpler access management with Azure RBAC<br/>- No risk of secret expiration<br/><br/>Requirements:<br/>- FortiGate 7.0 or later<br/>- Identity must have Reader role on subscription<br/>- Identity must have Network Contributor role on resource group<br/><br/>Format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}<br/><br/>Note: Either user\_assigned\_identity\_id or enable\_system\_assigned\_identity must be provided for Azure SDN connector functionality. | `string` | `null` | no |
-| <a name="input_workload"></a> [workload](#input\_workload) | Workload or application name for resource identification. Used in resource naming (e.g., 'firewall', 'security'). | `string` | n/a | yes |
-| <a name="input_zone"></a> [zone](#input\_zone) | Azure availability zone for FortiGate deployment (1, 2, or 3) | `string` | `"1"` | no |
+The following input variables are required:
+
+### <a name="input_boot_diagnostics_storage_endpoint"></a> [boot\_diagnostics\_storage\_endpoint](#input\_boot\_diagnostics\_storage\_endpoint)
+
+Description: Storage account endpoint URI for boot diagnostics logs.  
+Format: https://<storage-account-name>.blob.core.windows.net/
+
+SECURITY REQUIREMENTS (Module validates HTTPS):
+- Storage account MUST have https\_traffic\_only\_enabled = true (enforced by validation)
+- Storage account MUST have min\_tls\_version = "TLS1\_2"
+- Storage account SHOULD have infrastructure\_encryption\_enabled = true
+- Storage account SHOULD have public\_network\_access\_enabled = false
+- Storage account SHOULD use private endpoint for enhanced security
+
+The module enforces HTTPS-only endpoints. HTTP endpoints will be rejected.
+
+Type: `string`
+
+### <a name="input_contact"></a> [contact](#input\_contact)
+
+Description: Contact email for resource ownership and notifications. Used for tagging and operational communication.
+
+Type: `string`
+
+### <a name="input_environment"></a> [environment](#input\_environment)
+
+Description: Environment name for the FortiGate deployment. Used for naming, tagging, and environment-specific configuration.
+
+Type: `string`
+
+### <a name="input_hamgmtsubnet_id"></a> [hamgmtsubnet\_id](#input\_hamgmtsubnet\_id)
+
+Description: Azure subnet ID for port1 (HA Management interface). Used for FortiGate administrative access
+
+Type: `string`
+
+### <a name="input_hasyncsubnet_id"></a> [hasyncsubnet\_id](#input\_hasyncsubnet\_id)
+
+Description: Azure subnet ID for port4 (HA Sync interface). Used for HA heartbeat and session synchronization
+
+Type: `string`
+
+### <a name="input_location"></a> [location](#input\_location)
+
+Description: Azure region where FortiGate resources will be deployed (e.g., centralus, eastus2). Used for naming and resource placement.
+
+Type: `string`
+
+### <a name="input_privatesubnet_id"></a> [privatesubnet\_id](#input\_privatesubnet\_id)
+
+Description: Azure subnet ID for port3 (LAN/Private interface). Used for internal network traffic
+
+Type: `string`
+
+### <a name="input_public_ip_id"></a> [public\_ip\_id](#input\_public\_ip\_id)
+
+Description: Azure public IP resource ID to associate with port2 for external connectivity. Managed by HA failover
+
+Type: `string`
+
+### <a name="input_public_ip_name"></a> [public\_ip\_name](#input\_public\_ip\_name)
+
+Description: Name of the Azure public IP used for HA cluster VIP. Used in FortiGate SDN connector configuration
+
+Type: `string`
+
+### <a name="input_publicsubnet_id"></a> [publicsubnet\_id](#input\_publicsubnet\_id)
+
+Description: Azure subnet ID for port2 (WAN/Public interface). Used for external/internet-facing traffic
+
+Type: `string`
+
+### <a name="input_repository"></a> [repository](#input\_repository)
+
+Description: Source repository name for tracking and documentation. Used for tagging to trace infrastructure source.
+
+Type: `string`
+
+### <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name)
+
+Description: Name of the Azure resource group where FortiGate will be deployed
+
+Type: `string`
+
+### <a name="input_workload"></a> [workload](#input\_workload)
+
+Description: Workload or application name for resource identification. Used in resource naming (e.g., 'firewall', 'security').
+
+Type: `string`
+
+## Optional Inputs
+
+The following input variables are optional (have default values):
+
+### <a name="input_accept"></a> [accept](#input\_accept)
+
+Description: Accept Azure Marketplace agreement for FortiGate. Set to 'true' to accept terms on first deployment
+
+Type: `string`
+
+Default: `"false"`
+
+### <a name="input_active_peerip"></a> [active\_peerip](#input\_active\_peerip)
+
+Description: IP address of the active FortiGate peer in HA cluster. Used for HA synchronization. Set to null for standalone deployment
+
+Type: `string`
+
+Default: `null`
+
+### <a name="input_admin_password_secret_name"></a> [admin\_password\_secret\_name](#input\_admin\_password\_secret\_name)
+
+Description: Name of the Key Vault secret containing FortiGate admin password. Only used when key\_vault\_id is provided
+
+Type: `string`
+
+Default: `"fortigate-admin-password"`
+
+### <a name="input_adminpassword"></a> [adminpassword](#input\_adminpassword)
+
+Description: Administrator password for FortiGate VM.  
+REQUIRED when not using Azure Key Vault (key\_vault\_id).
+
+SECURITY REQUIREMENTS:
+- Minimum 12 characters
+- Must include uppercase letters (A-Z)
+- Must include lowercase letters (a-z)
+- Must include numbers (0-9)
+- Must include special characters (!@#$%^&*()\_+-=[]{}|;:,.<>?)
+- Never commit passwords to version control
+- Use Azure Key Vault for production deployments
+
+PRODUCTION: Set key\_vault\_id and leave this as null  
+DEVELOPMENT: Provide strong password via terraform.tfvars (add to .gitignore)
+
+Type: `string`
+
+Default: `null`
+
+### <a name="input_adminsport"></a> [adminsport](#input\_adminsport)
+
+Description: HTTPS port for FortiGate web administration interface
+
+Type: `string`
+
+Default: `"8443"`
+
+### <a name="input_adminusername"></a> [adminusername](#input\_adminusername)
+
+Description: Administrator username for FortiGate VM
+
+Type: `string`
+
+Default: `"azureadmin"`
+
+### <a name="input_arch"></a> [arch](#input\_arch)
+
+Description: FortiGate VM architecture: 'x86' or 'arm'
+
+Type: `string`
+
+Default: `"x86"`
+
+### <a name="input_bootstrap"></a> [bootstrap](#input\_bootstrap)
+
+Description: Path to FortiGate bootstrap configuration file. Contains initial FortiGate config including network, HA, and policy settings
+
+Type: `string`
+
+Default: `"config-active.conf"`
+
+### <a name="input_create_management_public_ip"></a> [create\_management\_public\_ip](#input\_create\_management\_public\_ip)
+
+Description: Create a public IP address for FortiGate management interface (port1).
+
+SECURITY RECOMMENDATION: false (default)
+
+Options:
+- false: Private-only access via VPN/ExpressRoute/Bastion (secure default)
+- true: Public IP for management (development/testing only)
+
+For production deployments, keep this false and access via:
+- Azure Bastion
+- Site-to-site VPN
+- ExpressRoute
+- Jump host/bastion VM
+
+Type: `bool`
+
+Default: `false`
+
+### <a name="input_custom"></a> [custom](#input\_custom)
+
+Description: Use custom FortiGate image instead of Azure Marketplace image. Set to true to deploy from VHD blob
+
+Type: `bool`
+
+Default: `false`
+
+### <a name="input_custom_image_resource_group_name"></a> [custom\_image\_resource\_group\_name](#input\_custom\_image\_resource\_group\_name)
+
+Description: Resource group name where custom image will be created. If null, uses var.resource\_group\_name. Only used when var.custom = true
+
+Type: `string`
+
+Default: `null`
+
+### <a name="input_customuri"></a> [customuri](#input\_customuri)
+
+Description: Azure blob URI for custom FortiGate VHD image. Only used when var.custom = true
+
+Type: `string`
+
+Default: `null`
+
+### <a name="input_data_disk_caching"></a> [data\_disk\_caching](#input\_data\_disk\_caching)
+
+Description: Disk caching mode for data disk. Options: None, ReadOnly, ReadWrite
+
+Type: `string`
+
+Default: `"ReadWrite"`
+
+### <a name="input_data_disk_size_gb"></a> [data\_disk\_size\_gb](#input\_data\_disk\_size\_gb)
+
+Description: Size of the FortiGate data disk in GB for logs and configuration storage
+
+Type: `number`
+
+Default: `30`
+
+### <a name="input_data_disk_storage_type"></a> [data\_disk\_storage\_type](#input\_data\_disk\_storage\_type)
+
+Description: Storage account type for data disk. Options: Standard\_LRS, StandardSSD\_LRS, Premium\_LRS, StandardSSD\_ZRS, Premium\_ZRS
+
+Type: `string`
+
+Default: `"Standard_LRS"`
+
+### <a name="input_ddos_protection_plan_id"></a> [ddos\_protection\_plan\_id](#input\_ddos\_protection\_plan\_id)
+
+Description: Azure DDoS Protection Plan resource ID for public IP protection.
+
+SECURITY RECOMMENDATION: Enable for production internet-facing deployments
+
+DDoS Protection provides:
+- Layer 3-4 DDoS attack mitigation (network/transport layer)
+- Always-on traffic monitoring
+- Adaptive tuning based on traffic patterns
+- Cost protection (refund for scale-out costs during attacks)
+- Real-time attack metrics and alerts
+
+Options:
+- null: Basic DDoS protection (default, included with Standard SKU Public IP)
+- Resource ID: DDoS Protection Standard (enhanced protection, separate cost)
+
+Format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}
+
+When to use DDoS Protection Standard:
+- Production internet-facing deployments
+- High-value applications requiring SLA
+- Compliance requirements (PCI-DSS, FedRAMP)
+- Applications requiring Layer 7 protection (use with WAF)
+
+Note: DDoS Protection Standard costs $2,944/month + per-protected-resource fees.  
+Basic protection is included with Standard SKU Public IP at no extra cost.
+
+Reference: https://learn.microsoft.com/en-us/azure/ddos-protection/ddos-protection-overview
+
+Type: `string`
+
+Default: `null`
+
+### <a name="input_diagnostic_retention_days"></a> [diagnostic\_retention\_days](#input\_diagnostic\_retention\_days)
+
+Description: Number of days to retain diagnostic logs. Set to 0 for indefinite retention
+
+Type: `number`
+
+Default: `30`
+
+### <a name="input_disk_encryption_set_id"></a> [disk\_encryption\_set\_id](#input\_disk\_encryption\_set\_id)
+
+Description: Azure Disk Encryption Set ID for customer-managed key (CMK) encryption.
+
+Format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}
+
+When provided:
+- OS disk encrypted with your Key Vault key
+- Data disk encrypted with your Key Vault key
+- You control key rotation and access policies
+- Enhanced audit trail (who accessed keys)
+
+When null (default):
+- Platform-managed keys used (still encrypted)
+- Azure manages encryption keys
+
+Production recommendation: Provide CMK for compliance (PCI-DSS Level 1, HIPAA)  
+Development: Can use platform-managed keys (null)
+
+See examples/disk-encryption/ for complete setup guide.
+
+Type: `string`
+
+Default: `null`
+
+### <a name="input_enable_diagnostics"></a> [enable\_diagnostics](#input\_enable\_diagnostics)
+
+Description: Enable Azure Monitor diagnostic settings for FortiGate VM and network resources
+
+Type: `bool`
+
+Default: `false`
+
+### <a name="input_enable_encryption_at_host"></a> [enable\_encryption\_at\_host](#input\_enable\_encryption\_at\_host)
+
+Description: Enable encryption at host for double encryption (platform-managed + host-managed).
+
+Provides an additional encryption layer for data at rest beyond Azure Storage Service Encryption.  
+Requires VM size that supports encryption at host (most modern VM sizes do).
+
+Benefits:
+- Double encryption: Platform-managed + Host-managed
+- No performance impact on modern VM sizes
+- Compliance: PCI-DSS, HIPAA, SOC 2
+
+Production recommendation: true
+
+Type: `bool`
+
+Default: `true`
+
+### <a name="input_enable_management_access_restriction"></a> [enable\_management\_access\_restriction](#input\_enable\_management\_access\_restriction)
+
+Description: Enable restricted management access.
+
+SECURITY REQUIREMENT: This MUST be enabled for production deployments.  
+Only specified CIDRs in management\_access\_cidrs can access management interface.
+
+For development/testing: Can be set to false (NOT recommended)  
+For production: MUST be true (enforced by validation)
+
+Type: `bool`
+
+Default: `true`
+
+### <a name="input_enable_nsg_flow_logs"></a> [enable\_nsg\_flow\_logs](#input\_enable\_nsg\_flow\_logs)
+
+Description: Enable NSG flow logs for network traffic analysis. Requires enable\_diagnostics = true
+
+Type: `bool`
+
+Default: `false`
+
+### <a name="input_enable_system_assigned_identity"></a> [enable\_system\_assigned\_identity](#input\_enable\_system\_assigned\_identity)
+
+Description: Enable system-assigned managed identity for the FortiGate VM.
+
+When true: FortiGate VM gets an automatically created system-assigned identity  
+When false: Use user-assigned identity or service principal
+
+Note: Can be used alongside user-assigned identity (both enabled)
+
+System-assigned identities are tied to the VM lifecycle and deleted with the VM.  
+User-assigned identities are independent resources that can be shared across VMs.
+
+Recommendation: Use user-assigned identity for production (more flexible)
+
+Type: `bool`
+
+Default: `false`
+
+### <a name="input_fgtoffer"></a> [fgtoffer](#input\_fgtoffer)
+
+Description: Azure Marketplace offer for FortiGate VM
+
+Type: `string`
+
+Default: `"fortinet_fortigate-vm_v5"`
+
+### <a name="input_fgtsku"></a> [fgtsku](#input\_fgtsku)
+
+Description: FortiGate SKU mapping by architecture (x86/arm) and license type (byol/payg)
+
+Type: `map(any)`
+
+Default:
+
+```json
+{
+  "arm": {
+    "byol": "fortinet_fg-vm_arm64",
+    "payg": "fortinet_fg-vm_payg_2023_arm64"
+  },
+  "x86": {
+    "byol": "fortinet_fg-vm_g2",
+    "payg": "fortinet_fg-vm_payg_2023_g2"
+  }
+}
+```
+
+### <a name="input_fgtversion"></a> [fgtversion](#input\_fgtversion)
+
+Description: FortiOS version to deploy from Azure Marketplace
+
+Type: `string`
+
+Default: `"7.6.3"`
+
+### <a name="input_is_passive"></a> [is\_passive](#input\_is\_passive)
+
+Description: Designates this FortiGate instance as passive in an HA pair.
+
+HA CONFIGURATION:
+- false: Active FortiGate - public IP is associated with port2 (default)
+- true: Passive FortiGate - public IP is NOT associated until HA failover
+
+In an HA active-passive configuration:
+- Active FortiGate (is\_passive=false): Has public IP on port2, handles traffic
+- Passive FortiGate (is\_passive=true): No public IP on port2, standby mode
+- During failover: Azure SDN connector moves public IP from active to passive
+
+This prevents both instances from having the public IP simultaneously,  
+which would cause routing conflicts and HA synchronization issues.
+
+Type: `bool`
+
+Default: `false`
+
+### <a name="input_key_vault_id"></a> [key\_vault\_id](#input\_key\_vault\_id)
+
+Description: Azure Key Vault resource ID for retrieving secrets. If provided, secrets will be read from Key Vault
+
+Type: `string`
+
+Default: `null`
+
+### <a name="input_license"></a> [license](#input\_license)
+
+Description: Path to FortiGate BYOL license file (e.g., 'license.lic'). Only required when license\_type = 'byol'
+
+Type: `string`
+
+Default: `"license.txt"`
+
+### <a name="input_license_format"></a> [license\_format](#input\_license\_format)
+
+Description: BYOL license format: 'file' (license file) or 'token' (FortiFlex token). Only applicable when license\_type = 'byol'
+
+Type: `string`
+
+Default: `"file"`
+
+### <a name="input_license_type"></a> [license\_type](#input\_license\_type)
+
+Description: FortiGate license type: 'byol' (Bring Your Own License) or 'payg' (Pay As You Go)
+
+Type: `string`
+
+Default: `"payg"`
+
+### <a name="input_log_analytics_workspace_id"></a> [log\_analytics\_workspace\_id](#input\_log\_analytics\_workspace\_id)
+
+Description: Azure Log Analytics workspace resource ID for diagnostic logs and metrics. Required when enable\_diagnostics = true
+
+Type: `string`
+
+Default: `null`
+
+### <a name="input_management_access_cidrs"></a> [management\_access\_cidrs](#input\_management\_access\_cidrs)
+
+Description: List of CIDR blocks allowed to access FortiGate management interface (port1).
+
+SECURITY REQUIREMENT: At least one CIDR must be specified for production.
+
+Examples:
+- ["10.0.0.0/8"]           # Corporate network
+- ["203.0.113.0/24"]       # VPN gateway
+- ["192.0.2.50/32"]        # Specific admin workstation
+- ["10.0.0.0/8", "172.16.0.0/12"]  # Multiple networks
+
+⚠️  WARNING: Never use ["0.0.0.0/0"] in production - this allows access from anywhere!
+
+Type: `list(string)`
+
+Default: `[]`
+
+### <a name="input_management_ports"></a> [management\_ports](#input\_management\_ports)
+
+Description: List of TCP ports for FortiGate management access
+
+Type: `list(number)`
+
+Default:
+
+```json
+[
+  443,
+  8443,
+  22
+]
+```
+
+### <a name="input_nsg_flow_logs_retention_days"></a> [nsg\_flow\_logs\_retention\_days](#input\_nsg\_flow\_logs\_retention\_days)
+
+Description: Number of days to retain NSG flow logs.
+
+COMPLIANCE REQUIREMENTS:
+- Minimum: 7 days (security best practice)
+- Recommended: 30-90 days for most organizations
+- Maximum: 365 days (Azure limit)
+
+Common retention policies:
+- 7 days: Development/testing environments
+- 30 days: Standard production environments
+- 90 days: Compliance requirements (PCI-DSS, HIPAA)
+- 180+ days: Enhanced security monitoring
+
+Note: Longer retention periods increase storage costs but provide better  
+forensic capabilities for security incident investigations.
+
+Type: `number`
+
+Default: `7`
+
+### <a name="input_nsg_flow_logs_storage_account_id"></a> [nsg\_flow\_logs\_storage\_account\_id](#input\_nsg\_flow\_logs\_storage\_account\_id)
+
+Description: Storage account resource ID for NSG flow logs. Required when enable\_nsg\_flow\_logs = true
+
+Type: `string`
+
+Default: `null`
+
+### <a name="input_os_disk_storage_type"></a> [os\_disk\_storage\_type](#input\_os\_disk\_storage\_type)
+
+Description: Storage account type for OS disk.
+
+Options:
+- Premium\_LRS: Premium SSD (best performance, supports encryption)
+- Premium\_ZRS: Premium SSD with zone redundancy
+- StandardSSD\_LRS: Standard SSD (balanced performance/cost)
+- StandardSSD\_ZRS: Standard SSD with zone redundancy
+- Standard\_LRS: Standard HDD (legacy, not recommended)
+
+Production recommendation: Premium\_LRS or Premium\_ZRS  
+Development: StandardSSD\_LRS acceptable
+
+Note: Premium SSD required for best encryption performance with CMK.
+
+Type: `string`
+
+Default: `"Premium_LRS"`
+
+### <a name="input_passive_peerip"></a> [passive\_peerip](#input\_passive\_peerip)
+
+Description: IP address of the passive FortiGate peer in HA cluster. Used for HA synchronization. Set to null for standalone deployment
+
+Type: `string`
+
+Default: `null`
+
+### <a name="input_port1"></a> [port1](#input\_port1)
+
+Description: Static private IP address for port1 (HA Management interface)
+
+Type: `string`
+
+Default: `"172.1.3.10"`
+
+### <a name="input_port1gateway"></a> [port1gateway](#input\_port1gateway)
+
+Description: Default gateway IP for port1 (HA Management interface)
+
+Type: `string`
+
+Default: `"172.1.3.1"`
+
+### <a name="input_port1mask"></a> [port1mask](#input\_port1mask)
+
+Description: Subnet mask for port1 (HA Management interface)
+
+Type: `string`
+
+Default: `"255.255.255.0"`
+
+### <a name="input_port2"></a> [port2](#input\_port2)
+
+Description: Static private IP address for port2 (WAN/Public interface)
+
+Type: `string`
+
+Default: `"172.1.0.10"`
+
+### <a name="input_port2gateway"></a> [port2gateway](#input\_port2gateway)
+
+Description: Default gateway IP for port2 (WAN/Public interface). Used as default route for internet traffic
+
+Type: `string`
+
+Default: `"172.1.0.1"`
+
+### <a name="input_port2mask"></a> [port2mask](#input\_port2mask)
+
+Description: Subnet mask for port2 (WAN/Public interface)
+
+Type: `string`
+
+Default: `"255.255.255.0"`
+
+### <a name="input_port3"></a> [port3](#input\_port3)
+
+Description: Static private IP address for port3 (LAN/Private interface)
+
+Type: `string`
+
+Default: `"172.1.1.10"`
+
+### <a name="input_port3mask"></a> [port3mask](#input\_port3mask)
+
+Description: Subnet mask for port3 (LAN/Private interface)
+
+Type: `string`
+
+Default: `"255.255.255.0"`
+
+### <a name="input_port4"></a> [port4](#input\_port4)
+
+Description: Static private IP address for port4 (HA Sync interface)
+
+Type: `string`
+
+Default: `"172.1.2.10"`
+
+### <a name="input_port4mask"></a> [port4mask](#input\_port4mask)
+
+Description: Subnet mask for port4 (HA Sync interface)
+
+Type: `string`
+
+Default: `"255.255.255.0"`
+
+### <a name="input_port5"></a> [port5](#input\_port5)
+
+Description: Static private IP address for optional port5 interface. Set to null to disable port5
+
+Type: `string`
+
+Default: `null`
+
+### <a name="input_port5subnet_id"></a> [port5subnet\_id](#input\_port5subnet\_id)
+
+Description: Azure subnet ID for optional port5 interface. Set to null to disable port5
+
+Type: `string`
+
+Default: `null`
+
+### <a name="input_port6"></a> [port6](#input\_port6)
+
+Description: Static private IP address for optional port6 interface. Set to null to disable port6
+
+Type: `string`
+
+Default: `null`
+
+### <a name="input_port6subnet_id"></a> [port6subnet\_id](#input\_port6subnet\_id)
+
+Description: Azure subnet ID for optional port6 interface. Set to null to disable port6
+
+Type: `string`
+
+Default: `null`
+
+### <a name="input_publisher"></a> [publisher](#input\_publisher)
+
+Description: Azure Marketplace publisher for FortiGate images
+
+Type: `string`
+
+Default: `"fortinet"`
+
+### <a name="input_size"></a> [size](#input\_size)
+
+Description: Azure VM size for FortiGate deployment.
+
+REQUIREMENTS:
+- Must support at least 4 network interfaces for base HA deployment (6 for port5/port6)
+- Must support accelerated networking (enabled by default on all interfaces)
+
+ACCELERATED NETWORKING SUPPORT:  
+This module enables accelerated networking on all interfaces for optimal performance.
+
+✅ Supported VM sizes (recommended):
+- F-series: Standard\_F2s\_v2, F4s\_v2, F8s\_v2, F16s\_v2, F32s\_v2+ (Compute optimized)
+- D-series: Standard\_D2s\_v3+, D4s\_v3+, D8s\_v3+ (General purpose)
+- E-series: Standard\_E2s\_v3+, E4s\_v3+, E8s\_v3+ (Memory optimized)
+
+❌ Unsupported VM sizes:
+- Basic tier: Basic\_A0, Basic\_A1, etc.
+- A-series: Standard\_A0-A7
+- Very small sizes: Typically 1 vCPU sizes
+
+COMMON FORTIGATE SIZES:
+- Standard\_F2s\_v2: 2 vCPU, 4GB RAM (minimum, dev/test only)
+- Standard\_F4s\_v2: 4 vCPU, 8GB RAM (small deployments)
+- Standard\_F8s\_v2: 8 vCPU, 16GB RAM (recommended, medium traffic)
+- Standard\_F16s\_v2: 16 vCPU, 32GB RAM (high traffic)
+- Standard\_F32s\_v2: 32 vCPU, 64GB RAM (very high traffic)
+
+Reference: https://learn.microsoft.com/en-us/azure/virtual-network/accelerated-networking-overview
+
+Type: `string`
+
+Default: `"Standard_F8s_v2"`
+
+### <a name="input_tags"></a> [tags](#input\_tags)
+
+Description: Additional custom tags to apply to all resources. Merged with terraform-namer tags. Example: { CostCenter = "IT-001", Owner = "security-team", Project = "firewall-migration" }
+
+Type: `map(string)`
+
+Default: `{}`
+
+### <a name="input_user_assigned_identity_id"></a> [user\_assigned\_identity\_id](#input\_user\_assigned\_identity\_id)
+
+Description: User-assigned managed identity resource ID for Azure SDN connector.
+
+REQUIRED: Managed identity authentication for Azure SDN connector.
+
+Benefits:
+- No secrets to manage or rotate
+- Automatic credential rotation by Azure
+- Better audit trail in Azure AD
+- Simpler access management with Azure RBAC
+- No risk of secret expiration
+
+Requirements:
+- FortiGate 7.0 or later
+- Identity must have Reader role on subscription
+- Identity must have Network Contributor role on resource group
+
+Format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}
+
+Note: Either user\_assigned\_identity\_id or enable\_system\_assigned\_identity must be provided for Azure SDN connector functionality.
+
+Type: `string`
+
+Default: `null`
+
+### <a name="input_zone"></a> [zone](#input\_zone)
+
+Description: Azure availability zone for FortiGate deployment (1, 2, or 3)
+
+Type: `string`
+
+Default: `"1"`
 
 ## Outputs
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| <a name="output_all_private_ips"></a> [all\_private\_ips](#output\_all\_private\_ips) | Map of all FortiGate private IP addresses by port (includes optional port5/port6) |
-| <a name="output_common_tags"></a> [common\_tags](#output\_common\_tags) | The complete set of tags applied to all resources (terraform-namer + module-specific + user-provided) |
-| <a name="output_data_disk_id"></a> [data\_disk\_id](#output\_data\_disk\_id) | Azure resource ID of the FortiGate data disk (used for logs) |
-| <a name="output_data_disk_name"></a> [data\_disk\_name](#output\_data\_disk\_name) | Name of the FortiGate data disk |
-| <a name="output_diagnostics_enabled"></a> [diagnostics\_enabled](#output\_diagnostics\_enabled) | Indicates if Azure Monitor diagnostics are enabled |
-| <a name="output_fortigate_admin_username"></a> [fortigate\_admin\_username](#output\_fortigate\_admin\_username) | Administrator username for FortiGate login |
-| <a name="output_fortigate_computer_name"></a> [fortigate\_computer\_name](#output\_fortigate\_computer\_name) | Computer name (hostname) of the FortiGate VM |
-| <a name="output_fortigate_management_url"></a> [fortigate\_management\_url](#output\_fortigate\_management\_url) | HTTPS URL for FortiGate management interface (GUI access). Null if create\_management\_public\_ip = false |
-| <a name="output_fortigate_vm_id"></a> [fortigate\_vm\_id](#output\_fortigate\_vm\_id) | Azure resource ID of the FortiGate virtual machine |
-| <a name="output_fortigate_vm_name"></a> [fortigate\_vm\_name](#output\_fortigate\_vm\_name) | Name of the FortiGate virtual machine |
-| <a name="output_log_analytics_workspace_id"></a> [log\_analytics\_workspace\_id](#output\_log\_analytics\_workspace\_id) | Log Analytics workspace ID used for diagnostics (if configured) |
-| <a name="output_management_public_ip"></a> [management\_public\_ip](#output\_management\_public\_ip) | Public IP address for FortiGate management interface (port1). Null if create\_management\_public\_ip = false (private-only deployment) |
-| <a name="output_management_public_ip_id"></a> [management\_public\_ip\_id](#output\_management\_public\_ip\_id) | Azure resource ID of the management public IP. Null if create\_management\_public\_ip = false |
-| <a name="output_naming_suffix"></a> [naming\_suffix](#output\_naming\_suffix) | The standardized naming suffix from terraform-namer (e.g., 'firewall-centralus-prd-kmi-0') |
-| <a name="output_naming_suffix_short"></a> [naming\_suffix\_short](#output\_naming\_suffix\_short) | The short naming suffix from terraform-namer (e.g., 'firewall-cu-prd-kmi-0') |
-| <a name="output_naming_suffix_vm"></a> [naming\_suffix\_vm](#output\_naming\_suffix\_vm) | The VM-optimized naming suffix (max 15 chars) from terraform-namer |
-| <a name="output_nsg_flow_logs_enabled"></a> [nsg\_flow\_logs\_enabled](#output\_nsg\_flow\_logs\_enabled) | Indicates if NSG flow logs are enabled |
-| <a name="output_port1_id"></a> [port1\_id](#output\_port1\_id) | Azure resource ID of port1 network interface (HA Management) |
-| <a name="output_port1_private_ip"></a> [port1\_private\_ip](#output\_port1\_private\_ip) | Private IP address of port1 (HA Management interface) |
-| <a name="output_port2_id"></a> [port2\_id](#output\_port2\_id) | Azure resource ID of port2 network interface (WAN/Public) |
-| <a name="output_port2_private_ip"></a> [port2\_private\_ip](#output\_port2\_private\_ip) | Private IP address of port2 (WAN/Public interface) |
-| <a name="output_port3_id"></a> [port3\_id](#output\_port3\_id) | Azure resource ID of port3 network interface (LAN/Private) |
-| <a name="output_port3_private_ip"></a> [port3\_private\_ip](#output\_port3\_private\_ip) | Private IP address of port3 (LAN/Private interface) |
-| <a name="output_port4_id"></a> [port4\_id](#output\_port4\_id) | Azure resource ID of port4 network interface (HA Sync) |
-| <a name="output_port4_private_ip"></a> [port4\_private\_ip](#output\_port4\_private\_ip) | Private IP address of port4 (HA Sync interface) |
-| <a name="output_port5_id"></a> [port5\_id](#output\_port5\_id) | Azure resource ID of port5 network interface (optional additional interface). Null if port5 not configured |
-| <a name="output_port5_private_ip"></a> [port5\_private\_ip](#output\_port5\_private\_ip) | Private IP address of port5 (optional additional interface). Null if port5 not configured |
-| <a name="output_port6_id"></a> [port6\_id](#output\_port6\_id) | Azure resource ID of port6 network interface (optional additional interface). Null if port6 not configured |
-| <a name="output_port6_private_ip"></a> [port6\_private\_ip](#output\_port6\_private\_ip) | Private IP address of port6 (optional additional interface). Null if port6 not configured |
-| <a name="output_private_nsg_id"></a> [private\_nsg\_id](#output\_private\_nsg\_id) | Azure resource ID of the private network security group (port2, port3) |
-| <a name="output_private_nsg_name"></a> [private\_nsg\_name](#output\_private\_nsg\_name) | Name of the private network security group |
-| <a name="output_public_nsg_id"></a> [public\_nsg\_id](#output\_public\_nsg\_id) | Azure resource ID of the public network security group (port1, port4) |
-| <a name="output_public_nsg_name"></a> [public\_nsg\_name](#output\_public\_nsg\_name) | Name of the public network security group |
+The following outputs are exported:
+
+### <a name="output_all_private_ips"></a> [all\_private\_ips](#output\_all\_private\_ips)
+
+Description: Map of all FortiGate private IP addresses by port (includes optional port5/port6)
+
+### <a name="output_common_tags"></a> [common\_tags](#output\_common\_tags)
+
+Description: The complete set of tags applied to all resources (terraform-namer + module-specific + user-provided)
+
+### <a name="output_data_disk_id"></a> [data\_disk\_id](#output\_data\_disk\_id)
+
+Description: Azure resource ID of the FortiGate data disk (used for logs)
+
+### <a name="output_data_disk_name"></a> [data\_disk\_name](#output\_data\_disk\_name)
+
+Description: Name of the FortiGate data disk
+
+### <a name="output_diagnostics_enabled"></a> [diagnostics\_enabled](#output\_diagnostics\_enabled)
+
+Description: Indicates if Azure Monitor diagnostics are enabled
+
+### <a name="output_fortigate_admin_username"></a> [fortigate\_admin\_username](#output\_fortigate\_admin\_username)
+
+Description: Administrator username for FortiGate login
+
+### <a name="output_fortigate_computer_name"></a> [fortigate\_computer\_name](#output\_fortigate\_computer\_name)
+
+Description: Computer name (hostname) of the FortiGate VM
+
+### <a name="output_fortigate_management_url"></a> [fortigate\_management\_url](#output\_fortigate\_management\_url)
+
+Description: HTTPS URL for FortiGate management interface (GUI access). Null if create\_management\_public\_ip = false
+
+### <a name="output_fortigate_vm_id"></a> [fortigate\_vm\_id](#output\_fortigate\_vm\_id)
+
+Description: Azure resource ID of the FortiGate virtual machine
+
+### <a name="output_fortigate_vm_name"></a> [fortigate\_vm\_name](#output\_fortigate\_vm\_name)
+
+Description: Name of the FortiGate virtual machine
+
+### <a name="output_log_analytics_workspace_id"></a> [log\_analytics\_workspace\_id](#output\_log\_analytics\_workspace\_id)
+
+Description: Log Analytics workspace ID used for diagnostics (if configured)
+
+### <a name="output_management_public_ip"></a> [management\_public\_ip](#output\_management\_public\_ip)
+
+Description: Public IP address for FortiGate management interface (port1). Null if create\_management\_public\_ip = false (private-only deployment)
+
+### <a name="output_management_public_ip_id"></a> [management\_public\_ip\_id](#output\_management\_public\_ip\_id)
+
+Description: Azure resource ID of the management public IP. Null if create\_management\_public\_ip = false
+
+### <a name="output_naming_suffix"></a> [naming\_suffix](#output\_naming\_suffix)
+
+Description: The standardized naming suffix from terraform-namer (e.g., 'firewall-centralus-prd-kmi-0')
+
+### <a name="output_naming_suffix_short"></a> [naming\_suffix\_short](#output\_naming\_suffix\_short)
+
+Description: The short naming suffix from terraform-namer (e.g., 'firewall-cu-prd-kmi-0')
+
+### <a name="output_naming_suffix_vm"></a> [naming\_suffix\_vm](#output\_naming\_suffix\_vm)
+
+Description: The VM-optimized naming suffix (max 15 chars) from terraform-namer
+
+### <a name="output_nsg_flow_logs_enabled"></a> [nsg\_flow\_logs\_enabled](#output\_nsg\_flow\_logs\_enabled)
+
+Description: Indicates if NSG flow logs are enabled
+
+### <a name="output_port1_id"></a> [port1\_id](#output\_port1\_id)
+
+Description: Azure resource ID of port1 network interface (HA Management)
+
+### <a name="output_port1_private_ip"></a> [port1\_private\_ip](#output\_port1\_private\_ip)
+
+Description: Private IP address of port1 (HA Management interface)
+
+### <a name="output_port2_id"></a> [port2\_id](#output\_port2\_id)
+
+Description: Azure resource ID of port2 network interface (WAN/Public)
+
+### <a name="output_port2_private_ip"></a> [port2\_private\_ip](#output\_port2\_private\_ip)
+
+Description: Private IP address of port2 (WAN/Public interface)
+
+### <a name="output_port3_id"></a> [port3\_id](#output\_port3\_id)
+
+Description: Azure resource ID of port3 network interface (LAN/Private)
+
+### <a name="output_port3_private_ip"></a> [port3\_private\_ip](#output\_port3\_private\_ip)
+
+Description: Private IP address of port3 (LAN/Private interface)
+
+### <a name="output_port4_id"></a> [port4\_id](#output\_port4\_id)
+
+Description: Azure resource ID of port4 network interface (HA Sync)
+
+### <a name="output_port4_private_ip"></a> [port4\_private\_ip](#output\_port4\_private\_ip)
+
+Description: Private IP address of port4 (HA Sync interface)
+
+### <a name="output_port5_id"></a> [port5\_id](#output\_port5\_id)
+
+Description: Azure resource ID of port5 network interface (optional additional interface). Null if port5 not configured
+
+### <a name="output_port5_private_ip"></a> [port5\_private\_ip](#output\_port5\_private\_ip)
+
+Description: Private IP address of port5 (optional additional interface). Null if port5 not configured
+
+### <a name="output_port6_id"></a> [port6\_id](#output\_port6\_id)
+
+Description: Azure resource ID of port6 network interface (optional additional interface). Null if port6 not configured
+
+### <a name="output_port6_private_ip"></a> [port6\_private\_ip](#output\_port6\_private\_ip)
+
+Description: Private IP address of port6 (optional additional interface). Null if port6 not configured
+
+### <a name="output_private_nsg_id"></a> [private\_nsg\_id](#output\_private\_nsg\_id)
+
+Description: Azure resource ID of the private network security group (port2, port3)
+
+### <a name="output_private_nsg_name"></a> [private\_nsg\_name](#output\_private\_nsg\_name)
+
+Description: Name of the private network security group
+
+### <a name="output_public_nsg_id"></a> [public\_nsg\_id](#output\_public\_nsg\_id)
+
+Description: Azure resource ID of the public network security group (port1, port4)
+
+### <a name="output_public_nsg_name"></a> [public\_nsg\_name](#output\_public\_nsg\_name)
+
+Description: Name of the public network security group
 
 ## Example Usage
 

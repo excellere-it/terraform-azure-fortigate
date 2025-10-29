@@ -232,6 +232,26 @@ variable "create_management_public_ip" {
   }
 }
 
+variable "is_passive" {
+  description = <<-EOT
+    Designates this FortiGate instance as passive in an HA pair.
+
+    HA CONFIGURATION:
+    - false: Active FortiGate - public IP is associated with port2 (default)
+    - true: Passive FortiGate - public IP is NOT associated until HA failover
+
+    In an HA active-passive configuration:
+    - Active FortiGate (is_passive=false): Has public IP on port2, handles traffic
+    - Passive FortiGate (is_passive=true): No public IP on port2, standby mode
+    - During failover: Azure SDN connector moves public IP from active to passive
+
+    This prevents both instances from having the public IP simultaneously,
+    which would cause routing conflicts and HA synchronization issues.
+  EOT
+  type        = bool
+  default     = false
+}
+
 variable "ddos_protection_plan_id" {
   description = <<-EOT
     Azure DDoS Protection Plan resource ID for public IP protection.
