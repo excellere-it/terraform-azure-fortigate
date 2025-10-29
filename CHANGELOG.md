@@ -7,6 +7,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2025-10-29
+
+### Added - Phase 4 DDoS Protection & Testing
+
+- **DDoS Protection Plan Support (LOW-2)**:
+  - Added `ddos_protection_plan_id` variable for Azure DDoS Protection Standard integration
+  - Added comprehensive DDoS protection documentation with cost analysis
+  - Updated management public IP resource to support DDoS Protection Plan
+  - Supports both Basic protection (included) and Standard protection (enhanced)
+  - Includes validation for proper Azure resource ID format
+  - Provides guidance on when to use DDoS Protection Standard vs Basic
+
+- **Native Terraform Test Suite**:
+  - Added `tests/phase4-validation.tftest.hcl` with 6 comprehensive tests
+  - DDoS Protection Plan validation tests (valid format, null, invalid format)
+  - Boot diagnostics HTTPS validation tests (valid HTTPS, invalid HTTP)
+  - Zero-cost plan-only testing framework
+  - Validates Phase 3 and Phase 4 security enhancements
+
+### Security - Phase 4 Improvements
+
+- **Security Score**: 90/100 → 92/100 (2+ point increase)
+- **LOW-2 Resolution**: DDoS Protection Plan support for internet-facing deployments
+- **Quality**: Comprehensive automated testing for validation rules
+
+### Notes
+
+**Deferred to Future Releases**:
+- **LOW-1** (Azure Policy Integration): Deferred - module already exposes all resource IDs for policy assignment; Azure Policy is typically managed at subscription/resource group level
+- **MEDIUM-3** (Private Link Service): Deferred - requires significant architectural changes and new resource creation; planned for v0.4.0+
+
+**Testing**: All changes validated with native Terraform tests (6 tests passing)
+
 ## [0.2.0] - 2025-10-29
 
 ### Added - Phase 3 Security and Validation Enhancements

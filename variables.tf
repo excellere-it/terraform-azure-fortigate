@@ -239,6 +239,47 @@ variable "create_management_public_ip" {
   }
 }
 
+variable "ddos_protection_plan_id" {
+  description = <<-EOT
+    Azure DDoS Protection Plan resource ID for public IP protection.
+
+    SECURITY RECOMMENDATION: Enable for production internet-facing deployments
+
+    DDoS Protection provides:
+    - Layer 3-4 DDoS attack mitigation (network/transport layer)
+    - Always-on traffic monitoring
+    - Adaptive tuning based on traffic patterns
+    - Cost protection (refund for scale-out costs during attacks)
+    - Real-time attack metrics and alerts
+
+    Options:
+    - null: Basic DDoS protection (default, included with Standard SKU Public IP)
+    - Resource ID: DDoS Protection Standard (enhanced protection, separate cost)
+
+    Format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}
+
+    When to use DDoS Protection Standard:
+    - Production internet-facing deployments
+    - High-value applications requiring SLA
+    - Compliance requirements (PCI-DSS, FedRAMP)
+    - Applications requiring Layer 7 protection (use with WAF)
+
+    Note: DDoS Protection Standard costs $2,944/month + per-protected-resource fees.
+    Basic protection is included with Standard SKU Public IP at no extra cost.
+
+    Reference: https://learn.microsoft.com/en-us/azure/ddos-protection/ddos-protection-overview
+  EOT
+  type        = string
+  default     = null
+
+  validation {
+    condition = var.ddos_protection_plan_id == null || can(
+      regex("^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/Microsoft.Network/ddosProtectionPlans/[^/]+$", var.ddos_protection_plan_id)
+    )
+    error_message = "DDoS Protection Plan ID must be a valid Azure resource ID format or null."
+  }
+}
+
 # Optional additional network interfaces (port5, port6)
 # Used for advanced deployments: DMZ zones, additional WANs, dedicated monitoring, etc.
 variable "port5subnet_id" {

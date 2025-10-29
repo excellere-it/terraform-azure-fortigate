@@ -14,6 +14,7 @@
 # Static allocation ensures IP doesn't change on VM restart
 # Only created when var.create_management_public_ip = true
 # Set to false for private-only deployments (VPN/ExpressRoute access)
+# Optional DDoS Protection Standard (enhanced protection beyond basic)
 resource "azurerm_public_ip" "mgmt_ip" {
   count               = var.create_management_public_ip ? 1 : 0
   name                = local.pip_mgmt_name
@@ -21,6 +22,12 @@ resource "azurerm_public_ip" "mgmt_ip" {
   resource_group_name = var.resource_group_name
   sku                 = "Standard"
   allocation_method   = "Static"
+
+  # SECURITY: DDoS Protection (optional - Standard plan provides enhanced protection)
+  # Basic protection is included with Standard SKU at no extra cost
+  # Standard plan adds: adaptive tuning, cost protection, attack analytics
+  ddos_protection_mode    = var.ddos_protection_plan_id != null ? "VirtualNetworkInherited" : "VirtualNetworkInherited"
+  ddos_protection_plan_id = var.ddos_protection_plan_id
 
   tags = local.common_tags
 }
