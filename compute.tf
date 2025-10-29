@@ -30,9 +30,26 @@ resource "azurerm_linux_virtual_machine" "customfgtvm" {
   # Reference the custom image created in main.tf
   source_image_id = var.custom ? azurerm_image.custom[0].id : null
 
+  # SECURITY: Enable encryption at host for double encryption
+  encryption_at_host_enabled = var.enable_encryption_at_host
+
+  # SECURITY: Managed identity for Azure SDN connector (replaces service principal)
+  dynamic "identity" {
+    for_each = var.user_assigned_identity_id != null || var.enable_system_assigned_identity ? [1] : []
+    content {
+      type = var.user_assigned_identity_id != null && var.enable_system_assigned_identity ? "SystemAssigned, UserAssigned" : (
+        var.user_assigned_identity_id != null ? "UserAssigned" : "SystemAssigned"
+      )
+      identity_ids = var.user_assigned_identity_id != null ? [var.user_assigned_identity_id] : null
+    }
+  }
+
   os_disk {
     caching              = "ReadWrite"
-    storage_account_type = "Standard_LRS"
+    storage_account_type = var.os_disk_storage_type
+
+    # SECURITY: Customer-managed key encryption (optional)
+    disk_encryption_set_id = var.disk_encryption_set_id
   }
 
   # Bootstrap configuration using cloud-init
@@ -86,9 +103,26 @@ resource "azurerm_linux_virtual_machine" "fgtvm" {
     product   = var.fgtoffer
   }
 
+  # SECURITY: Enable encryption at host for double encryption
+  encryption_at_host_enabled = var.enable_encryption_at_host
+
+  # SECURITY: Managed identity for Azure SDN connector (replaces service principal)
+  dynamic "identity" {
+    for_each = var.user_assigned_identity_id != null || var.enable_system_assigned_identity ? [1] : []
+    content {
+      type = var.user_assigned_identity_id != null && var.enable_system_assigned_identity ? "SystemAssigned, UserAssigned" : (
+        var.user_assigned_identity_id != null ? "UserAssigned" : "SystemAssigned"
+      )
+      identity_ids = var.user_assigned_identity_id != null ? [var.user_assigned_identity_id] : null
+    }
+  }
+
   os_disk {
     caching              = "ReadWrite"
-    storage_account_type = "Standard_LRS"
+    storage_account_type = var.os_disk_storage_type
+
+    # SECURITY: Customer-managed key encryption (optional)
+    disk_encryption_set_id = var.disk_encryption_set_id
   }
 
   # Bootstrap configuration using cloud-init
@@ -123,7 +157,11 @@ resource "azurerm_managed_disk" "fgt_data_drive" {
   create_option        = "Empty"
   disk_size_gb         = var.data_disk_size_gb
   zone                 = var.zone
-  tags                 = local.common_tags
+
+  # SECURITY: Customer-managed key encryption for log data
+  disk_encryption_set_id = var.disk_encryption_set_id
+
+  tags = local.common_tags
 }
 
 # Attach data disk to FortiGate VM

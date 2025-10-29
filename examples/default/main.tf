@@ -98,9 +98,10 @@ module "fortigate" {
   public_ip_name = data.azurerm_public_ip.cluster_vip.name
 
   # Management Public IP (port1)
-  # Set to false for private-only deployments (VPN/ExpressRoute access)
-  # When false, access FortiGate via port1 private IP (10.0.1.10)
-  create_management_public_ip = true # Set to false for production with VPN access
+  # BREAKING CHANGE in v0.1.0: Default changed from true to false
+  # For this development example, we enable public IP for easy testing
+  # For production, omit this line or set to false (use VPN/Bastion access)
+  create_management_public_ip = true # ⚠️ Development only! Remove for production
 
   # Static IP Addresses (must be within subnet ranges)
   port1 = "10.0.1.10" # Management subnet

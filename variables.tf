@@ -160,9 +160,28 @@ variable "public_ip_name" {
 }
 
 variable "create_management_public_ip" {
-  description = "Create a public IP address for FortiGate management interface (port1). Set to false for private-only access via VPN/ExpressRoute"
+  description = <<-EOT
+    Create a public IP address for FortiGate management interface (port1).
+
+    SECURITY RECOMMENDATION: false (default)
+
+    Options:
+    - false: Private-only access via VPN/ExpressRoute/Bastion (secure default)
+    - true: Public IP for management (development/testing only)
+
+    For production deployments, keep this false and access via:
+    - Azure Bastion
+    - Site-to-site VPN
+    - ExpressRoute
+    - Jump host/bastion VM
+  EOT
   type        = bool
-  default     = true
+  default     = false
+
+  validation {
+    condition     = var.environment != "prd" || var.create_management_public_ip == false
+    error_message = "Production environments (environment=prd) should not expose management interface publicly. Use private access via VPN/Bastion."
+  }
 }
 
 # Optional additional network interfaces (port5, port6)
@@ -370,6 +389,64 @@ variable "adminsport" {
     condition     = can(regex("^([1-9][0-9]{0,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$", var.adminsport))
     error_message = "Admin port must be a valid port number between 1 and 65535."
   }
+}
+
+# =============================================================================
+# MANAGED IDENTITY (SECURITY - RECOMMENDED OVER SERVICE PRINCIPAL)
+# =============================================================================
+
+variable "user_assigned_identity_id" {
+  description = <<-EOT
+    User-assigned managed identity resource ID for Azure SDN connector.
+
+    RECOMMENDED: Use managed identity instead of service principal for SDN connector.
+
+    Benefits:
+    - No secrets to manage or rotate
+    - Automatic credential rotation by Azure
+    - Better audit trail in Azure AD
+    - Simpler access management with Azure RBAC
+    - No risk of secret expiration
+
+    Requirements:
+    - FortiGate 7.0 or later
+    - Identity must have Reader role on subscription
+    - Identity must have Network Contributor role on resource group
+
+    Format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}
+
+    Production: Strongly recommended over service principal
+    Development: Can use service principal (null) for simplicity
+
+    Leave null to use service principal (client_secret required)
+  EOT
+  type        = string
+  default     = null
+
+  validation {
+    condition = var.user_assigned_identity_id == null || can(
+      regex("^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/Microsoft.ManagedIdentity/userAssignedIdentities/[^/]+$", var.user_assigned_identity_id)
+    )
+    error_message = "User-assigned identity ID must be a valid Azure resource ID format."
+  }
+}
+
+variable "enable_system_assigned_identity" {
+  description = <<-EOT
+    Enable system-assigned managed identity for the FortiGate VM.
+
+    When true: FortiGate VM gets an automatically created system-assigned identity
+    When false: Use user-assigned identity or service principal
+
+    Note: Can be used alongside user-assigned identity (both enabled)
+
+    System-assigned identities are tied to the VM lifecycle and deleted with the VM.
+    User-assigned identities are independent resources that can be shared across VMs.
+
+    Recommendation: Use user-assigned identity for production (more flexible)
+  EOT
+  type        = bool
+  default     = false
 }
 
 # =============================================================================
@@ -649,6 +726,90 @@ variable "data_disk_caching" {
   validation {
     condition     = contains(["None", "ReadOnly", "ReadWrite"], var.data_disk_caching)
     error_message = "Data disk caching must be one of: None, ReadOnly, ReadWrite."
+  }
+}
+
+# =============================================================================
+# DISK ENCRYPTION (SECURITY)
+# =============================================================================
+
+variable "enable_encryption_at_host" {
+  description = <<-EOT
+    Enable encryption at host for double encryption (platform-managed + host-managed).
+
+    Provides an additional encryption layer for data at rest beyond Azure Storage Service Encryption.
+    Requires VM size that supports encryption at host (most modern VM sizes do).
+
+    Benefits:
+    - Double encryption: Platform-managed + Host-managed
+    - No performance impact on modern VM sizes
+    - Compliance: PCI-DSS, HIPAA, SOC 2
+
+    Production recommendation: true
+  EOT
+  type        = bool
+  default     = true
+
+  validation {
+    condition     = var.enable_encryption_at_host == true || var.environment != "prd"
+    error_message = "Encryption at host must be enabled for production environments (environment=prd) for security compliance."
+  }
+}
+
+variable "disk_encryption_set_id" {
+  description = <<-EOT
+    Azure Disk Encryption Set ID for customer-managed key (CMK) encryption.
+
+    Format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}
+
+    When provided:
+    - OS disk encrypted with your Key Vault key
+    - Data disk encrypted with your Key Vault key
+    - You control key rotation and access policies
+    - Enhanced audit trail (who accessed keys)
+
+    When null (default):
+    - Platform-managed keys used (still encrypted)
+    - Azure manages encryption keys
+
+    Production recommendation: Provide CMK for compliance (PCI-DSS Level 1, HIPAA)
+    Development: Can use platform-managed keys (null)
+
+    See examples/disk-encryption/ for complete setup guide.
+  EOT
+  type        = string
+  default     = null
+
+  validation {
+    condition = var.disk_encryption_set_id == null || can(
+      regex("^/subscriptions/[^/]+/resourceGroups/[^/]+/providers/Microsoft.Compute/diskEncryptionSets/[^/]+$", var.disk_encryption_set_id)
+    )
+    error_message = "Disk Encryption Set ID must be a valid Azure resource ID format."
+  }
+}
+
+variable "os_disk_storage_type" {
+  description = <<-EOT
+    Storage account type for OS disk.
+
+    Options:
+    - Premium_LRS: Premium SSD (best performance, supports encryption)
+    - Premium_ZRS: Premium SSD with zone redundancy
+    - StandardSSD_LRS: Standard SSD (balanced performance/cost)
+    - StandardSSD_ZRS: Standard SSD with zone redundancy
+    - Standard_LRS: Standard HDD (legacy, not recommended)
+
+    Production recommendation: Premium_LRS or Premium_ZRS
+    Development: StandardSSD_LRS acceptable
+
+    Note: Premium SSD required for best encryption performance with CMK.
+  EOT
+  type        = string
+  default     = "Premium_LRS"
+
+  validation {
+    condition     = contains(["Premium_LRS", "Premium_ZRS", "StandardSSD_LRS", "StandardSSD_ZRS", "Standard_LRS"], var.os_disk_storage_type)
+    error_message = "OS disk storage type must be one of: Premium_LRS, Premium_ZRS, StandardSSD_LRS, StandardSSD_ZRS, Standard_LRS."
   }
 }
 

@@ -21,6 +21,8 @@ locals {
 
   # Bootstrap configuration template variables
   # These are passed to the cloud-init template for FortiGate initialization
+  # SECURITY: When using managed identity, clientid/clientsecret are empty strings
+  # FortiGate will automatically use the assigned managed identity for Azure SDN
   bootstrap_vars = {
     type            = var.license_type
     license_file    = var.license
@@ -39,11 +41,12 @@ locals {
     defaultgwy      = var.port2gateway
     tenant          = data.azurerm_client_config.current.tenant_id
     subscription    = data.azurerm_client_config.current.subscription_id
-    clientid        = data.azurerm_client_config.current.client_id
-    clientsecret    = local.resolved_client_secret
-    adminsport      = var.adminsport
-    rsg             = var.resource_group_name
-    clusterip       = var.public_ip_name
+    # Use empty strings for clientid/clientsecret when managed identity is enabled
+    clientid     = var.user_assigned_identity_id != null || var.enable_system_assigned_identity ? "" : data.azurerm_client_config.current.client_id
+    clientsecret = var.user_assigned_identity_id != null || var.enable_system_assigned_identity ? "" : local.resolved_client_secret
+    adminsport   = var.adminsport
+    rsg          = var.resource_group_name
+    clusterip    = var.public_ip_name
   }
 
   # Network interface IDs in the correct order for FortiGate
