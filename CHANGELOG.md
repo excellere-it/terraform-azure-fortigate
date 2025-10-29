@@ -7,7 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.3.0] - 2025-10-29
+## [0.0.2] - 2025-10-29
+
+### Changed
+- Updated terraform-namer module source from local relative path to Terraform Cloud registry
+- Added version constraint (0.0.3) for terraform-namer dependency
+- Improved module dependency management for Terraform Cloud usage
+
+## [0.0.1] - 2025-10-29
+
+Initial production-ready release with comprehensive Phase 1-4 security enhancements.
+
+## [0.3.0] - 2025-10-29 (Development Phase)
 
 ### Added - Phase 4 DDoS Protection & Testing
 
