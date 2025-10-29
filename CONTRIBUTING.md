@@ -1,6 +1,6 @@
-# Contributing to Terraform Azure FortiGate Module
+# Contributing to terraform-azurerm-fortigate
 
-Thank you for your interest in contributing to the Terraform Azure FortiGate Module! This document provides guidelines and instructions for contributing.
+Thank you for your interest in contributing to the terraform-azurerm-fortigate module! This document provides guidelines and instructions for contributing.
 
 ## Table of Contents
 
