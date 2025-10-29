@@ -970,13 +970,11 @@ The following resources are created by this module:
 | <a name="input_bootstrap"></a> [bootstrap](#input\_bootstrap) | Path to FortiGate bootstrap configuration file. Contains initial FortiGate config including network, HA, and policy settings | `string` | `"config-active.conf"` | no |
 | <a name="input_client_secret"></a> [client\_secret](#input\_client\_secret) | Azure service principal client secret for Azure SDN connector. Leave null to use Azure Key Vault secret | `string` | `null` | no |
 | <a name="input_client_secret_secret_name"></a> [client\_secret\_secret\_name](#input\_client\_secret\_secret\_name) | Name of the Key Vault secret containing Azure service principal client secret. Only used when key\_vault\_id is provided | `string` | `"fortigate-client-secret"` | no |
-| <a name="input_computer_name"></a> [computer\_name](#input\_computer\_name) | Computer/hostname for the FortiGate VM. Used as prefix for related resources (NICs, NSGs, etc.) | `string` | n/a | yes |
-| <a name="input_cost_center"></a> [cost\_center](#input\_cost\_center) | Cost center or billing code for resource tracking | `string` | `""` | no |
+| <a name="input_contact"></a> [contact](#input\_contact) | Contact email for resource ownership and notifications. Used for tagging and operational communication. | `string` | n/a | yes |
 | <a name="input_create_management_public_ip"></a> [create\_management\_public\_ip](#input\_create\_management\_public\_ip) | Create a public IP address for FortiGate management interface (port1). Set to false for private-only access via VPN/ExpressRoute | `bool` | `true` | no |
 | <a name="input_custom"></a> [custom](#input\_custom) | Use custom FortiGate image instead of Azure Marketplace image. Set to true to deploy from VHD blob | `bool` | `false` | no |
-| <a name="input_custom_image_name"></a> [custom\_image\_name](#input\_custom\_image\_name) | Name for the custom FortiGate image resource. Only used when var.custom = true | `string` | `"<custom image name>"` | no |
-| <a name="input_custom_image_resource_group_name"></a> [custom\_image\_resource\_group\_name](#input\_custom\_image\_resource\_group\_name) | Resource group name where custom image will be created. Only used when var.custom = true | `string` | `"<custom image resource group>"` | no |
-| <a name="input_customuri"></a> [customuri](#input\_customuri) | Azure blob URI for custom FortiGate VHD image. Only used when var.custom = true | `string` | `"<custom image blob uri>"` | no |
+| <a name="input_custom_image_resource_group_name"></a> [custom\_image\_resource\_group\_name](#input\_custom\_image\_resource\_group\_name) | Resource group name where custom image will be created. If null, uses var.resource\_group\_name. Only used when var.custom = true | `string` | `null` | no |
+| <a name="input_customuri"></a> [customuri](#input\_customuri) | Azure blob URI for custom FortiGate VHD image. Only used when var.custom = true | `string` | `null` | no |
 | <a name="input_data_disk_caching"></a> [data\_disk\_caching](#input\_data\_disk\_caching) | Disk caching mode for data disk. Options: None, ReadOnly, ReadWrite | `string` | `"ReadWrite"` | no |
 | <a name="input_data_disk_size_gb"></a> [data\_disk\_size\_gb](#input\_data\_disk\_size\_gb) | Size of the FortiGate data disk in GB for logs and configuration storage | `number` | `30` | no |
 | <a name="input_data_disk_storage_type"></a> [data\_disk\_storage\_type](#input\_data\_disk\_storage\_type) | Storage account type for data disk. Options: Standard\_LRS, StandardSSD\_LRS, Premium\_LRS, StandardSSD\_ZRS, Premium\_ZRS | `string` | `"Standard_LRS"` | no |
@@ -984,7 +982,7 @@ The following resources are created by this module:
 | <a name="input_enable_diagnostics"></a> [enable\_diagnostics](#input\_enable\_diagnostics) | Enable Azure Monitor diagnostic settings for FortiGate VM and network resources | `bool` | `false` | no |
 | <a name="input_enable_management_access_restriction"></a> [enable\_management\_access\_restriction](#input\_enable\_management\_access\_restriction) | Enable restricted management access. If true, only specified CIDRs can access management interface | `bool` | `true` | no |
 | <a name="input_enable_nsg_flow_logs"></a> [enable\_nsg\_flow\_logs](#input\_enable\_nsg\_flow\_logs) | Enable NSG flow logs for network traffic analysis. Requires enable\_diagnostics = true | `bool` | `false` | no |
-| <a name="input_environment"></a> [environment](#input\_environment) | Environment name for resource tagging (e.g., Production, Staging, Development, Testing) | `string` | `""` | no |
+| <a name="input_environment"></a> [environment](#input\_environment) | Environment name for the FortiGate deployment. Used for naming, tagging, and environment-specific configuration. | `string` | n/a | yes |
 | <a name="input_fgtoffer"></a> [fgtoffer](#input\_fgtoffer) | Azure Marketplace offer for FortiGate VM | `string` | `"fortinet_fortigate-vm_v5"` | no |
 | <a name="input_fgtsku"></a> [fgtsku](#input\_fgtsku) | FortiGate SKU mapping by architecture (x86/arm) and license type (byol/payg) | `map(any)` | <pre>{<br/>  "arm": {<br/>    "byol": "fortinet_fg-vm_arm64",<br/>    "payg": "fortinet_fg-vm_payg_2023_arm64"<br/>  },<br/>  "x86": {<br/>    "byol": "fortinet_fg-vm_g2",<br/>    "payg": "fortinet_fg-vm_payg_2023_g2"<br/>  }<br/>}</pre> | no |
 | <a name="input_fgtversion"></a> [fgtversion](#input\_fgtversion) | FortiOS version to deploy from Azure Marketplace | `string` | `"7.6.3"` | no |
@@ -994,14 +992,12 @@ The following resources are created by this module:
 | <a name="input_license"></a> [license](#input\_license) | Path to FortiGate BYOL license file (e.g., 'license.lic'). Only required when license\_type = 'byol' | `string` | `"license.txt"` | no |
 | <a name="input_license_format"></a> [license\_format](#input\_license\_format) | BYOL license format: 'file' (license file) or 'token' (FortiFlex token). Only applicable when license\_type = 'byol' | `string` | `"file"` | no |
 | <a name="input_license_type"></a> [license\_type](#input\_license\_type) | FortiGate license type: 'byol' (Bring Your Own License) or 'payg' (Pay As You Go) | `string` | `"payg"` | no |
-| <a name="input_location"></a> [location](#input\_location) | Azure region where FortiGate will be deployed | `string` | `"westus2"` | no |
+| <a name="input_location"></a> [location](#input\_location) | Azure region where FortiGate resources will be deployed (e.g., centralus, eastus2). Used for naming and resource placement. | `string` | n/a | yes |
 | <a name="input_log_analytics_workspace_id"></a> [log\_analytics\_workspace\_id](#input\_log\_analytics\_workspace\_id) | Azure Log Analytics workspace resource ID for diagnostic logs and metrics. Required when enable\_diagnostics = true | `string` | `null` | no |
 | <a name="input_management_access_cidrs"></a> [management\_access\_cidrs](#input\_management\_access\_cidrs) | List of CIDR blocks allowed to access FortiGate management interface (port1). Empty list allows from anywhere (not recommended) | `list(string)` | `[]` | no |
 | <a name="input_management_ports"></a> [management\_ports](#input\_management\_ports) | List of TCP ports for FortiGate management access | `list(number)` | <pre>[<br/>  443,<br/>  8443,<br/>  22<br/>]</pre> | no |
-| <a name="input_name"></a> [name](#input\_name) | Name of the FortiGate virtual machine | `string` | n/a | yes |
 | <a name="input_nsg_flow_logs_retention_days"></a> [nsg\_flow\_logs\_retention\_days](#input\_nsg\_flow\_logs\_retention\_days) | Number of days to retain NSG flow logs | `number` | `7` | no |
 | <a name="input_nsg_flow_logs_storage_account_id"></a> [nsg\_flow\_logs\_storage\_account\_id](#input\_nsg\_flow\_logs\_storage\_account\_id) | Storage account resource ID for NSG flow logs. Required when enable\_nsg\_flow\_logs = true | `string` | `null` | no |
-| <a name="input_owner"></a> [owner](#input\_owner) | Owner or team responsible for the FortiGate deployment | `string` | `""` | no |
 | <a name="input_passive_peerip"></a> [passive\_peerip](#input\_passive\_peerip) | IP address of the passive FortiGate peer in HA cluster. Used for HA synchronization. Set to null for standalone deployment | `string` | `null` | no |
 | <a name="input_port1"></a> [port1](#input\_port1) | Static private IP address for port1 (HA Management interface) | `string` | `"172.1.3.10"` | no |
 | <a name="input_port1gateway"></a> [port1gateway](#input\_port1gateway) | Default gateway IP for port1 (HA Management interface) | `string` | `"172.1.3.1"` | no |
@@ -1018,14 +1014,15 @@ The following resources are created by this module:
 | <a name="input_port6"></a> [port6](#input\_port6) | Static private IP address for optional port6 interface. Set to null to disable port6 | `string` | `null` | no |
 | <a name="input_port6subnet_id"></a> [port6subnet\_id](#input\_port6subnet\_id) | Azure subnet ID for optional port6 interface. Set to null to disable port6 | `string` | `null` | no |
 | <a name="input_privatesubnet_id"></a> [privatesubnet\_id](#input\_privatesubnet\_id) | Azure subnet ID for port3 (LAN/Private interface). Used for internal network traffic | `string` | n/a | yes |
-| <a name="input_project"></a> [project](#input\_project) | Project name associated with this FortiGate deployment | `string` | `""` | no |
 | <a name="input_public_ip_id"></a> [public\_ip\_id](#input\_public\_ip\_id) | Azure public IP resource ID to associate with port2 for external connectivity. Managed by HA failover | `string` | n/a | yes |
 | <a name="input_public_ip_name"></a> [public\_ip\_name](#input\_public\_ip\_name) | Name of the Azure public IP used for HA cluster VIP. Used in FortiGate SDN connector configuration | `string` | n/a | yes |
 | <a name="input_publicsubnet_id"></a> [publicsubnet\_id](#input\_publicsubnet\_id) | Azure subnet ID for port2 (WAN/Public interface). Used for external/internet-facing traffic | `string` | n/a | yes |
 | <a name="input_publisher"></a> [publisher](#input\_publisher) | Azure Marketplace publisher for FortiGate images | `string` | `"fortinet"` | no |
+| <a name="input_repository"></a> [repository](#input\_repository) | Source repository name for tracking and documentation. Used for tagging to trace infrastructure source. | `string` | n/a | yes |
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | Name of the Azure resource group where FortiGate will be deployed | `string` | n/a | yes |
 | <a name="input_size"></a> [size](#input\_size) | Azure VM size for FortiGate. Must support at least 4 network interfaces for HA deployment | `string` | `"Standard_F8s_v2"` | no |
-| <a name="input_tags"></a> [tags](#input\_tags) | Additional custom tags to apply to all resources. These will be merged with automatic tags | `map(string)` | `{}` | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | Additional custom tags to apply to all resources. Merged with terraform-namer tags. Example: { CostCenter = "IT-001", Owner = "security-team", Project = "firewall-migration" } | `map(string)` | `{}` | no |
+| <a name="input_workload"></a> [workload](#input\_workload) | Workload or application name for resource identification. Used in resource naming (e.g., 'firewall', 'security'). | `string` | n/a | yes |
 | <a name="input_zone"></a> [zone](#input\_zone) | Azure availability zone for FortiGate deployment (1, 2, or 3) | `string` | `"1"` | no |
 
 ## Outputs
@@ -1035,6 +1032,7 @@ The following resources are created by this module:
 | Name | Description |
 |------|-------------|
 | <a name="output_all_private_ips"></a> [all\_private\_ips](#output\_all\_private\_ips) | Map of all FortiGate private IP addresses by port (includes optional port5/port6) |
+| <a name="output_common_tags"></a> [common\_tags](#output\_common\_tags) | The complete set of tags applied to all resources (terraform-namer + module-specific + user-provided) |
 | <a name="output_data_disk_id"></a> [data\_disk\_id](#output\_data\_disk\_id) | Azure resource ID of the FortiGate data disk (used for logs) |
 | <a name="output_data_disk_name"></a> [data\_disk\_name](#output\_data\_disk\_name) | Name of the FortiGate data disk |
 | <a name="output_diagnostics_enabled"></a> [diagnostics\_enabled](#output\_diagnostics\_enabled) | Indicates if Azure Monitor diagnostics are enabled |
@@ -1046,6 +1044,9 @@ The following resources are created by this module:
 | <a name="output_log_analytics_workspace_id"></a> [log\_analytics\_workspace\_id](#output\_log\_analytics\_workspace\_id) | Log Analytics workspace ID used for diagnostics (if configured) |
 | <a name="output_management_public_ip"></a> [management\_public\_ip](#output\_management\_public\_ip) | Public IP address for FortiGate management interface (port1). Null if create\_management\_public\_ip = false (private-only deployment) |
 | <a name="output_management_public_ip_id"></a> [management\_public\_ip\_id](#output\_management\_public\_ip\_id) | Azure resource ID of the management public IP. Null if create\_management\_public\_ip = false |
+| <a name="output_naming_suffix"></a> [naming\_suffix](#output\_naming\_suffix) | The standardized naming suffix from terraform-namer (e.g., 'firewall-centralus-prd-kmi-0') |
+| <a name="output_naming_suffix_short"></a> [naming\_suffix\_short](#output\_naming\_suffix\_short) | The short naming suffix from terraform-namer (e.g., 'firewall-cu-prd-kmi-0') |
+| <a name="output_naming_suffix_vm"></a> [naming\_suffix\_vm](#output\_naming\_suffix\_vm) | The VM-optimized naming suffix (max 15 chars) from terraform-namer |
 | <a name="output_nsg_flow_logs_enabled"></a> [nsg\_flow\_logs\_enabled](#output\_nsg\_flow\_logs\_enabled) | Indicates if NSG flow logs are enabled |
 | <a name="output_port1_id"></a> [port1\_id](#output\_port1\_id) | Azure resource ID of port1 network interface (HA Management) |
 | <a name="output_port1_private_ip"></a> [port1\_private\_ip](#output\_port1\_private\_ip) | Private IP address of port1 (HA Management interface) |
@@ -1141,12 +1142,17 @@ data "azurerm_storage_account" "diag" {
 module "fortigate" {
   source = "../.."
 
+  # Required: terraform-namer inputs for consistent naming and tagging
+  # VM name and computer name are automatically generated from these variables
+  contact     = "ops@example.com"
+  environment = "dev"
+  location    = "centralus"
+  repository  = "terraform-azurerm-fortigate"
+  workload    = "firewall"
+
   # VM Configuration
-  name          = "fortigate-example"
-  computer_name = "fgt-example"
-  location      = data.azurerm_resource_group.example.location
-  size          = "Standard_F8s_v2" # Must support 4 NICs
-  zone          = "1"               # Availability zone
+  size = "Standard_F8s_v2" # Must support 4 NICs
+  zone = "1"               # Availability zone
 
   # Resource Group
   resource_group_name = data.azurerm_resource_group.example.name
@@ -1245,14 +1251,13 @@ module "fortigate" {
   # nsg_flow_logs_storage_account_id  = data.azurerm_storage_account.flow_logs.id
   # nsg_flow_logs_retention_days      = 7
 
-  # Structured Tagging (optional)
-  environment = "Development"
-  cost_center = "IT-Network"
-  owner       = "network-team@example.com"
-  project     = "Network-Security"
-
-  # Additional Custom Tags
+  # Additional Custom Tags (optional)
+  # terraform-namer automatically provides: company, contact, environment, location, repository, workload
+  # Add any additional tags you need below
   tags = {
+    CostCenter  = "IT-Network"
+    Owner       = "network-team@example.com"
+    Project     = "Network-Security"
     Purpose     = "Testing"
     Backup      = "Daily"
     Application = "Firewall"

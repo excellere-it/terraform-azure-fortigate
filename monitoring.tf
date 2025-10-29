@@ -14,7 +14,7 @@
 # Only created when enable_diagnostics = true
 resource "azurerm_monitor_diagnostic_setting" "vm" {
   count                      = var.enable_diagnostics && var.log_analytics_workspace_id != null ? 1 : 0
-  name                       = "${var.computer_name}-vm-diagnostics"
+  name                       = "${local.computer_name}-vm-diagnostics"
   target_resource_id         = local.vm_id
   log_analytics_workspace_id = var.log_analytics_workspace_id
 
@@ -37,7 +37,7 @@ resource "azurerm_monitor_diagnostic_setting" "vm" {
 # Diagnostic settings for port1 (Management) NIC
 resource "azurerm_monitor_diagnostic_setting" "port1" {
   count                      = var.enable_diagnostics && var.log_analytics_workspace_id != null ? 1 : 0
-  name                       = "${var.computer_name}-port1-diagnostics"
+  name                       = "${local.computer_name}-port1-diagnostics"
   target_resource_id         = azurerm_network_interface.port1.id
   log_analytics_workspace_id = var.log_analytics_workspace_id
 
@@ -55,7 +55,7 @@ resource "azurerm_monitor_diagnostic_setting" "port1" {
 # Diagnostic settings for port2 (WAN/Public) NIC
 resource "azurerm_monitor_diagnostic_setting" "port2" {
   count                      = var.enable_diagnostics && var.log_analytics_workspace_id != null ? 1 : 0
-  name                       = "${var.computer_name}-port2-diagnostics"
+  name                       = "${local.computer_name}-port2-diagnostics"
   target_resource_id         = azurerm_network_interface.port2.id
   log_analytics_workspace_id = var.log_analytics_workspace_id
 
@@ -73,7 +73,7 @@ resource "azurerm_monitor_diagnostic_setting" "port2" {
 # Diagnostic settings for port3 (LAN/Private) NIC
 resource "azurerm_monitor_diagnostic_setting" "port3" {
   count                      = var.enable_diagnostics && var.log_analytics_workspace_id != null ? 1 : 0
-  name                       = "${var.computer_name}-port3-diagnostics"
+  name                       = "${local.computer_name}-port3-diagnostics"
   target_resource_id         = azurerm_network_interface.port3.id
   log_analytics_workspace_id = var.log_analytics_workspace_id
 
@@ -91,7 +91,7 @@ resource "azurerm_monitor_diagnostic_setting" "port3" {
 # Diagnostic settings for port4 (HA Sync) NIC
 resource "azurerm_monitor_diagnostic_setting" "port4" {
   count                      = var.enable_diagnostics && var.log_analytics_workspace_id != null ? 1 : 0
-  name                       = "${var.computer_name}-port4-diagnostics"
+  name                       = "${local.computer_name}-port4-diagnostics"
   target_resource_id         = azurerm_network_interface.port4.id
   log_analytics_workspace_id = var.log_analytics_workspace_id
 
@@ -113,7 +113,7 @@ resource "azurerm_monitor_diagnostic_setting" "port4" {
 # Diagnostic settings for public NSG (port1, port4)
 resource "azurerm_monitor_diagnostic_setting" "public_nsg" {
   count                      = var.enable_diagnostics && var.log_analytics_workspace_id != null ? 1 : 0
-  name                       = "${var.computer_name}-public-nsg-diagnostics"
+  name                       = "${local.computer_name}-public-nsg-diagnostics"
   target_resource_id         = azurerm_network_security_group.publicnetworknsg.id
   log_analytics_workspace_id = var.log_analytics_workspace_id
 
@@ -139,7 +139,7 @@ resource "azurerm_monitor_diagnostic_setting" "public_nsg" {
 # Diagnostic settings for private NSG (port2, port3)
 resource "azurerm_monitor_diagnostic_setting" "private_nsg" {
   count                      = var.enable_diagnostics && var.log_analytics_workspace_id != null ? 1 : 0
-  name                       = "${var.computer_name}-private-nsg-diagnostics"
+  name                       = "${local.computer_name}-private-nsg-diagnostics"
   target_resource_id         = azurerm_network_security_group.privatenetworknsg.id
   log_analytics_workspace_id = var.log_analytics_workspace_id
 
@@ -170,7 +170,7 @@ resource "azurerm_monitor_diagnostic_setting" "private_nsg" {
 # Requires Network Watcher to be enabled in the region
 resource "azurerm_network_watcher_flow_log" "public_nsg" {
   count                     = var.enable_nsg_flow_logs && var.nsg_flow_logs_storage_account_id != null ? 1 : 0
-  name                      = "${var.computer_name}-public-nsg-flow-log"
+  name                      = "${local.computer_name}-public-nsg-flow-log"
   network_watcher_name      = "NetworkWatcher_${var.location}"
   resource_group_name       = "NetworkWatcherRG"
   network_security_group_id = azurerm_network_security_group.publicnetworknsg.id
@@ -200,7 +200,7 @@ resource "azurerm_network_watcher_flow_log" "public_nsg" {
 # NSG Flow Logs for private NSG
 resource "azurerm_network_watcher_flow_log" "private_nsg" {
   count                     = var.enable_nsg_flow_logs && var.nsg_flow_logs_storage_account_id != null ? 1 : 0
-  name                      = "${var.computer_name}-private-nsg-flow-log"
+  name                      = "${local.computer_name}-private-nsg-flow-log"
   network_watcher_name      = "NetworkWatcher_${var.location}"
   resource_group_name       = "NetworkWatcherRG"
   network_security_group_id = azurerm_network_security_group.privatenetworknsg.id

@@ -62,30 +62,16 @@ locals {
     var.port6subnet_id != null && var.port6 != null ? [azurerm_network_interface.port6[0].id] : []
   )
 
-  # Automatic default tags applied to all resources
-  # These provide consistent metadata for resource management
-  default_tags = {
-    ManagedBy         = "Terraform"
-    Module            = "terraform-azurerm-fortigate"
-    FortiGateInstance = var.computer_name
-  }
-
-  # Optional tags from structured variables (only included if set)
-  optional_tags = {
-    for k, v in {
-      Environment = var.environment
-      CostCenter  = var.cost_center
-      Owner       = var.owner
-      Project     = var.project
-    } : k => v if v != ""
-  }
-
-  # Merged tags: defaults + optional + user-provided
-  # User-provided tags can override defaults and optional tags
+  # Simplified tagging using terraform-namer + module-specific metadata
+  # terraform-namer already provides: company, contact, environment, location, repository, workload
+  # We only add FortiGate-specific metadata
   common_tags = merge(
-    local.default_tags,
-    local.optional_tags,
-    var.tags
+    module.naming.tags,
+    {
+      Module            = "terraform-azurerm-fortigate"
+      FortiGateInstance = local.computer_name
+    },
+    var.tags # User-provided tags can override defaults
   )
 
   # Management access rules

@@ -16,7 +16,7 @@
 # Set to false for private-only deployments (VPN/ExpressRoute access)
 resource "azurerm_public_ip" "mgmt_ip" {
   count               = var.create_management_public_ip ? 1 : 0
-  name                = "${var.computer_name}mgmtip"
+  name                = local.pip_mgmt_name
   location            = var.location
   resource_group_name = var.resource_group_name
   sku                 = "Standard"
@@ -30,9 +30,9 @@ resource "azurerm_public_ip" "mgmt_ip" {
 # =============================================================================
 
 # NSG for public-facing interfaces (port1 - HA MGMT, port4 - HA Sync)
-# WARNING: Current rules allow all traffic - consider restricting for production
+# Controls access to management and HA sync interfaces
 resource "azurerm_network_security_group" "publicnetworknsg" {
-  name                = "${var.computer_name}-public"
+  name                = local.nsg_public_name
   location            = var.location
   resource_group_name = var.resource_group_name
 
@@ -40,9 +40,9 @@ resource "azurerm_network_security_group" "publicnetworknsg" {
 }
 
 # NSG for private interfaces (port2 - WAN/Public, port3 - LAN/Private)
-# WARNING: Current rules allow all traffic - consider restricting for production
+# Controls traffic flow through FortiGate firewall interfaces
 resource "azurerm_network_security_group" "privatenetworknsg" {
-  name                = "${var.computer_name}-private"
+  name                = local.nsg_private_name
   location            = var.location
   resource_group_name = var.resource_group_name
 
@@ -157,7 +157,7 @@ resource "azurerm_network_security_rule" "outgoing_private" {
 # For private-only deployments, access via VPN/ExpressRoute using private IP
 # Accelerated networking enabled for better performance
 resource "azurerm_network_interface" "port1" {
-  name                           = "${var.computer_name}port1"
+  name                           = local.nic_port1_name
   location                       = var.location
   resource_group_name            = var.resource_group_name
   accelerated_networking_enabled = true
@@ -179,7 +179,7 @@ resource "azurerm_network_interface" "port1" {
 # IP forwarding enabled to allow routing through FortiGate
 # Public IP association managed by HA failover (ignore_changes for public_ip_address_id)
 resource "azurerm_network_interface" "port2" {
-  name                           = "${var.computer_name}port2"
+  name                           = local.nic_port2_name
   location                       = var.location
   resource_group_name            = var.resource_group_name
   ip_forwarding_enabled          = true
@@ -204,7 +204,7 @@ resource "azurerm_network_interface" "port2" {
 # Used for internal/private network traffic
 # IP forwarding enabled to allow routing through FortiGate
 resource "azurerm_network_interface" "port3" {
-  name                           = "${var.computer_name}port3"
+  name                           = local.nic_port3_name
   location                       = var.location
   resource_group_name            = var.resource_group_name
   ip_forwarding_enabled          = true
@@ -224,7 +224,7 @@ resource "azurerm_network_interface" "port3" {
 # Dedicated interface for HA heartbeat and session synchronization
 # Critical for maintaining HA cluster state between active/passive nodes
 resource "azurerm_network_interface" "port4" {
-  name                           = "${var.computer_name}port4"
+  name                           = local.nic_port4_name
   location                       = var.location
   resource_group_name            = var.resource_group_name
   accelerated_networking_enabled = true
@@ -244,7 +244,7 @@ resource "azurerm_network_interface" "port4" {
 # Use cases: DMZ zones, additional WAN connections, dedicated monitoring
 resource "azurerm_network_interface" "port5" {
   count                          = var.port5subnet_id != null && var.port5 != null ? 1 : 0
-  name                           = "${var.computer_name}port5"
+  name                           = local.nic_port5_name
   location                       = var.location
   resource_group_name            = var.resource_group_name
   ip_forwarding_enabled          = true
@@ -265,7 +265,7 @@ resource "azurerm_network_interface" "port5" {
 # Use cases: DMZ zones, additional WAN connections, dedicated monitoring
 resource "azurerm_network_interface" "port6" {
   count                          = var.port6subnet_id != null && var.port6 != null ? 1 : 0
-  name                           = "${var.computer_name}port6"
+  name                           = local.nic_port6_name
   location                       = var.location
   resource_group_name            = var.resource_group_name
   ip_forwarding_enabled          = true

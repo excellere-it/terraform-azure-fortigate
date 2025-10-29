@@ -10,9 +10,13 @@ provider "azurerm" {
 }
 
 variables {
-  name                              = "fgt-test-advanced"
-  computer_name                     = "fgt-advanced"
-  location                          = "eastus"
+  # terraform-namer inputs (required)
+  contact     = "test@example.com"
+  environment = "dev"
+  location    = "centralus"
+  repository  = "terraform-azurerm-fortigate"
+  workload    = "firewall"
+  # Azure resources
   resource_group_name               = "rg-test"
   size                              = "Standard_F8s_v2"
   zone                              = "1"
@@ -52,8 +56,8 @@ run "verify_additional_nics" {
   }
 
   assert {
-    condition     = azurerm_network_interface.port5[0].name == "fgt-advancedport5"
-    error_message = "Port5 NIC should have correct name"
+    condition     = can(regex("^nic-.*-port5$", azurerm_network_interface.port5[0].name))
+    error_message = "Port5 NIC should use terraform-namer naming pattern"
   }
 
   assert {
@@ -68,8 +72,8 @@ run "verify_additional_nics" {
   }
 
   assert {
-    condition     = azurerm_network_interface.port6[0].name == "fgt-advancedport6"
-    error_message = "Port6 NIC should have correct name"
+    condition     = can(regex("^nic-.*-port6$", azurerm_network_interface.port6[0].name))
+    error_message = "Port6 NIC should use terraform-namer naming pattern"
   }
 
   assert {

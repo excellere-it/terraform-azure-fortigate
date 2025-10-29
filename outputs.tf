@@ -7,6 +7,30 @@
 # =============================================================================
 
 # =============================================================================
+# NAMING & TAGGING OUTPUTS
+# =============================================================================
+
+output "naming_suffix" {
+  description = "The standardized naming suffix from terraform-namer (e.g., 'firewall-centralus-prd-kmi-0')"
+  value       = module.naming.resource_suffix
+}
+
+output "naming_suffix_short" {
+  description = "The short naming suffix from terraform-namer (e.g., 'firewall-cu-prd-kmi-0')"
+  value       = module.naming.resource_suffix_short
+}
+
+output "naming_suffix_vm" {
+  description = "The VM-optimized naming suffix (max 15 chars) from terraform-namer"
+  value       = module.naming.resource_suffix_vm
+}
+
+output "common_tags" {
+  description = "The complete set of tags applied to all resources (terraform-namer + module-specific + user-provided)"
+  value       = local.common_tags
+}
+
+# =============================================================================
 # VIRTUAL MACHINE OUTPUTS
 # =============================================================================
 
@@ -17,12 +41,12 @@ output "fortigate_vm_id" {
 
 output "fortigate_vm_name" {
   description = "Name of the FortiGate virtual machine"
-  value       = var.name
+  value       = local.vm_name
 }
 
 output "fortigate_computer_name" {
   description = "Computer name (hostname) of the FortiGate VM"
-  value       = var.computer_name
+  value       = local.computer_name
 }
 
 # =============================================================================

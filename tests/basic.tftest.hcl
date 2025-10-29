@@ -10,9 +10,13 @@ provider "azurerm" {
 }
 
 variables {
-  name                              = "fgt-test-basic"
-  computer_name                     = "fgt-basic"
-  location                          = "eastus"
+  # terraform-namer inputs (required)
+  contact     = "test@example.com"
+  environment = "dev"
+  location    = "centralus"
+  repository  = "terraform-azurerm-fortigate"
+  workload    = "firewall"
+  # Azure resources
   resource_group_name               = "rg-test"
   size                              = "Standard_F8s_v2"
   zone                              = "1"
@@ -56,25 +60,25 @@ run "verify_basic_deployment" {
     error_message = "VM should be in availability zone 1"
   }
 
-  # Verify 4 network interfaces are created
+  # Verify 4 network interfaces are created with terraform-namer naming
   assert {
-    condition     = azurerm_network_interface.port1.name == "fgt-basicport1"
-    error_message = "Port1 NIC should be created"
+    condition     = can(regex("^nic-.*-port1$", azurerm_network_interface.port1.name))
+    error_message = "Port1 NIC should be created with terraform-namer naming pattern"
   }
 
   assert {
-    condition     = azurerm_network_interface.port2.name == "fgt-basicport2"
-    error_message = "Port2 NIC should be created"
+    condition     = can(regex("^nic-.*-port2$", azurerm_network_interface.port2.name))
+    error_message = "Port2 NIC should be created with terraform-namer naming pattern"
   }
 
   assert {
-    condition     = azurerm_network_interface.port3.name == "fgt-basicport3"
-    error_message = "Port3 NIC should be created"
+    condition     = can(regex("^nic-.*-port3$", azurerm_network_interface.port3.name))
+    error_message = "Port3 NIC should be created with terraform-namer naming pattern"
   }
 
   assert {
-    condition     = azurerm_network_interface.port4.name == "fgt-basicport4"
-    error_message = "Port4 NIC should be created"
+    condition     = can(regex("^nic-.*-port4$", azurerm_network_interface.port4.name))
+    error_message = "Port4 NIC should be created with terraform-namer naming pattern"
   }
 
   # Verify management public IP is created by default
@@ -83,15 +87,15 @@ run "verify_basic_deployment" {
     error_message = "Management public IP should be created by default"
   }
 
-  # Verify NSGs are created
+  # Verify NSGs are created with terraform-namer naming
   assert {
-    condition     = azurerm_network_security_group.publicnetworknsg.name == "fgt-basic-public"
-    error_message = "Public NSG should be created"
+    condition     = can(regex("^nsg-.*-public$", azurerm_network_security_group.publicnetworknsg.name))
+    error_message = "Public NSG should use terraform-namer naming pattern"
   }
 
   assert {
-    condition     = azurerm_network_security_group.privatenetworknsg.name == "fgt-basic-private"
-    error_message = "Private NSG should be created"
+    condition     = can(regex("^nsg-.*-private$", azurerm_network_security_group.privatenetworknsg.name))
+    error_message = "Private NSG should use terraform-namer naming pattern"
   }
 
   # Verify data disk is created
@@ -106,38 +110,48 @@ run "verify_basic_deployment" {
   }
 }
 
-run "verify_default_tags" {
+run "verify_terraform_namer_outputs" {
   command = plan
 
-  # Verify automatic tags are applied
+  # Verify terraform-namer outputs are available
   assert {
-    condition     = azurerm_linux_virtual_machine.fgtvm[0].tags["ManagedBy"] == "Terraform"
-    error_message = "ManagedBy tag should be set to Terraform"
+    condition     = output.naming_suffix != null
+    error_message = "naming_suffix output should be available"
   }
 
   assert {
-    condition     = azurerm_linux_virtual_machine.fgtvm[0].tags["Module"] == "terraform-azure-fortigate"
-    error_message = "Module tag should be set"
+    condition     = output.naming_suffix_short != null
+    error_message = "naming_suffix_short output should be available"
   }
 
   assert {
-    condition     = azurerm_linux_virtual_machine.fgtvm[0].tags["FortiGateInstance"] == "fgt-basic"
-    error_message = "FortiGateInstance tag should match computer_name"
+    condition     = output.naming_suffix_vm != null
+    error_message = "naming_suffix_vm output should be available"
+  }
+
+  assert {
+    condition     = output.common_tags != null
+    error_message = "common_tags output should be available"
   }
 }
 
 run "verify_outputs" {
   command = plan
 
-  # Verify key outputs are present
+  # Verify key outputs are present with terraform-namer patterns
   assert {
-    condition     = output.fortigate_vm_name == "fgt-test-basic"
-    error_message = "VM name output should match input"
+    condition     = can(regex("^vm-", output.fortigate_vm_name))
+    error_message = "VM name output should use terraform-namer pattern (vm-*)"
   }
 
   assert {
-    condition     = output.fortigate_computer_name == "fgt-basic"
-    error_message = "Computer name output should match input"
+    condition     = output.fortigate_computer_name != null && length(output.fortigate_computer_name) <= 15
+    error_message = "Computer name output should be available and within 15 character limit"
+  }
+
+  assert {
+    condition     = output.naming_suffix != null
+    error_message = "naming_suffix output should be available"
   }
 
   # Note: Other output assertions removed because they depend on computed resource

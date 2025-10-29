@@ -72,12 +72,17 @@ data "azurerm_storage_account" "diag" {
 module "fortigate" {
   source = "../.."
 
+  # Required: terraform-namer inputs for consistent naming and tagging
+  # VM name and computer name are automatically generated from these variables
+  contact     = "ops@example.com"
+  environment = "dev"
+  location    = "centralus"
+  repository  = "terraform-azurerm-fortigate"
+  workload    = "firewall"
+
   # VM Configuration
-  name          = "fortigate-example"
-  computer_name = "fgt-example"
-  location      = data.azurerm_resource_group.example.location
-  size          = "Standard_F8s_v2" # Must support 4 NICs
-  zone          = "1"               # Availability zone
+  size = "Standard_F8s_v2" # Must support 4 NICs
+  zone = "1"               # Availability zone
 
   # Resource Group
   resource_group_name = data.azurerm_resource_group.example.name
@@ -176,14 +181,13 @@ module "fortigate" {
   # nsg_flow_logs_storage_account_id  = data.azurerm_storage_account.flow_logs.id
   # nsg_flow_logs_retention_days      = 7
 
-  # Structured Tagging (optional)
-  environment = "Development"
-  cost_center = "IT-Network"
-  owner       = "network-team@example.com"
-  project     = "Network-Security"
-
-  # Additional Custom Tags
+  # Additional Custom Tags (optional)
+  # terraform-namer automatically provides: company, contact, environment, location, repository, workload
+  # Add any additional tags you need below
   tags = {
+    CostCenter  = "IT-Network"
+    Owner       = "network-team@example.com"
+    Project     = "Network-Security"
     Purpose     = "Testing"
     Backup      = "Daily"
     Application = "Firewall"

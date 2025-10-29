@@ -17,7 +17,7 @@
 # Uses a custom image created from a VHD blob
 resource "azurerm_linux_virtual_machine" "customfgtvm" {
   count                 = var.custom ? 1 : 0
-  name                  = var.name
+  name                  = local.vm_name
   location              = var.location
   resource_group_name   = var.resource_group_name
   network_interface_ids = local.network_interface_ids
@@ -25,7 +25,7 @@ resource "azurerm_linux_virtual_machine" "customfgtvm" {
   zone                  = var.zone
   admin_username        = var.adminusername
   admin_password        = local.resolved_admin_password
-  computer_name         = var.computer_name
+  computer_name         = local.computer_name
 
   # Reference the custom image created in main.tf
   source_image_id = var.custom ? azurerm_image.custom[0].id : null
@@ -59,7 +59,7 @@ resource "azurerm_linux_virtual_machine" "customfgtvm" {
 # Supports both x86 and ARM64 architectures
 resource "azurerm_linux_virtual_machine" "fgtvm" {
   count                 = var.custom ? 0 : 1
-  name                  = var.name
+  name                  = local.vm_name
   location              = var.location
   resource_group_name   = var.resource_group_name
   network_interface_ids = local.network_interface_ids
@@ -67,7 +67,7 @@ resource "azurerm_linux_virtual_machine" "fgtvm" {
   zone                  = var.zone
   admin_username        = var.adminusername
   admin_password        = local.resolved_admin_password
-  computer_name         = var.computer_name
+  computer_name         = local.computer_name
 
   # Reference Azure Marketplace image
   # SKU is selected based on architecture (x86/arm) and license type (byol/payg)
@@ -116,7 +116,7 @@ resource "azurerm_linux_virtual_machine" "fgtvm" {
 # Configurable size and storage type to match performance requirements
 # Must be in the same availability zone as the VM
 resource "azurerm_managed_disk" "fgt_data_drive" {
-  name                 = "${var.computer_name}datadisk"
+  name                 = local.disk_data_name
   location             = var.location
   resource_group_name  = var.resource_group_name
   storage_account_type = var.data_disk_storage_type

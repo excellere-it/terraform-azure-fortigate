@@ -6,18 +6,79 @@
 # Supports both x86 and ARM64 architectures
 
 # =============================================================================
-# REQUIRED VARIABLES
+# NAMING VARIABLES (terraform-namer)
 # =============================================================================
 
-variable "name" {
-  description = "Name of the FortiGate virtual machine"
+variable "contact" {
   type        = string
+  description = "Contact email for resource ownership and notifications. Used for tagging and operational communication."
+
+  validation {
+    condition     = can(regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$", var.contact))
+    error_message = "Contact must be a valid email address (e.g., ops@company.com)"
+  }
 }
 
-variable "computer_name" {
-  description = "Computer/hostname for the FortiGate VM. Used as prefix for related resources (NICs, NSGs, etc.)"
+variable "environment" {
   type        = string
+  description = "Environment name for the FortiGate deployment. Used for naming, tagging, and environment-specific configuration."
+
+  validation {
+    condition     = contains(["dev", "stg", "prd", "sbx", "tst", "ops", "hub"], var.environment)
+    error_message = "Environment must be one of: dev, stg, prd, sbx, tst, ops, hub"
+  }
 }
+
+variable "location" {
+  type        = string
+  description = "Azure region where FortiGate resources will be deployed (e.g., centralus, eastus2). Used for naming and resource placement."
+
+  validation {
+    condition = contains([
+      "centralus", "eastus", "eastus2", "westus", "westus2", "westus3",
+      "northcentralus", "southcentralus", "westcentralus",
+      "canadacentral", "canadaeast",
+      "brazilsouth",
+      "northeurope", "westeurope",
+      "uksouth", "ukwest",
+      "francecentral", "francesouth",
+      "germanywestcentral",
+      "switzerlandnorth",
+      "norwayeast",
+      "eastasia", "southeastasia",
+      "japaneast", "japanwest",
+      "australiaeast", "australiasoutheast",
+      "centralindia", "southindia", "westindia"
+    ], var.location)
+    error_message = "Location must be a valid Azure region (e.g., centralus, eastus2)"
+  }
+}
+
+variable "repository" {
+  type        = string
+  description = "Source repository name for tracking and documentation. Used for tagging to trace infrastructure source."
+
+  validation {
+    condition     = length(var.repository) > 0
+    error_message = "Repository name cannot be empty. Provide the infrastructure repository name (e.g., terraform-azurerm-fortigate)"
+  }
+}
+
+variable "workload" {
+  type        = string
+  description = "Workload or application name for resource identification. Used in resource naming (e.g., 'firewall', 'security')."
+
+  validation {
+    condition     = length(var.workload) > 0 && length(var.workload) <= 20
+    error_message = "Workload name must be 1-20 characters for Azure resource name constraints"
+  }
+}
+
+# =============================================================================
+# REQUIRED VARIABLES
+# =============================================================================
+# Note: VM name and computer name are now automatically generated from terraform-namer
+# to ensure consistent naming across all resources
 
 variable "client_secret" {
   description = "Azure service principal client secret for Azure SDN connector. Leave null to use Azure Key Vault secret"
@@ -39,12 +100,7 @@ variable "resource_group_name" {
 # =============================================================================
 # AZURE INFRASTRUCTURE VARIABLES
 # =============================================================================
-
-variable "location" {
-  description = "Azure region where FortiGate will be deployed"
-  type        = string
-  default     = "westus2"
-}
+# NOTE: location variable now defined in NAMING VARIABLES section above
 
 # For HA, choose instance size that supports 4 NICs at minimum
 # Reference: https://docs.microsoft.com/en-us/azure/virtual-machines/linux/sizes
@@ -136,19 +192,13 @@ variable "custom" {
 variable "customuri" {
   description = "Azure blob URI for custom FortiGate VHD image. Only used when var.custom = true"
   type        = string
-  default     = "<custom image blob uri>"
-}
-
-variable "custom_image_name" {
-  description = "Name for the custom FortiGate image resource. Only used when var.custom = true"
-  type        = string
-  default     = "<custom image name>"
+  default     = null
 }
 
 variable "custom_image_resource_group_name" {
-  description = "Resource group name where custom image will be created. Only used when var.custom = true"
+  description = "Resource group name where custom image will be created. If null, uses var.resource_group_name. Only used when var.custom = true"
   type        = string
-  default     = "<custom image resource group>"
+  default     = null
 }
 
 # =============================================================================
@@ -536,53 +586,12 @@ variable "data_disk_caching" {
 # =============================================================================
 # TAGGING
 # =============================================================================
-
-variable "environment" {
-  description = "Environment name for resource tagging (e.g., Production, Staging, Development, Testing)"
-  type        = string
-  default     = ""
-
-  validation {
-    condition     = var.environment == "" || can(regex("^[a-zA-Z0-9-_]{1,50}$", var.environment))
-    error_message = "Environment must be alphanumeric with hyphens/underscores, max 50 characters."
-  }
-}
-
-variable "cost_center" {
-  description = "Cost center or billing code for resource tracking"
-  type        = string
-  default     = ""
-
-  validation {
-    condition     = var.cost_center == "" || can(regex("^[a-zA-Z0-9-_]{1,50}$", var.cost_center))
-    error_message = "Cost center must be alphanumeric with hyphens/underscores, max 50 characters."
-  }
-}
-
-variable "owner" {
-  description = "Owner or team responsible for the FortiGate deployment"
-  type        = string
-  default     = ""
-
-  validation {
-    condition     = var.owner == "" || can(regex("^[a-zA-Z0-9-_@.]{1,100}$", var.owner))
-    error_message = "Owner must be alphanumeric with hyphens/underscores/@/., max 100 characters."
-  }
-}
-
-variable "project" {
-  description = "Project name associated with this FortiGate deployment"
-  type        = string
-  default     = ""
-
-  validation {
-    condition     = var.project == "" || can(regex("^[a-zA-Z0-9-_]{1,50}$", var.project))
-    error_message = "Project must be alphanumeric with hyphens/underscores, max 50 characters."
-  }
-}
+# Note: terraform-namer automatically provides these tags:
+#   - company, contact, environment, location, repository, workload
+# Use the tags variable below to add any additional custom tags (e.g., CostCenter, Owner, Project)
 
 variable "tags" {
-  description = "Additional custom tags to apply to all resources. These will be merged with automatic tags"
+  description = "Additional custom tags to apply to all resources. Merged with terraform-namer tags. Example: { CostCenter = \"IT-001\", Owner = \"security-team\", Project = \"firewall-migration\" }"
   type        = map(string)
   default     = {}
 
