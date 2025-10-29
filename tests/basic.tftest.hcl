@@ -35,10 +35,11 @@ variables {
   port2gateway                      = "10.0.2.1"
   adminusername                     = "azureadmin"
   adminpassword                     = "TestPassword123!"
-  client_secret                     = "test-secret-value"
+  user_assigned_identity_id         = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-test/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-fortigate"
   license_type                      = "payg"
   arch                              = "x86"
   fgtversion                        = "7.6.3"
+  management_access_cidrs           = ["10.0.0.0/8"]
 }
 
 run "verify_basic_deployment" {

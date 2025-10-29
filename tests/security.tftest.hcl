@@ -35,6 +35,7 @@ variables {
   port2gateway                      = "10.0.2.1"
   adminusername                     = "azureadmin"
   license_type                      = "payg"
+  management_access_cidrs           = ["10.0.0.0/8"]
 }
 
 run "verify_private_deployment" {
@@ -43,7 +44,7 @@ run "verify_private_deployment" {
   variables {
     create_management_public_ip = false
     adminpassword               = "TestPassword123!"
-    client_secret               = "test-secret"
+    user_assigned_identity_id   = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-test/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-fortigate"
   }
 
   # Verify no management public IP is created
@@ -78,7 +79,7 @@ run "verify_nsg_restrictions" {
     management_access_cidrs              = ["203.0.113.0/24", "198.51.100.0/24"]
     management_ports                     = [8443, 22]
     adminpassword                        = "TestPassword123!"
-    client_secret                        = "test-secret"
+    user_assigned_identity_id            = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-test/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-fortigate"
   }
 
   # Verify dynamic NSG rules are created (2 CIDRs × 2 ports = 4 rules)
@@ -99,9 +100,9 @@ run "verify_nsg_unrestricted_fallback" {
 
   variables {
     enable_management_access_restriction = false
-    management_access_cidrs              = []
+    management_access_cidrs              = ["10.0.0.0/8"]
     adminpassword                        = "TestPassword123!"
-    client_secret                        = "test-secret"
+    user_assigned_identity_id            = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-test/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-fortigate"
   }
 
   # Verify no dynamic rules created
@@ -123,7 +124,7 @@ run "verify_nsg_unrestricted_fallback" {
 #
 # To test Key Vault integration manually:
 # 1. Create an Azure Key Vault
-# 2. Add secrets: fgt-admin-password and fgt-client-secret
+# 2. Add secret: fgt-admin-password
 # 3. Uncomment this test and update the key_vault_id to your real Key Vault ID
 #
 # run "verify_key_vault_integration" {
@@ -132,31 +133,20 @@ run "verify_nsg_unrestricted_fallback" {
 #   variables {
 #     key_vault_id               = "/subscriptions/YOUR-SUB-ID/resourceGroups/YOUR-RG/providers/Microsoft.KeyVault/vaults/YOUR-KV"
 #     admin_password_secret_name = "fgt-admin-password"
-#     client_secret_secret_name  = "fgt-client-secret"
 #     adminpassword              = null
-#     client_secret              = null
+#     user_assigned_identity_id  = "/subscriptions/YOUR-SUB-ID/resourceGroups/YOUR-RG/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-fortigate"
 #   }
 #
-#   # Verify Key Vault data sources are created
+#   # Verify Key Vault data source is created
 #   assert {
 #     condition     = length(data.azurerm_key_vault_secret.admin_password) == 1
 #     error_message = "Admin password Key Vault data source should be created"
 #   }
 #
-#   assert {
-#     condition     = length(data.azurerm_key_vault_secret.client_secret) == 1
-#     error_message = "Client secret Key Vault data source should be created"
-#   }
-#
-#   # Verify data sources reference correct secrets
+#   # Verify data source references correct secret
 #   assert {
 #     condition     = data.azurerm_key_vault_secret.admin_password[0].name == "fgt-admin-password"
 #     error_message = "Admin password secret name should match configuration"
-#   }
-#
-#   assert {
-#     condition     = data.azurerm_key_vault_secret.client_secret[0].name == "fgt-client-secret"
-#     error_message = "Client secret name should match configuration"
 #   }
 # }
 
@@ -164,9 +154,9 @@ run "verify_custom_tags" {
   command = plan
 
   variables {
-    environment   = "prd"
-    adminpassword = "TestPassword123!"
-    client_secret = "test-secret"
+    environment               = "prd"
+    adminpassword             = "TestPassword123!"
+    user_assigned_identity_id = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-test/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-fortigate"
     tags = {
       CostCenter = "IT-Security"
       Owner      = "security-team@example.com"

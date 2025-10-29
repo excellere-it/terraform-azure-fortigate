@@ -10,7 +10,7 @@
 # - Virtual Network with 4 subnets (management, sync, public, private)
 # - Public IP for cluster VIP
 # - Storage account for boot diagnostics
-# - Service principal for Azure SDN connector
+# - User-assigned managed identity for Azure SDN connector (Reader + Network Contributor roles)
 # =============================================================================
 
 # =============================================================================
@@ -62,6 +62,12 @@ data "azurerm_public_ip" "cluster_vip" {
 # Get storage account for boot diagnostics
 data "azurerm_storage_account" "diag" {
   name                = "stdiagexample"
+  resource_group_name = data.azurerm_resource_group.example.name
+}
+
+# Get user-assigned managed identity for FortiGate Azure SDN connector
+data "azurerm_user_assigned_identity" "fortigate" {
+  name                = "id-fortigate-sdn"
   resource_group_name = data.azurerm_resource_group.example.name
 }
 
@@ -132,17 +138,22 @@ module "fortigate" {
   adminusername = "azureadmin"
   adminsport    = "8443" # HTTPS management port
 
+  # Admin Password Authentication
   # Method 1: Azure Key Vault (Recommended for Production)
   # Uncomment these lines and comment out Method 2 to use Key Vault
-  # key_vault_id                 = data.azurerm_key_vault.main.id
-  # admin_password_secret_name   = "fortigate-admin-password"
-  # client_secret_secret_name    = "fortigate-client-secret"
+  # key_vault_id               = data.azurerm_key_vault.main.id
+  # admin_password_secret_name = "fortigate-admin-password"
 
-  # Method 2: Direct Variables (Development Only - NOT for production!)
+  # Method 2: Direct Variable (Development Only - NOT for production!)
   # For production, use Key Vault integration above
   # Password MUST be 12+ chars with uppercase, lowercase, numbers, and special characters
   adminpassword = "DevP@ssw0rd123!SecureExample" # ⚠️  REPLACE with your own strong password!
-  client_secret = var.service_principal_secret
+
+  # Managed Identity for Azure SDN Connector (REQUIRED)
+  # Create a user-assigned managed identity and grant it:
+  # - Reader role on subscription
+  # - Network Contributor role on resource group
+  user_assigned_identity_id = data.azurerm_user_assigned_identity.fortigate.id
 
   # Bootstrap Configuration
   bootstrap = "config-active.conf"

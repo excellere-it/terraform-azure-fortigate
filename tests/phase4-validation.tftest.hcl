@@ -34,6 +34,7 @@ run "test_ddos_protection_valid_format" {
     port2gateway                         = "10.0.2.1"
     adminusername                        = "azureadmin"
     adminpassword                        = "TestP@ssw0rd123!Secure"
+    user_assigned_identity_id            = "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-test/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id-fortigate"
     boot_diagnostics_storage_endpoint    = "https://sttest.blob.core.windows.net/"
     enable_management_access_restriction = true
     management_access_cidrs              = ["203.0.113.0/24"]

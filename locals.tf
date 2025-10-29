@@ -11,18 +11,14 @@ locals {
   # SECURITY: No default password - users MUST provide password or Key Vault
   resolved_admin_password = var.key_vault_id != null ? data.azurerm_key_vault_secret.admin_password[0].value : var.adminpassword
 
-  resolved_client_secret = var.key_vault_id != null ? data.azurerm_key_vault_secret.client_secret[0].value : (
-    var.client_secret != null ? var.client_secret : ""
-  )
-
   # Determine which VM resource to use for data disk attachment
   # Returns the ID of either the custom VM or marketplace VM
   vm_id = var.custom ? azurerm_linux_virtual_machine.customfgtvm[0].id : azurerm_linux_virtual_machine.fgtvm[0].id
 
   # Bootstrap configuration template variables
   # These are passed to the cloud-init template for FortiGate initialization
-  # SECURITY: When using managed identity, clientid/clientsecret are empty strings
-  # FortiGate will automatically use the assigned managed identity for Azure SDN
+  # SECURITY: Managed identity authentication required for Azure SDN connector
+  # clientid and clientsecret are always empty - FortiGate uses assigned managed identity
   bootstrap_vars = {
     type            = var.license_type
     license_file    = var.license
@@ -41,9 +37,9 @@ locals {
     defaultgwy      = var.port2gateway
     tenant          = data.azurerm_client_config.current.tenant_id
     subscription    = data.azurerm_client_config.current.subscription_id
-    # Use empty strings for clientid/clientsecret when managed identity is enabled
-    clientid     = var.user_assigned_identity_id != null || var.enable_system_assigned_identity ? "" : data.azurerm_client_config.current.client_id
-    clientsecret = var.user_assigned_identity_id != null || var.enable_system_assigned_identity ? "" : local.resolved_client_secret
+    # Managed identity authentication - empty credentials
+    clientid     = ""
+    clientsecret = ""
     adminsport   = var.adminsport
     rsg          = var.resource_group_name
     clusterip    = var.public_ip_name

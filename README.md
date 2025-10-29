@@ -952,7 +952,6 @@ The following resources are created by this module:
 | [azurerm_virtual_machine_data_disk_attachment.fgt_log_drive_attachment](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/virtual_machine_data_disk_attachment) | resource |
 | [azurerm_client_config.current](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/client_config) | data source |
 | [azurerm_key_vault_secret.admin_password](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
-| [azurerm_key_vault_secret.client_secret](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
 
 ## Inputs
 
@@ -969,8 +968,6 @@ The following resources are created by this module:
 | <a name="input_arch"></a> [arch](#input\_arch) | FortiGate VM architecture: 'x86' or 'arm' | `string` | `"x86"` | no |
 | <a name="input_boot_diagnostics_storage_endpoint"></a> [boot\_diagnostics\_storage\_endpoint](#input\_boot\_diagnostics\_storage\_endpoint) | Storage account endpoint URI for boot diagnostics logs.<br/>Format: https://<storage-account-name>.blob.core.windows.net/<br/><br/>SECURITY REQUIREMENTS (Module validates HTTPS):<br/>- Storage account MUST have https\_traffic\_only\_enabled = true (enforced by validation)<br/>- Storage account MUST have min\_tls\_version = "TLS1\_2"<br/>- Storage account SHOULD have infrastructure\_encryption\_enabled = true<br/>- Storage account SHOULD have public\_network\_access\_enabled = false<br/>- Storage account SHOULD use private endpoint for enhanced security<br/><br/>The module enforces HTTPS-only endpoints. HTTP endpoints will be rejected. | `string` | n/a | yes |
 | <a name="input_bootstrap"></a> [bootstrap](#input\_bootstrap) | Path to FortiGate bootstrap configuration file. Contains initial FortiGate config including network, HA, and policy settings | `string` | `"config-active.conf"` | no |
-| <a name="input_client_secret"></a> [client\_secret](#input\_client\_secret) | Azure service principal client secret for Azure SDN connector. Leave null to use Azure Key Vault secret | `string` | `null` | no |
-| <a name="input_client_secret_secret_name"></a> [client\_secret\_secret\_name](#input\_client\_secret\_secret\_name) | Name of the Key Vault secret containing Azure service principal client secret. Only used when key\_vault\_id is provided | `string` | `"fortigate-client-secret"` | no |
 | <a name="input_contact"></a> [contact](#input\_contact) | Contact email for resource ownership and notifications. Used for tagging and operational communication. | `string` | n/a | yes |
 | <a name="input_create_management_public_ip"></a> [create\_management\_public\_ip](#input\_create\_management\_public\_ip) | Create a public IP address for FortiGate management interface (port1).<br/><br/>SECURITY RECOMMENDATION: false (default)<br/><br/>Options:<br/>- false: Private-only access via VPN/ExpressRoute/Bastion (secure default)<br/>- true: Public IP for management (development/testing only)<br/><br/>For production deployments, keep this false and access via:<br/>- Azure Bastion<br/>- Site-to-site VPN<br/>- ExpressRoute<br/>- Jump host/bastion VM | `bool` | `false` | no |
 | <a name="input_custom"></a> [custom](#input\_custom) | Use custom FortiGate image instead of Azure Marketplace image. Set to true to deploy from VHD blob | `bool` | `false` | no |
@@ -1028,7 +1025,7 @@ The following resources are created by this module:
 | <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | Name of the Azure resource group where FortiGate will be deployed | `string` | n/a | yes |
 | <a name="input_size"></a> [size](#input\_size) | Azure VM size for FortiGate deployment.<br/><br/>REQUIREMENTS:<br/>- Must support at least 4 network interfaces for base HA deployment (6 for port5/port6)<br/>- Must support accelerated networking (enabled by default on all interfaces)<br/><br/>ACCELERATED NETWORKING SUPPORT:<br/>This module enables accelerated networking on all interfaces for optimal performance.<br/><br/>✅ Supported VM sizes (recommended):<br/>- F-series: Standard\_F2s\_v2, F4s\_v2, F8s\_v2, F16s\_v2, F32s\_v2+ (Compute optimized)<br/>- D-series: Standard\_D2s\_v3+, D4s\_v3+, D8s\_v3+ (General purpose)<br/>- E-series: Standard\_E2s\_v3+, E4s\_v3+, E8s\_v3+ (Memory optimized)<br/><br/>❌ Unsupported VM sizes:<br/>- Basic tier: Basic\_A0, Basic\_A1, etc.<br/>- A-series: Standard\_A0-A7<br/>- Very small sizes: Typically 1 vCPU sizes<br/><br/>COMMON FORTIGATE SIZES:<br/>- Standard\_F2s\_v2: 2 vCPU, 4GB RAM (minimum, dev/test only)<br/>- Standard\_F4s\_v2: 4 vCPU, 8GB RAM (small deployments)<br/>- Standard\_F8s\_v2: 8 vCPU, 16GB RAM (recommended, medium traffic)<br/>- Standard\_F16s\_v2: 16 vCPU, 32GB RAM (high traffic)<br/>- Standard\_F32s\_v2: 32 vCPU, 64GB RAM (very high traffic)<br/><br/>Reference: https://learn.microsoft.com/en-us/azure/virtual-network/accelerated-networking-overview | `string` | `"Standard_F8s_v2"` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Additional custom tags to apply to all resources. Merged with terraform-namer tags. Example: { CostCenter = "IT-001", Owner = "security-team", Project = "firewall-migration" } | `map(string)` | `{}` | no |
-| <a name="input_user_assigned_identity_id"></a> [user\_assigned\_identity\_id](#input\_user\_assigned\_identity\_id) | User-assigned managed identity resource ID for Azure SDN connector.<br/><br/>RECOMMENDED: Use managed identity instead of service principal for SDN connector.<br/><br/>Benefits:<br/>- No secrets to manage or rotate<br/>- Automatic credential rotation by Azure<br/>- Better audit trail in Azure AD<br/>- Simpler access management with Azure RBAC<br/>- No risk of secret expiration<br/><br/>Requirements:<br/>- FortiGate 7.0 or later<br/>- Identity must have Reader role on subscription<br/>- Identity must have Network Contributor role on resource group<br/><br/>Format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}<br/><br/>Production: Strongly recommended over service principal<br/>Development: Can use service principal (null) for simplicity<br/><br/>Leave null to use service principal (client\_secret required) | `string` | `null` | no |
+| <a name="input_user_assigned_identity_id"></a> [user\_assigned\_identity\_id](#input\_user\_assigned\_identity\_id) | User-assigned managed identity resource ID for Azure SDN connector.<br/><br/>REQUIRED: Managed identity authentication for Azure SDN connector.<br/><br/>Benefits:<br/>- No secrets to manage or rotate<br/>- Automatic credential rotation by Azure<br/>- Better audit trail in Azure AD<br/>- Simpler access management with Azure RBAC<br/>- No risk of secret expiration<br/><br/>Requirements:<br/>- FortiGate 7.0 or later<br/>- Identity must have Reader role on subscription<br/>- Identity must have Network Contributor role on resource group<br/><br/>Format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}<br/><br/>Note: Either user\_assigned\_identity\_id or enable\_system\_assigned\_identity must be provided for Azure SDN connector functionality. | `string` | `null` | no |
 | <a name="input_workload"></a> [workload](#input\_workload) | Workload or application name for resource identification. Used in resource naming (e.g., 'firewall', 'security'). | `string` | n/a | yes |
 | <a name="input_zone"></a> [zone](#input\_zone) | Azure availability zone for FortiGate deployment (1, 2, or 3) | `string` | `"1"` | no |
 
@@ -1087,7 +1084,7 @@ The following resources are created by this module:
 # - Virtual Network with 4 subnets (management, sync, public, private)
 # - Public IP for cluster VIP
 # - Storage account for boot diagnostics
-# - Service principal for Azure SDN connector
+# - User-assigned managed identity for Azure SDN connector (Reader + Network Contributor roles)
 # =============================================================================
 
 # =============================================================================
@@ -1139,6 +1136,12 @@ data "azurerm_public_ip" "cluster_vip" {
 # Get storage account for boot diagnostics
 data "azurerm_storage_account" "diag" {
   name                = "stdiagexample"
+  resource_group_name = data.azurerm_resource_group.example.name
+}
+
+# Get user-assigned managed identity for FortiGate Azure SDN connector
+data "azurerm_user_assigned_identity" "fortigate" {
+  name                = "id-fortigate-sdn"
   resource_group_name = data.azurerm_resource_group.example.name
 }
 
@@ -1209,17 +1212,22 @@ module "fortigate" {
   adminusername = "azureadmin"
   adminsport    = "8443" # HTTPS management port
 
+  # Admin Password Authentication
   # Method 1: Azure Key Vault (Recommended for Production)
   # Uncomment these lines and comment out Method 2 to use Key Vault
-  # key_vault_id                 = data.azurerm_key_vault.main.id
-  # admin_password_secret_name   = "fortigate-admin-password"
-  # client_secret_secret_name    = "fortigate-client-secret"
+  # key_vault_id               = data.azurerm_key_vault.main.id
+  # admin_password_secret_name = "fortigate-admin-password"
 
-  # Method 2: Direct Variables (Development Only - NOT for production!)
+  # Method 2: Direct Variable (Development Only - NOT for production!)
   # For production, use Key Vault integration above
   # Password MUST be 12+ chars with uppercase, lowercase, numbers, and special characters
   adminpassword = "DevP@ssw0rd123!SecureExample" # ⚠️  REPLACE with your own strong password!
-  client_secret = var.service_principal_secret
+
+  # Managed Identity for Azure SDN Connector (REQUIRED)
+  # Create a user-assigned managed identity and grant it:
+  # - Reader role on subscription
+  # - Network Contributor role on resource group
+  user_assigned_identity_id = data.azurerm_user_assigned_identity.fortigate.id
 
   # Bootstrap Configuration
   bootstrap = "config-active.conf"

@@ -80,13 +80,6 @@ variable "workload" {
 # Note: VM name and computer name are now automatically generated from terraform-namer
 # to ensure consistent naming across all resources
 
-variable "client_secret" {
-  description = "Azure service principal client secret for Azure SDN connector. Leave null to use Azure Key Vault secret"
-  type        = string
-  default     = null
-  sensitive   = true
-}
-
 variable "boot_diagnostics_storage_endpoint" {
   description = <<-EOT
     Storage account endpoint URI for boot diagnostics logs.
@@ -464,12 +457,6 @@ variable "admin_password_secret_name" {
   default     = "fortigate-admin-password"
 }
 
-variable "client_secret_secret_name" {
-  description = "Name of the Key Vault secret containing Azure service principal client secret. Only used when key_vault_id is provided"
-  type        = string
-  default     = "fortigate-client-secret"
-}
-
 variable "license" {
   description = "Path to FortiGate BYOL license file (e.g., 'license.lic'). Only required when license_type = 'byol'"
   type        = string
@@ -488,14 +475,14 @@ variable "adminsport" {
 }
 
 # =============================================================================
-# MANAGED IDENTITY (SECURITY - RECOMMENDED OVER SERVICE PRINCIPAL)
+# MANAGED IDENTITY (REQUIRED FOR AZURE SDN CONNECTOR)
 # =============================================================================
 
 variable "user_assigned_identity_id" {
   description = <<-EOT
     User-assigned managed identity resource ID for Azure SDN connector.
 
-    RECOMMENDED: Use managed identity instead of service principal for SDN connector.
+    REQUIRED: Managed identity authentication for Azure SDN connector.
 
     Benefits:
     - No secrets to manage or rotate
@@ -511,10 +498,7 @@ variable "user_assigned_identity_id" {
 
     Format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}
 
-    Production: Strongly recommended over service principal
-    Development: Can use service principal (null) for simplicity
-
-    Leave null to use service principal (client_secret required)
+    Note: Either user_assigned_identity_id or enable_system_assigned_identity must be provided for Azure SDN connector functionality.
   EOT
   type        = string
   default     = null

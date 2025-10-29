@@ -28,9 +28,3 @@ data "azurerm_key_vault_secret" "admin_password" {
   key_vault_id = var.key_vault_id
 }
 
-# Retrieve Azure service principal client secret from Key Vault
-data "azurerm_key_vault_secret" "client_secret" {
-  count        = var.key_vault_id != null ? 1 : 0
-  name         = var.client_secret_secret_name
-  key_vault_id = var.key_vault_id
-}
