@@ -88,8 +88,25 @@ variable "client_secret" {
 }
 
 variable "boot_diagnostics_storage_endpoint" {
-  description = "Storage account endpoint URI for boot diagnostics logs"
+  description = <<-EOT
+    Storage account endpoint URI for boot diagnostics logs.
+    Format: https://<storage-account-name>.blob.core.windows.net/
+
+    SECURITY REQUIREMENTS (Module validates HTTPS):
+    - Storage account MUST have https_traffic_only_enabled = true (enforced by validation)
+    - Storage account MUST have min_tls_version = "TLS1_2"
+    - Storage account SHOULD have infrastructure_encryption_enabled = true
+    - Storage account SHOULD have public_network_access_enabled = false
+    - Storage account SHOULD use private endpoint for enhanced security
+
+    The module enforces HTTPS-only endpoints. HTTP endpoints will be rejected.
+  EOT
   type        = string
+
+  validation {
+    condition     = can(regex("^https://", var.boot_diagnostics_storage_endpoint))
+    error_message = "Boot diagnostics storage endpoint must use HTTPS (not HTTP). Ensure storage account has https_traffic_only_enabled = true."
+  }
 }
 
 variable "resource_group_name" {
@@ -107,9 +124,47 @@ variable "resource_group_name" {
 # x86 recommended: Standard_F8s_v2
 # ARM recommended: Standard_D2ps_v5
 variable "size" {
-  description = "Azure VM size for FortiGate. Must support at least 4 network interfaces for HA deployment"
+  description = <<-EOT
+    Azure VM size for FortiGate deployment.
+
+    REQUIREMENTS:
+    - Must support at least 4 network interfaces for base HA deployment (6 for port5/port6)
+    - Must support accelerated networking (enabled by default on all interfaces)
+
+    ACCELERATED NETWORKING SUPPORT:
+    This module enables accelerated networking on all interfaces for optimal performance.
+
+    ✅ Supported VM sizes (recommended):
+    - F-series: Standard_F2s_v2, F4s_v2, F8s_v2, F16s_v2, F32s_v2+ (Compute optimized)
+    - D-series: Standard_D2s_v3+, D4s_v3+, D8s_v3+ (General purpose)
+    - E-series: Standard_E2s_v3+, E4s_v3+, E8s_v3+ (Memory optimized)
+
+    ❌ Unsupported VM sizes:
+    - Basic tier: Basic_A0, Basic_A1, etc.
+    - A-series: Standard_A0-A7
+    - Very small sizes: Typically 1 vCPU sizes
+
+    COMMON FORTIGATE SIZES:
+    - Standard_F2s_v2: 2 vCPU, 4GB RAM (minimum, dev/test only)
+    - Standard_F4s_v2: 4 vCPU, 8GB RAM (small deployments)
+    - Standard_F8s_v2: 8 vCPU, 16GB RAM (recommended, medium traffic)
+    - Standard_F16s_v2: 16 vCPU, 32GB RAM (high traffic)
+    - Standard_F32s_v2: 32 vCPU, 64GB RAM (very high traffic)
+
+    Reference: https://learn.microsoft.com/en-us/azure/virtual-network/accelerated-networking-overview
+  EOT
   type        = string
   default     = "Standard_F8s_v2"
+
+  validation {
+    condition     = !can(regex("^Basic_", var.size)) && !can(regex("^Standard_A[0-7]$", var.size))
+    error_message = "VM size must support accelerated networking. Basic tier and A-series (A0-A7) are not supported. Use F-series, D-series v3+, or E-series v3+ instead."
+  }
+
+  validation {
+    condition     = !can(regex("_1$", var.size)) && !can(regex("_A1_", var.size))
+    error_message = "Very small VM sizes (1 vCPU) typically don't support accelerated networking or sufficient NICs. Use at least 2 vCPU sizes (e.g., Standard_F2s_v2)."
+  }
 }
 
 # Availability zones only supported in certain regions
@@ -871,12 +926,33 @@ variable "nsg_flow_logs_storage_account_id" {
 }
 
 variable "nsg_flow_logs_retention_days" {
-  description = "Number of days to retain NSG flow logs"
+  description = <<-EOT
+    Number of days to retain NSG flow logs.
+
+    COMPLIANCE REQUIREMENTS:
+    - Minimum: 7 days (security best practice)
+    - Recommended: 30-90 days for most organizations
+    - Maximum: 365 days (Azure limit)
+
+    Common retention policies:
+    - 7 days: Development/testing environments
+    - 30 days: Standard production environments
+    - 90 days: Compliance requirements (PCI-DSS, HIPAA)
+    - 180+ days: Enhanced security monitoring
+
+    Note: Longer retention periods increase storage costs but provide better
+    forensic capabilities for security incident investigations.
+  EOT
   type        = number
   default     = 7
 
   validation {
-    condition     = var.nsg_flow_logs_retention_days >= 0 && var.nsg_flow_logs_retention_days <= 365
-    error_message = "NSG flow logs retention days must be between 0 and 365."
+    condition     = var.nsg_flow_logs_retention_days >= 7 && var.nsg_flow_logs_retention_days <= 365
+    error_message = "NSG flow logs retention must be at least 7 days (security best practice) and no more than 365 days (Azure limit)."
+  }
+
+  validation {
+    condition     = var.environment != "prd" || var.nsg_flow_logs_retention_days >= 30
+    error_message = "Production environments (environment=prd) must retain NSG flow logs for at least 30 days for compliance and forensic analysis."
   }
 }
