@@ -22,7 +22,7 @@ resource "azurerm_linux_virtual_machine" "customfgtvm" {
   resource_group_name   = var.resource_group_name
   network_interface_ids = local.network_interface_ids
   size                  = var.size
-  zone                  = var.zone
+  zone                  = var.zone # null for regional, "1"/"2"/"3" for zonal
   admin_username        = var.adminusername
   admin_password        = local.resolved_admin_password
   computer_name         = local.computer_name
@@ -81,7 +81,7 @@ resource "azurerm_linux_virtual_machine" "fgtvm" {
   resource_group_name   = var.resource_group_name
   network_interface_ids = local.network_interface_ids
   size                  = var.size
-  zone                  = var.zone
+  zone                  = var.zone # null for regional, "1"/"2"/"3" for zonal
   admin_username        = var.adminusername
   admin_password        = local.resolved_admin_password
   computer_name         = local.computer_name
@@ -148,7 +148,7 @@ resource "azurerm_linux_virtual_machine" "fgtvm" {
 
 # Additional data disk for FortiGate logs and FortiAnalyzer storage
 # Configurable size and storage type to match performance requirements
-# Must be in the same availability zone as the VM
+# Must be in the same availability zone as the VM (or regional if VM is regional)
 resource "azurerm_managed_disk" "fgt_data_drive" {
   name                 = local.disk_data_name
   location             = var.location
@@ -156,7 +156,7 @@ resource "azurerm_managed_disk" "fgt_data_drive" {
   storage_account_type = var.data_disk_storage_type
   create_option        = "Empty"
   disk_size_gb         = var.data_disk_size_gb
-  zone                 = var.zone
+  zone                 = var.zone # null for regional, "1"/"2"/"3" for zonal (must match VM)
 
   # SECURITY: Customer-managed key encryption for log data
   disk_encryption_set_id = var.disk_encryption_set_id

@@ -163,13 +163,34 @@ variable "size" {
 # Availability zones only supported in certain regions
 # Reference: https://docs.microsoft.com/en-us/azure/availability-zones/az-overview
 variable "zone" {
-  description = "Azure availability zone for FortiGate deployment (1, 2, or 3)"
+  description = <<-EOT
+    Azure availability zone for FortiGate deployment.
+
+    Options:
+    - "1", "2", "3": Deploy to specific availability zone (zone-redundant)
+    - null: No availability zone (regional deployment)
+
+    When to use availability zones:
+    - High availability SLA (99.99% vs 99.9% for single instance)
+    - Protection from datacenter-level failures
+    - Supported in most Azure regions (eastus, westus2, westeurope, etc.)
+
+    When NOT to use availability zones:
+    - Region doesn't support zones (check Azure docs)
+    - Legacy deployments or specific architecture requirements
+    - Cost optimization (some regions charge for cross-zone traffic)
+
+    Note: Both active and passive FortiGate instances should use the same zone
+    setting (both in zones or both regional) for consistent deployment.
+
+    Reference: https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview
+  EOT
   type        = string
-  default     = "1"
+  default     = null
 
   validation {
-    condition     = contains(["1", "2", "3"], var.zone)
-    error_message = "Zone must be '1', '2', or '3'."
+    condition     = var.zone == null || contains(["1", "2", "3"], var.zone)
+    error_message = "Zone must be null (no zone) or one of: '1', '2', '3'."
   }
 }
 

@@ -53,6 +53,20 @@ run "validate_zone_values" {
   }
 }
 
+run "validate_zone_null_regional" {
+  command = plan
+
+  variables {
+    zone = null
+  }
+
+  # Should succeed with zone = null (regional deployment)
+  assert {
+    condition     = azurerm_linux_virtual_machine.fgtvm[0].zone == null
+    error_message = "Zone null should be valid for regional deployment"
+  }
+}
+
 run "validate_license_type" {
   command = plan
 
