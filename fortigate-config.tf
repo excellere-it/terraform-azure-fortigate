@@ -86,7 +86,6 @@ resource "fortios_system_global" "this" {
   admin_scp         = "enable"
   admintimeout      = 480  # 8 hours
   gui_theme         = "blue"
-  gui_auto_upgrade  = "disable"
   cfg_save          = "automatic"
   cfg_revert_timeout = 10
 

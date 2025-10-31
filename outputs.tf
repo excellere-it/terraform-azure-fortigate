@@ -219,8 +219,8 @@ output "fortigate_configuration_enabled" {
 }
 
 output "fortigate_management_host" {
-  description = "Hostname/IP used for FortiOS provider connection to FortiGate management interface. Null if configuration is disabled"
-  value       = local.fortigate_management_host
+  description = "Hostname/IP for FortiOS provider connection to FortiGate management interface (port1 private IP). External callers should use this for provider configuration"
+  value       = var.port1
   sensitive   = false
 }
 
@@ -268,7 +268,7 @@ output "fortigate_configuration_summary" {
     ha_role                 = var.is_passive ? "passive" : "active"
     azure_sdn_enabled       = var.user_assigned_identity_id != null
     interfaces_count        = 4 + (var.port5 != null ? 1 : 0) + (var.port6 != null ? 1 : 0)
-    fortios_provider_host   = local.fortigate_management_host
+    fortios_provider_host   = var.port1
     configuration_applied   = true
   } : {
     hostname                = null
