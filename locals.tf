@@ -88,4 +88,52 @@ locals {
       }
     ]
   ]) : []
+
+  # =============================================================================
+  # FORTIOS PROVIDER LOCALS
+  # =============================================================================
+
+  # Convert subnet masks to CIDR prefix notation for FortiOS interface configuration
+  # FortiOS uses CIDR notation (e.g., /24) instead of subnet masks (e.g., 255.255.255.0)
+
+  # Helper function to convert subnet mask to CIDR prefix
+  # Examples: 255.255.255.0 = 24, 255.255.255.128 = 25, 255.255.0.0 = 16
+  subnet_mask_to_cidr = {
+    "255.255.255.255" = "32"
+    "255.255.255.254" = "31"
+    "255.255.255.252" = "30"
+    "255.255.255.248" = "29"
+    "255.255.255.240" = "28"
+    "255.255.255.224" = "27"
+    "255.255.255.192" = "26"
+    "255.255.255.128" = "25"
+    "255.255.255.0"   = "24"
+    "255.255.254.0"   = "23"
+    "255.255.252.0"   = "22"
+    "255.255.248.0"   = "21"
+    "255.255.240.0"   = "20"
+    "255.255.224.0"   = "19"
+    "255.255.192.0"   = "18"
+    "255.255.128.0"   = "17"
+    "255.255.0.0"     = "16"
+    "255.254.0.0"     = "15"
+    "255.252.0.0"     = "14"
+    "255.248.0.0"     = "13"
+    "255.240.0.0"     = "12"
+    "255.224.0.0"     = "11"
+    "255.192.0.0"     = "10"
+    "255.128.0.0"     = "9"
+    "255.0.0.0"       = "8"
+  }
+
+  # Convert each interface subnet mask to CIDR prefix
+  port1_cidr_prefix = lookup(local.subnet_mask_to_cidr, var.port1mask, "24")
+  port2_cidr_prefix = lookup(local.subnet_mask_to_cidr, var.port2mask, "24")
+  port3_cidr_prefix = lookup(local.subnet_mask_to_cidr, var.port3mask, "24")
+  port4_cidr_prefix = lookup(local.subnet_mask_to_cidr, var.port4mask, "24")
+  port5_cidr_prefix = var.port5 != null ? lookup(local.subnet_mask_to_cidr, "255.255.255.0", "24") : "24"
+  port6_cidr_prefix = var.port6 != null ? lookup(local.subnet_mask_to_cidr, "255.255.255.0", "24") : "24"
+
+  # Admin password resolution (from Key Vault or variable)
+  admin_password = var.key_vault_id != null ? data.azurerm_key_vault_secret.admin_password[0].value : var.adminpassword
 }

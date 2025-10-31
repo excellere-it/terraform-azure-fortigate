@@ -19,5 +19,12 @@ terraform {
       source  = "hashicorp/azurerm"
       version = "~> 3.0"
     }
+
+    # FortiOS provider for configuring FortiGate appliance
+    # Used to configure FortiGate settings after VM deployment
+    fortios = {
+      source  = "fortinetdev/fortios"
+      version = "~> 1.20"
+    }
   }
 }

@@ -10,6 +10,7 @@ A comprehensive, production-ready Terraform module for deploying FortiGate Next-
 - **Multiple Architectures**: Support for both x86 and ARM64 FortiGate instances
 - **Custom Images**: Deploy from Azure Marketplace or custom VHD images
 - **Flexible Network Architecture**: 4-6 network interfaces for management, WAN, LAN, HA sync, and optional DMZ/additional zones
+- **FortiGate Appliance Configuration**: Automated FortiGate configuration using FortiOS Terraform provider (optional)
 
 ### Security & Access Control
 - **Azure Key Vault Integration**: Secure storage for passwords and service principal secrets

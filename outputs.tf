@@ -208,3 +208,77 @@ output "log_analytics_workspace_id" {
   description = "Log Analytics workspace ID used for diagnostics (if configured)"
   value       = var.log_analytics_workspace_id
 }
+
+# =============================================================================
+# FORTIGATE CONFIGURATION OUTPUTS (FORTIOS PROVIDER)
+# =============================================================================
+
+output "fortigate_configuration_enabled" {
+  description = "Indicates if FortiGate appliance configuration via FortiOS provider is enabled"
+  value       = var.enable_fortigate_configuration
+}
+
+output "fortigate_management_host" {
+  description = "Hostname/IP used for FortiOS provider connection to FortiGate management interface. Null if configuration is disabled"
+  value       = local.fortigate_management_host
+  sensitive   = false
+}
+
+output "fortigate_system_hostname" {
+  description = "FortiGate system hostname configured via FortiOS provider. Null if configuration is disabled"
+  value       = var.enable_fortigate_configuration ? local.computer_name : null
+}
+
+output "fortigate_ha_enabled" {
+  description = "Indicates if FortiGate HA configuration is enabled (based on peer IP configuration)"
+  value       = var.active_peerip != null || var.passive_peerip != null
+}
+
+output "fortigate_ha_mode" {
+  description = "FortiGate HA mode: 'active' or 'passive'. Null if HA is not configured"
+  value = (var.active_peerip != null || var.passive_peerip != null) ? (
+    var.is_passive ? "passive" : "active"
+  ) : null
+}
+
+output "fortigate_interfaces_configured" {
+  description = "List of FortiGate interfaces configured via FortiOS provider"
+  value = var.enable_fortigate_configuration ? [
+    "port1 (mgmt)",
+    "port2 (wan)",
+    "port3 (lan)",
+    "port4 (hasync)",
+    var.port5 != null ? "port5 (dmz)" : null,
+    var.port6 != null ? "port6 (dmz2)" : null
+  ] : []
+}
+
+output "fortigate_azure_sdn_connector_enabled" {
+  description = "Indicates if FortiGate Azure SDN connector is configured for HA failover"
+  value       = var.enable_fortigate_configuration && var.user_assigned_identity_id != null
+}
+
+output "fortigate_configuration_summary" {
+  description = "Summary of FortiGate configuration applied via FortiOS provider"
+  value = var.enable_fortigate_configuration ? {
+    hostname                = local.computer_name
+    management_url          = var.create_management_public_ip ? "https://${azurerm_public_ip.mgmt_ip[0].ip_address}:${var.adminsport}" : "https://${var.port1}:${var.adminsport}"
+    admin_username          = var.adminusername
+    ha_enabled              = var.active_peerip != null || var.passive_peerip != null
+    ha_role                 = var.is_passive ? "passive" : "active"
+    azure_sdn_enabled       = var.user_assigned_identity_id != null
+    interfaces_count        = 4 + (var.port5 != null ? 1 : 0) + (var.port6 != null ? 1 : 0)
+    fortios_provider_host   = local.fortigate_management_host
+    configuration_applied   = true
+  } : {
+    hostname                = null
+    management_url          = null
+    admin_username          = null
+    ha_enabled              = false
+    ha_role                 = null
+    azure_sdn_enabled       = false
+    interfaces_count        = 0
+    fortios_provider_host   = null
+    configuration_applied   = false
+  }
+}
