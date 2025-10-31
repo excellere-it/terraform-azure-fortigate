@@ -47,7 +47,20 @@ The FortiOS provider integration allows you to manage FortiGate configuration as
 
 ### Basic FortiGate Deployment with Appliance Configuration
 
+**IMPORTANT**: This module requires you to configure the FortiOS provider externally. The provider must be configured in your root module and passed to the FortiGate module.
+
 ```hcl
+# Configure FortiOS provider for FortiGate management
+provider "fortios" {
+  hostname = module.fortigate.port1_private_ip  # or use public IP if create_management_public_ip = true
+  username = "azureadmin"
+  password = data.azurerm_key_vault_secret.fgt_password.value
+  port     = "8443"
+  insecure = true  # Skip SSL verification (self-signed certs)
+  timeout  = 300   # 5 minutes to allow VM boot time
+  retries  = 30    # Retry connection attempts
+}
+
 module "fortigate" {
   source  = "app.terraform.io/infoex/fortigate/azurerm"
   version = "0.x.x"
@@ -98,10 +111,6 @@ module "fortigate" {
   # ENABLE FORTIGATE APPLIANCE CONFIGURATION
   # ===================================================
   enable_fortigate_configuration = true
-  fortigate_hostname             = "management_ip"  # Connect via mgmt public IP
-  fortigate_connection_timeout   = 300              # 5 minutes for VM boot
-  fortigate_insecure_connection  = true             # Skip SSL verification (dev/test)
-  fortigate_api_timeout          = 60
 
   # Licensing
   license_type = "payg"
@@ -114,13 +123,23 @@ module "fortigate" {
 
 ### FortiOS Provider Configuration
 
+**IMPORTANT**: The FortiOS provider must be configured in your root module (not within this module). The module requires only one variable to enable FortiOS resource creation:
+
 | Variable | Description | Type | Default | Required |
 |----------|-------------|------|---------|----------|
 | `enable_fortigate_configuration` | Enable FortiGate appliance configuration via FortiOS provider | `bool` | `false` | No |
-| `fortigate_hostname` | Hostname/IP for FortiOS API connection ("management_ip", "public_ip", or custom) | `string` | `"management_ip"` | No |
-| `fortigate_connection_timeout` | Connection timeout in seconds (60-3600) | `number` | `300` | No |
-| `fortigate_insecure_connection` | Skip SSL certificate verification | `bool` | `true` | No |
-| `fortigate_api_timeout` | API request timeout in seconds (10-300) | `number` | `60` | No |
+
+**Provider Settings** (configure in your root module's provider block):
+
+| Provider Argument | Description | Recommended Value |
+|-------------------|-------------|-------------------|
+| `hostname` | FortiGate management IP address | `module.fortigate.port1_private_ip` or public IP |
+| `username` | Admin username | `var.adminusername` (same as module input) |
+| `password` | Admin password | From Azure Key Vault secret |
+| `port` | HTTPS admin port | `"8443"` (default) |
+| `insecure` | Skip SSL verification | `true` (self-signed certs) |
+| `timeout` | Connection timeout (seconds) | `300` (5 minutes for VM boot) |
+| `retries` | Number of retry attempts | `30` (handles boot delay) |
 
 ### Connection Methods
 
@@ -311,12 +330,46 @@ When `enable_fortigate_configuration = true`, the module configures:
 
 ### Active-Passive HA Deployment
 
+**IMPORTANT**: For HA deployments, configure separate FortiOS providers for each instance using provider aliases.
+
 ```hcl
+# ============================================
+# FORTIOS PROVIDERS FOR HA PAIR
+# ============================================
+
+# Provider for Active FortiGate
+provider "fortios" {
+  alias    = "active"
+  hostname = module.fortigate_active.port1_private_ip
+  username = "azureadmin"
+  password = data.azurerm_key_vault_secret.fgt_password.value
+  port     = "8443"
+  insecure = true
+  timeout  = 300
+  retries  = 30
+}
+
+# Provider for Passive FortiGate
+provider "fortios" {
+  alias    = "passive"
+  hostname = module.fortigate_passive.port1_private_ip
+  username = "azureadmin"
+  password = data.azurerm_key_vault_secret.fgt_password.value
+  port     = "8443"
+  insecure = true
+  timeout  = 300
+  retries  = 30
+}
+
 # ============================================
 # ACTIVE FORTIGATE
 # ============================================
 module "fortigate_active" {
   source = "app.terraform.io/infoex/fortigate/azurerm"
+
+  providers = {
+    fortios = fortios.active  # Use active provider
+  }
 
   # ... (same configuration as above) ...
 
@@ -335,6 +388,10 @@ module "fortigate_active" {
 module "fortigate_passive" {
   source = "app.terraform.io/infoex/fortigate/azurerm"
 
+  providers = {
+    fortios = fortios.passive  # Use passive provider
+  }
+
   # ... (same configuration as above) ...
 
   # Different IPs for passive instance
@@ -350,7 +407,6 @@ module "fortigate_passive" {
 
   # FortiOS Configuration
   enable_fortigate_configuration = true
-  fortigate_hostname             = "10.0.1.11"  # Connect to passive via private IP
 }
 ```
 

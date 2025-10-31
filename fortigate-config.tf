@@ -24,39 +24,51 @@
 # =============================================================================
 
 locals {
-  # Resolve FortiGate management hostname
-  fortigate_management_host = var.enable_fortigate_configuration ? (
-    var.fortigate_hostname == "management_ip" ? (
-      var.create_management_public_ip ? azurerm_public_ip.mgmt_ip[0].ip_address : var.port1
-    ) : var.fortigate_hostname == "public_ip" ? (
-      var.create_management_public_ip ? azurerm_public_ip.mgmt_ip[0].ip_address : null
-    ) : var.fortigate_hostname
-  ) : null
-
-  # FortiOS provider is enabled when fortigate configuration is enabled and host is reachable
-  fortios_enabled = var.enable_fortigate_configuration && local.fortigate_management_host != null
+  # FortiOS resources are created when fortigate configuration is enabled
+  # The FortiOS provider must be configured externally by the caller
+  fortios_enabled = var.enable_fortigate_configuration
 }
 
 # =============================================================================
 # FORTIOS PROVIDER CONFIGURATION
 # =============================================================================
-
-provider "fortios" {
-  count = local.fortios_enabled ? 1 : 0
-
-  hostname = local.fortigate_management_host
-  token    = ""  # Using username/password auth instead
-  username = var.adminusername
-  password = local.admin_password  # From Key Vault or variable
-  insecure = var.fortigate_insecure_connection
-
-  # Connection settings
-  port    = var.adminsport
-  timeout = var.fortigate_connection_timeout
-
-  # Retry settings for waiting until FortiGate is ready
-  retries = 30  # Retry 30 times
-}
+# NOTE: This module requires an external FortiOS provider to be configured
+# by the caller. The provider should be configured with connection details
+# to the FortiGate management interface.
+#
+# Example provider configuration (in calling module):
+#
+# provider "fortios" {
+#   hostname = module.fortigate.port1_private_ip
+#   username = "admin"
+#   password = data.azurerm_key_vault_secret.fortigate_password.value
+#   port     = "8443"
+#   insecure = true
+#   timeout  = 300
+#   retries  = 30
+# }
+#
+# For HA deployments, use provider aliases for each instance:
+#
+# provider "fortios" {
+#   alias    = "active"
+#   hostname = module.fortigate_active.port1_private_ip
+#   # ... other settings
+# }
+#
+# provider "fortios" {
+#   alias    = "passive"
+#   hostname = module.fortigate_passive.port1_private_ip
+#   # ... other settings
+# }
+#
+# Then pass the provider to the module:
+# module "fortigate_active" {
+#   providers = {
+#     fortios = fortios.active
+#   }
+# }
+# =============================================================================
 
 # =============================================================================
 # SYSTEM SETTINGS
@@ -66,7 +78,6 @@ provider "fortios" {
 resource "fortios_system_global" "this" {
   count = local.fortios_enabled ? 1 : 0
 
-  provider = fortios[0]
 
   hostname          = local.computer_name
   timezone          = "12"  # UTC
@@ -90,7 +101,6 @@ resource "fortios_system_global" "this" {
 resource "fortios_system_dns" "this" {
   count = local.fortios_enabled ? 1 : 0
 
-  provider = fortios[0]
 
   primary   = "168.63.129.16"  # Azure DNS
   secondary = "8.8.8.8"         # Google DNS as backup
@@ -103,7 +113,6 @@ resource "fortios_system_dns" "this" {
 resource "fortios_system_ntp" "this" {
   count = local.fortios_enabled ? 1 : 0
 
-  provider = fortios[0]
 
   ntpsync     = "enable"
   type        = "custom"
@@ -130,7 +139,6 @@ resource "fortios_system_ntp" "this" {
 resource "fortios_system_interface" "port1" {
   count = local.fortios_enabled ? 1 : 0
 
-  provider = fortios[0]
 
   name           = "port1"
   vdom           = "root"
@@ -150,7 +158,6 @@ resource "fortios_system_interface" "port1" {
 resource "fortios_system_interface" "port2" {
   count = local.fortios_enabled ? 1 : 0
 
-  provider = fortios[0]
 
   name           = "port2"
   vdom           = "root"
@@ -170,7 +177,6 @@ resource "fortios_system_interface" "port2" {
 resource "fortios_system_interface" "port3" {
   count = local.fortios_enabled ? 1 : 0
 
-  provider = fortios[0]
 
   name           = "port3"
   vdom           = "root"
@@ -190,7 +196,6 @@ resource "fortios_system_interface" "port3" {
 resource "fortios_system_interface" "port4" {
   count = local.fortios_enabled ? 1 : 0
 
-  provider = fortios[0]
 
   name           = "port4"
   vdom           = "root"
@@ -210,7 +215,6 @@ resource "fortios_system_interface" "port4" {
 resource "fortios_system_interface" "port5" {
   count = local.fortios_enabled && var.port5 != null ? 1 : 0
 
-  provider = fortios[0]
 
   name           = "port5"
   vdom           = "root"
@@ -230,7 +234,6 @@ resource "fortios_system_interface" "port5" {
 resource "fortios_system_interface" "port6" {
   count = local.fortios_enabled && var.port6 != null ? 1 : 0
 
-  provider = fortios[0]
 
   name           = "port6"
   vdom           = "root"
@@ -254,7 +257,6 @@ resource "fortios_system_interface" "port6" {
 resource "fortios_router_static" "default_route" {
   count = local.fortios_enabled ? 1 : 0
 
-  provider = fortios[0]
 
   seq_num  = 1
   dst      = "0.0.0.0/0"
@@ -273,7 +275,6 @@ resource "fortios_router_static" "default_route" {
 resource "fortios_router_static" "mgmt_route" {
   count = local.fortios_enabled ? 1 : 0
 
-  provider = fortios[0]
 
   seq_num  = 2
   dst      = "168.63.129.16/32"  # Azure Metadata Service
@@ -296,7 +297,6 @@ resource "fortios_router_static" "mgmt_route" {
 resource "fortios_system_ha" "this" {
   count = local.fortios_enabled && (var.active_peerip != null || var.passive_peerip != null) ? 1 : 0
 
-  provider = fortios[0]
 
   group_name           = "azure-ha-cluster"
   mode                 = "a-p"  # Active-Passive
@@ -328,7 +328,6 @@ resource "fortios_system_ha" "this" {
 resource "fortios_system_sdnconnector" "azure" {
   count = local.fortios_enabled && var.user_assigned_identity_id != null ? 1 : 0
 
-  provider = fortios[0]
 
   name            = "azure-sdn"
   type            = "azure"
@@ -367,7 +366,6 @@ resource "fortios_system_sdnconnector" "azure" {
 resource "fortios_firewall_address" "azure_vnet" {
   count = local.fortios_enabled ? 1 : 0
 
-  provider = fortios[0]
 
   name    = "azure-vnet"
   type    = "subnet"
@@ -381,7 +379,6 @@ resource "fortios_firewall_address" "azure_vnet" {
 resource "fortios_firewall_address" "rfc1918" {
   count = local.fortios_enabled ? 1 : 0
 
-  provider = fortios[0]
 
   name    = "rfc1918-all"
   type    = "subnet"
@@ -399,7 +396,6 @@ resource "fortios_firewall_address" "rfc1918" {
 resource "fortios_firewall_policy" "lan_to_wan" {
   count = local.fortios_enabled ? 1 : 0
 
-  provider = fortios[0]
 
   name        = "lan-to-wan-outbound"
   action      = "accept"
@@ -440,7 +436,6 @@ resource "fortios_firewall_policy" "lan_to_wan" {
 resource "fortios_firewall_policy" "wan_to_lan_deny" {
   count = local.fortios_enabled ? 1 : 0
 
-  provider = fortios[0]
 
   name        = "wan-to-lan-deny"
   action      = "deny"
