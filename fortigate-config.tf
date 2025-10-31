@@ -346,7 +346,6 @@ resource "fortios_system_sdnconnector" "azure" {
       name                = var.public_ip_name
       subscription_id     = data.azurerm_client_config.current.subscription_id
       resource_group      = var.resource_group_name
-      route_table_name    = ""
     }
   }
 
